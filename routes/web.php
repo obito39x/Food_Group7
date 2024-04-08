@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
@@ -31,10 +32,7 @@ Route::get('/blog', function () {
     return view('home.blog');
 })->name("blog");
 
-Route::get('/gallery', function () {
-    return view('home.gallery');
-})->name("gallery");
-
+Route::get('/gallery', [GalleryController::class, 'index'])->name("gallery");
 //login
 Route::get('/login', function () {
     return view('login.login');

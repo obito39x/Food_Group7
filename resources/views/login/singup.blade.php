@@ -17,13 +17,13 @@
 
             <h1>Register</h1>
 
-            <form class="input_box">
-
-                <input type="text" class="field" placeholder="Name">
-                <input type="password" class="field" placeholder="Password" maxlength="10">
-                <input type="email" class="field" placeholder="Email">
-                <input type="checkbox" class="check_box"><p>Remember Password</p>
-                <button type="submit" class="submit_btn">Register</button>
+            <form action="" method="post" class="input_box">
+                @csrf
+                <input type="email" class="field" placeholder="Email" name="email">
+                <input type="text" class="field" placeholder="Name" name="username">
+                <input type="password" class="field" placeholder="Password" maxlength="10" name="password">
+                <!-- <input type="confirmPassword" class="field" placeholder="Confirm Password" maxlength="10" name="confirmPassword"> -->
+                <button type="submit" class="submit_btn" name="submit">Register</button>
 
                 <div class="social_icon">
                     <i class="fa-brands fa-facebook-f"></i>

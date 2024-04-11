@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,9 +38,13 @@ Route::get('/gallery', function () {
 
 //login
 Route::get('/login', function () {
-    return view('login.login');
+    return view('login.login'); 
 })->name("login");
 
 Route::get('/singup', function () {
     return view('login.singup');
 })->name("singup");
+
+// signin and login
+Route::post('/singup', [AccountController::class, 'signup']);
+Route::post('/login', [AccountController::class, 'postLogin']);

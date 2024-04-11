@@ -16,11 +16,17 @@
         <div class="login_form">
 
             <h1>Login</h1>
-
-            <form class="input_box">
-
-                <input type="text" class="field" placeholder="User Name">
-                <input type="password" class="field" maxlength="10" placeholder="Password">
+            <div class="flash-message">
+                @foreach (['danger'] as $msg)
+                    @if(Session::has('error'))
+                    <p class="alert alert-{{ $msg }}">{{ Session::get('error') }}</p>
+                    @endif
+                @endforeach
+            </div>
+            <form action="" method="post" class="input_box">
+                @csrf
+                <input type="text" class="field" placeholder="User Name" name="username">
+                <input type="password" class="field" maxlength="10" placeholder="Password" name="password">
                 <input type="checkbox" class="check_box"><p>Remember Password</p>
                 <button type="submit" class="submit_btn">Login</button>
 
@@ -32,11 +38,11 @@
 
                 <div class="tag">
                     <span>New User?</span>
-                    <a href="{{ route('singup') }}">Sing Up</a>
+                    <a href="{{ route('singup') }}">Sign Up</a>
                 </div>
 
             </form>
-
+            
         </div>
 
     </div>

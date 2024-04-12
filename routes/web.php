@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ManageProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AccountController;
@@ -32,10 +34,7 @@ Route::get('/blog', function () {
     return view('home.blog');
 })->name("blog");
 
-Route::get('/gallery', function () {
-    return view('home.gallery');
-})->name("gallery");
-
+Route::get('/gallery', [GalleryController::class, 'index'])->name("gallery");
 //login
 Route::get('/login', function () {
     return view('login.login'); 
@@ -44,6 +43,7 @@ Route::get('/login', function () {
 Route::get('/singup', function () {
     return view('login.singup');
 })->name("singup");
+Route::get('/admin/manegement/product', [ManageProductController::class,'index'])->name("manageProduct");
 
 // signin and login
 Route::post('/singup', [AccountController::class, 'signup']);

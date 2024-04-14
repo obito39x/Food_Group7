@@ -42,4 +42,13 @@ class AccountController extends Controller
         Auth::logout();
         return redirect()->back();
     }
+    public function checkCredentials(Request $request){
+        $usernameExists = User::where('username', $request->username)->exists();
+        $emailExists = User::where('email', $request->email)->exists();
+
+        return response()->json([
+            'username_exists' => $usernameExists,
+            'email_exists' => $emailExists,
+        ]);
+    }
 }

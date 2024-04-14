@@ -8,6 +8,8 @@
     <link href="{{ asset('/css/about.css') }}" rel="stylesheet">
     <link rel="short icon" href="image/short_icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="{{ asset('/js/menu.js') }}"></script>
 </head>
 @extends('layouts.app') <!-- Extend the main layout -->
 
@@ -20,10 +22,6 @@
         <h1><span>About</span>Us</h1>
 
     </div>
-
-
-
-
     <!--About-->
 
     <div class="about anim">
@@ -35,19 +33,10 @@
             </div>
 
             <div class="about_text">
-
-                <h3>why food choose us?</h3>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Itaque recusandae dolore tempora fugiat quisquam illum, 
-                    veniam adipisci iusto consequuntur porro explicabo 
-                    repudiandae nam quis beatae obcaecati. Magnam provident 
-                    fuga aspernatur. Lorem ipsum dolor sit amet consectetur 
-                    adipisicing elit. Cum minus facilis placeat sint repellendus 
-                    dolorum nostrum, corrupti magni ducimus, et neque nihil enim. 
-                    Tempore quia rerum placeat laboriosam, sit quasi!
-                </p>
-
+                @foreach($about as $ab)
+                <h3>{{ $ab->question }}</h3>
+                <p>{{ $ab->description }}</p>
+                @endforeach
                 <div class="about_services">
 
                     <div class="s_1">

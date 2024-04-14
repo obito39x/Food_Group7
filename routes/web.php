@@ -6,6 +6,8 @@ use App\Http\Controllers\ManageProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AboutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +25,7 @@ use App\Http\Controllers\AccountController;
 // })->name('home');
 Route::get('/', [HomeController::class, 'index'])->name("home");
 
-Route::get('/about', function () {
-    return view('home.about');
-})->name("about");
+Route::get('/about', [AboutController::class, 'index'])->name("about");
 
 // Sử dụng MenuController để xử lý route menu
 Route::get('/menu', [HomeController::class, 'Menu'])->name("menu");
@@ -62,3 +62,9 @@ Route::delete('/admin/management/product/{product}', [ManageProductController::c
 // signin and login
 Route::post('/singup', [AccountController::class, 'signup']);
 Route::post('/login', [AccountController::class, 'postLogin']);
+//logout
+Route::get('/logout', [AccountController::class, 'logout'])->name('logout');
+//profile 
+Route::get('/profile', [UserController::class, 'profile'])->name('profile')->middleware('auth');;
+
+Route::post('/check-credentials', [AccountController::class, 'checkCredentials'])->name('check-credentials');

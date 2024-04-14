@@ -6,6 +6,7 @@ use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AccountController extends Controller
 {
@@ -19,7 +20,12 @@ class AccountController extends Controller
         $req->merge(['password'=>Hash::make($req->password)]);
         //validate
         try {
-            Account::create($req->all());
+            $account = Account::create($req->all());
+            User::create([
+                'id_account' => $account->id,
+                'username' => $req->username,
+                'email' => $req->email
+            ]);
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -31,5 +37,18 @@ class AccountController extends Controller
             return redirect()->route('home');
         }
         return redirect()->back()->with('error', 'Account or password is incorrect!');
+    }
+    public function logout(){
+        Auth::logout();
+        return redirect()->back();
+    }
+    public function checkCredentials(Request $request){
+        $usernameExists = User::where('username', $request->username)->exists();
+        $emailExists = User::where('email', $request->email)->exists();
+
+        return response()->json([
+            'username_exists' => $usernameExists,
+            'email_exists' => $emailExists,
+        ]);
     }
 }

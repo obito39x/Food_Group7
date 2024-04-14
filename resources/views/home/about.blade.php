@@ -22,10 +22,6 @@
         <h1><span>About</span>Us</h1>
 
     </div>
-
-
-
-
     <!--About-->
 
     <div class="about anim">
@@ -37,19 +33,10 @@
             </div>
 
             <div class="about_text">
-
-                <h3>why food choose us?</h3>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Itaque recusandae dolore tempora fugiat quisquam illum, 
-                    veniam adipisci iusto consequuntur porro explicabo 
-                    repudiandae nam quis beatae obcaecati. Magnam provident 
-                    fuga aspernatur. Lorem ipsum dolor sit amet consectetur 
-                    adipisicing elit. Cum minus facilis placeat sint repellendus 
-                    dolorum nostrum, corrupti magni ducimus, et neque nihil enim. 
-                    Tempore quia rerum placeat laboriosam, sit quasi!
-                </p>
-
+                @foreach($about as $ab)
+                <h3>{{ $ab->question }}</h3>
+                <p>{{ $ab->description }}</p>
+                @endforeach
                 <div class="about_services">
 
                     <div class="s_1">

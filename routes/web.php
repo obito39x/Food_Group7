@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AboutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +25,7 @@ use App\Http\Controllers\UserController;
 // })->name('home');
 Route::get('/', [HomeController::class, 'index'])->name("home");
 
-Route::get('/about', function () {
-    return view('home.about');
-})->name("about");
+Route::get('/about', [AboutController::class, 'index'])->name("about");
 
 // Sử dụng MenuController để xử lý route menu
 Route::get('/menu', [MenuController::class, 'index'])->name("menu");

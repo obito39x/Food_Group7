@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Gallery extends Model
+class Categorie extends Model
 {
     use HasFactory;
-    protected $table = 'gallerys';
-    protected $fillable = ['id','image_path'];
+    protected $table = 'categories';
+    protected $fillable = ['id_category','name'];
 }

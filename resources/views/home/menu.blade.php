@@ -29,7 +29,7 @@
             </div>
         <div class="menu_box anim">
             @foreach($products as $product)
-            <div class="menu_card">
+            <div class="menu_card" data-category="{{ $product->category->name }}">
                 <div class="menu_img">
                     <img src="{{ $product->image_url }}">
                 </div>

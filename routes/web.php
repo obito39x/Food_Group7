@@ -28,13 +28,13 @@ Route::get('/about', function () {
 })->name("about");
 
 // Sử dụng MenuController để xử lý route menu
-Route::get('/menu', [MenuController::class, 'index'])->name("menu");
+Route::get('/menu', [HomeController::class, 'Menu'])->name("menu");
 
 Route::get('/blog', function () {
     return view('home.blog');
 })->name("blog");
 
-Route::get('/gallery', [GalleryController::class, 'index'])->name("gallery");
+Route::get('/gallery', [HomeController::class, 'Gallery'])->name("gallery");
 //login
 Route::get('/login', function () {
     return view('login.login'); 
@@ -44,6 +44,20 @@ Route::get('/singup', function () {
     return view('login.singup');
 })->name("singup");
 Route::get('/admin/manegement/product', [ManageProductController::class,'index'])->name("manageProduct");
+// Hiển thị form thêm sản phẩm
+Route::get('/admin/management/product/create', [ManageProductController::class, 'create'])->name("createProduct");
+
+// Lưu sản phẩm mới
+Route::post('/admin/management/product/store', [ManageProductController::class, 'store'])->name("storeProduct");
+
+// Hiển thị form chỉnh sửa sản phẩm
+Route::get('/admin/management/product/edit/{product}', [ManageProductController::class, 'edit'])->name("editProduct");
+
+// Cập nhật sản phẩm
+Route::put('/admin/management/product/{id}', [ManageProductController::class, 'update'])->name("updateProduct");
+
+// Xóa sản phẩm
+Route::delete('/admin/management/product/{product}', [ManageProductController::class, 'destroy'])->name("deleteProduct");
 
 // signin and login
 Route::post('/singup', [AccountController::class, 'signup']);

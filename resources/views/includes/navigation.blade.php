@@ -10,6 +10,24 @@
         <li><a href="{{ route('blog') }}" class="{{ request()->routeIs('blog') ? 'current' : '' }}">Blog</a></li>
     </ul>
     <div class="login">
-        <a href="{{ route('login') }}">Login</a>
+        @if(Auth::check())
+        <button type="button" class="btn position-relative btn-icon" id="btn-3" onclick="toggleMenu()">
+            <img src="{{ asset('image/profile.png') }}" alt="Profile Icon" width="30px">
+            <div class="menu-profile text-uppercase text-dark submenu" id="subMenu">
+            @if(Auth::check())
+                <h3>Xin chào!<br><span>{{Auth::user()->username}}</span></h3>
+            @else
+                <h3>Xin chào!<br><span>Khách</span></h3>
+            @endif
+                <ul>
+                    <li><img src="{{ asset('image/profile.png') }}" alt="Profile"><a href="{{ route('profile') }}">Hồ sơ</a></li>
+                    <li><img src="{{ asset('image/logout.png') }}" alt="Logout"><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </button>
+        @else
+            
+            <a href="{{ route('login') }}">Login</a>
+        @endif
     </div>
 </nav>

@@ -6,6 +6,7 @@ use App\Http\Controllers\ManageProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +49,8 @@ Route::get('/admin/manegement/product', [ManageProductController::class,'index']
 // signin and login
 Route::post('/singup', [AccountController::class, 'signup']);
 Route::post('/login', [AccountController::class, 'postLogin']);
+//logout
+Route::get('/logout', [AccountController::class, 'logout'])->name('logout');
+//profile 
+Route::get('/profile', [UserController::class, 'profile'])->name('profile')->middleware('auth');;
+

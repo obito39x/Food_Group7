@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use Illuminate\Http\Request;
-use Hash;
-use Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AccountController extends Controller
 {
@@ -19,7 +20,12 @@ class AccountController extends Controller
         $req->merge(['password'=>Hash::make($req->password)]);
         //validate
         try {
-            Account::create($req->all());
+            $account = Account::create($req->all());
+            User::create([
+                'id_account' => $account->id,
+                'username' => $req->username,
+                'email' => $req->email
+            ]);
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -31,5 +37,9 @@ class AccountController extends Controller
             return redirect()->route('home');
         }
         return redirect()->back()->with('error', 'Account or password is incorrect!');
+    }
+    public function logout(){
+        Auth::logout();
+        return redirect()->back();
     }
 }

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Website</title>
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/menuAccount.css') }}" rel="stylesheet">
     <link rel="short icon" href="{{ asset('image/short_icon.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -62,17 +63,10 @@
             <div class="about_text">
 
                 <h1><span>About</span>Us</h1>
-                <h3>why food choose us?</h3>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Itaque recusandae dolore tempora fugiat quisquam illum, 
-                    veniam adipisci iusto consequuntur porro explicabo 
-                    repudiandae nam quis beatae obcaecati. Magnam provident 
-                    fuga aspernatur. Lorem ipsum dolor sit amet consectetur 
-                    adipisicing elit. Cum minus facilis placeat sint repellendus 
-                    dolorum nostrum, corrupti magni ducimus, et neque nihil enim. 
-                    Tempore quia rerum placeat laboriosam, sit quasi!
-                </p>
+                @foreach($about as $ab)
+                    <h3>{{ $ab->question }}</h3>
+                    <p>{{ $ab->description }}</p>
+                @endforeach
 
                 <div class="about_services">
 
@@ -191,17 +185,11 @@
 
         <div class="gallery_box">
 
-            <div class="gallery_image">
-                <img src="image/gallery_1.jpg">
-            </div>
-
-            <div class="gallery_image">
-                <img src="image/gallery_2.jpg">
-            </div>
-
-            <div class="gallery_image">
-                <img src="image/gallery_3.webp">
-            </div>
+            @foreach ($image_path as $image)
+                <div class="gallery_image">
+                    <img src="{{$image->img}}">
+                </div>
+            @endforeach
 
         </div>
 
@@ -266,105 +254,57 @@
     <!--Team-->
 
     <div class="team">
-
         <h1>Our<span>Team</span></h1>
-
         <div class="team_line_1"></div>
         <div class="team_line_2"></div>
-
         <div class="team_box">
-
             <div class="team_card">
-
-                <div class="team_img">
-                    <img src="image/team_1.jpg">
-                </div>
-
-                <div class="team_tag">
-
-                    <h2>John Deo</h2>
-                    <p class="job">Cook</p>
-                    <p class="info">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Accusantium cupiditate deserunt odio in fugiat dolore! 
-                        Veniam sit quod iusto quas eligendi. Natus numquam 
-                        aspernatur alias illo voluptates dolorem, id ad.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="team_card">
-
-                <div class="team_img">
-                    <img src="image/team_2.jpg">
-                </div>
-
-                <div class="team_tag">
-
-                    <h2>John Deo</h2>
-                    <p class="job">Cook</p>
-                    <p class="info">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Accusantium cupiditate deserunt odio in fugiat dolore! 
-                        Veniam sit quod iusto quas eligendi. Natus numquam 
-                        aspernatur alias illo voluptates dolorem, id ad.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="team_card">
-
                 <div class="team_img">
                     <img src="image/team_3.jpg">
                 </div>
-
                 <div class="team_tag">
-
-                    <h2>John Deo</h2>
-                    <p class="job">Cook</p>
+                    <h2>Lâm Vũ</h2>
+                    <p class="job">Member</p>
                     <p class="info">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                         Accusantium cupiditate deserunt odio in fugiat dolore! 
                         Veniam sit quod iusto quas eligendi. Natus numquam 
                         aspernatur alias illo voluptates dolorem, id ad.
                     </p>
-
                 </div>
-
             </div>
-
             <div class="team_card">
-
                 <div class="team_img">
-                    <img src="image/team_4.jpg">
+                    <img src="image/team_3.jpg">
                 </div>
-
                 <div class="team_tag">
-
-                    <h2>John Deo</h2>
-                    <p class="job">Cook</p>
+                    <h2>Anh Tuấn</h2>
+                    <p class="job">Leader</p>
                     <p class="info">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                         Accusantium cupiditate deserunt odio in fugiat dolore! 
                         Veniam sit quod iusto quas eligendi. Natus numquam 
                         aspernatur alias illo voluptates dolorem, id ad.
                     </p>
-
                 </div>
-
             </div>
-
+            <div class="team_card">
+                <div class="team_img">
+                    <img src="image/team_3.jpg">
+                </div>
+                <div class="team_tag">
+                    <h2>Tiến Duy</h2>
+                    <p class="job">Member</p>
+                    <p class="info">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                        Accusantium cupiditate deserunt odio in fugiat dolore! 
+                        Veniam sit quod iusto quas eligendi. Natus numquam 
+                        aspernatur alias illo voluptates dolorem, id ad.
+                    </p>
+                </div>
+            </div>
         </div>
-
     </div>
-
-
-
-
     <!--Blog-->
 
     <div class="blog">
@@ -507,7 +447,7 @@
 
     <!--Oder-->
 
-    <div class="oder">
+    <!-- <div class="oder">
 
         <h1><span>Oder</span>Now</h1>
 
@@ -563,5 +503,5 @@
 
         </div>
 
-    </div>
+    </div> -->
     @endsection

@@ -55,6 +55,6 @@
 
     </div>
 
-    <p class="end">Design by<span><i class="fa-solid fa-face-grin"></i> WT Master Code</span></p>
+    <p class="end">Design by<span><i class="fa-solid fa-face-grin"></i> Group 7</span></p>
 
 </footer>

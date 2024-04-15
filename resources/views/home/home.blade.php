@@ -35,7 +35,7 @@
                     molestiae veritatis.
                 </p>
 
-                <a href="#" class="btn"><i class="fa-solid fa-burger"></i>Order Now</a>
+                <a href="{{ route('menu') }}" class="btn"><i class="fa-solid fa-burger"></i>Order Now</a>
 
             </div>
 
@@ -87,7 +87,7 @@
 
                 </div>
 
-                <a href="#" class="about_btn">
+                <a href="{{ route('menu') }}" class="about_btn">
                     <i class="fa-solid fa-burger"></i>Order Now
                 </a>
 
@@ -170,7 +170,7 @@
             <h2>50%<br><span>Off</span></h2>
         </div>
 
-        <a href="#" class="banner_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
+        <a href="{{ route('menu') }}" class="banner_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
 
     </div>
 
@@ -218,7 +218,7 @@
                         Itaque quibusdam quas distinctio sit? Corrupti 
                         necessitatibus modi nobis?
                     </p>
-                    <a href="#" class="offer_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
+                    <a href="{{ route('menu') }}" class="offer_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
 
                 </div>
 
@@ -238,7 +238,7 @@
                         Itaque quibusdam quas distinctio sit? Corrupti 
                         necessitatibus modi nobis?
                     </p>
-                    <a href="#" class="offer_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
+                    <a href="{{ route('menu') }}" class="offer_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
 
                 </div>
 

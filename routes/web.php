@@ -25,16 +25,16 @@ use App\Http\Controllers\AboutController;
 // })->name('home');
 Route::get('/', [HomeController::class, 'index'])->name("home");
 
-Route::get('/about', [AboutController::class, 'index'])->name("about");
+Route::get('/about', [HomeController::class, 'about'])->name("about");
 
 // Sử dụng MenuController để xử lý route menu
-Route::get('/menu', [HomeController::class, 'Menu'])->name("menu");
+Route::get('/menu', [HomeController::class, 'menu'])->name("menu");
 
 Route::get('/blog', function () {
     return view('home.blog');
 })->name("blog");
 
-Route::get('/gallery', [HomeController::class, 'Gallery'])->name("gallery");
+Route::get('/gallery', [HomeController::class, 'gallery'])->name("gallery");
 //login
 Route::get('/login', function () {
     return view('login.login'); 

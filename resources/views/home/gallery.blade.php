@@ -27,7 +27,7 @@
         <div class="gallery_box">
             @foreach ($image_path as $image)
             <div class="gallery_image">
-                <img src="{{$image->img}}">
+                <img src="{{$image->image_path}}">
             </div>
             @endforeach
             

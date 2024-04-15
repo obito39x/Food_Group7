@@ -13,9 +13,10 @@ class HomeController extends Controller
     {
         // Lấy 3 sản phẩm có lượt rating cao nhất
         $topRatedProducts = Product::orderByDesc('rating')->take(3)->get();
-        
+        $about = About::all();
+        $image_path = Gallery::take(3)->get();
         // Trả về view 'home' và truyền dữ liệu sản phẩm vào view
-        return view('home.home')->with('topRatedProducts', $topRatedProducts);
+        return view('home.home', compact('topRatedProducts', 'about', 'image_path'));
     }
     public function menu()
     {
@@ -33,6 +34,8 @@ class HomeController extends Controller
         // Trả về view 'menu' và truyền dữ liệu sản phẩm vào view
         return view('home.gallery')->with('image_path', $image_path);
     }
+
+    
     public function about(){
         $about = About::all();
         

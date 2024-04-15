@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Gallery extends Model
 {
     use HasFactory;
-    protected $table = 'gallerys';
+    protected $table = 'galleries';
     protected $fillable = ['id','image_path'];
 }

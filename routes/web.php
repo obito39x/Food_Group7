@@ -29,6 +29,7 @@ Route::get('/about', [HomeController::class, 'about'])->name("about");
 
 // Sử dụng MenuController để xử lý route menu
 Route::get('/menu', [HomeController::class, 'menu'])->name("menu");
+// Route::get('/menu/search', [HomeController::class, 'menu'])->name('menu.search');
 
 Route::get('/blog', function () {
     return view('home.blog');

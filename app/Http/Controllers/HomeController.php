@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Gallery;
 use App\Models\About;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cookie;
 
 class HomeController extends Controller
 {
@@ -41,6 +43,23 @@ class HomeController extends Controller
         $products = $productsQuery->paginate(9)->appends(request()->query());
 
         return view('home.menu', compact('products'));
+    }
+    public function addToCart($id)
+    {
+        $product = Product::findOrfail($id);
+        $cart = session()->get('cart',[]);
+        if(isset($cart[$id])){
+            $cart[$id]['quantity']++;
+        }else{
+            $cart[$id] = [
+                "name" => $product->id,
+                "quantity" => 1,
+                "price" => $product->new_price,
+                "image" => $product->image_url
+            ];
+        }
+        session()->put('cart', $cart);
+        return redirect()->back()->with('sucess','prodcut...');
     }
     public function gallery()
     {

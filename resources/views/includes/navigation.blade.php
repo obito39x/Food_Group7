@@ -9,25 +9,32 @@
         <li><a href="{{ route('gallery') }}" class="{{ request()->routeIs('gallery') ? 'current' : '' }}">Gallery</a></li>
         <li><a href="{{ route('blog') }}" class="{{ request()->routeIs('blog') ? 'current' : '' }}">Blog</a></li>
     </ul>
-    <div class="login">
-        @if(Auth::check())
-        <button type="button" class="btn position-relative btn-icon" id="btn-3" onclick="toggleMenu()">
-            <img src="{{ asset('image/profile.png') }}" alt="Profile Icon" width="30px">
-            <div class="menu-profile text-uppercase text-dark submenu" id="subMenu">
+    <div class="login-cart">
+        <div class="login">
             @if(Auth::check())
-                <h3>Xin chào!<br><span>{{Auth::user()->username}}</span></h3>
+            <button type="button" class="btn position-relative btn-icon" id="btn-3" onclick="toggleMenu()">
+                <img src="{{ asset('image/profile.png') }}" alt="Profile Icon" width="30px">
+                <div class="menu-profile text-uppercase text-dark submenu" id="subMenu">
+                @if(Auth::check())
+                    <h3>Xin chào!<br><span>{{Auth::user()->username}}</span></h3>
+                @else
+                    <h3>Xin chào!<br><span>Khách</span></h3>
+                @endif
+                    <ul>
+                        <li><img src="{{ asset('image/profile.png') }}" alt="Profile"><a href="{{ route('profile') }}">Hồ sơ</a></li>
+                        <li><img src="{{ asset('image/logout.png') }}" alt="Logout"><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                    </ul>
+                </div>
+            </button>
             @else
-                <h3>Xin chào!<br><span>Khách</span></h3>
+                
+                <a href="{{ route('login') }}">Login</a>
             @endif
-                <ul>
-                    <li><img src="{{ asset('image/profile.png') }}" alt="Profile"><a href="{{ route('profile') }}">Hồ sơ</a></li>
-                    <li><img src="{{ asset('image/logout.png') }}" alt="Logout"><a href="{{ route('logout') }}">Đăng xuất</a></li>
-                </ul>
-            </div>
-        </button>
-        @else
-            
-            <a href="{{ route('login') }}">Login</a>
-        @endif
+        </div>
+        <div class="cart">
+            <a href="{{ route('cart') }}" class="{{ request()->routeIs('cart') ? 'current' : '' }}"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div>
     </div>
+    
+    
 </nav>

@@ -8,6 +8,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,3 +70,8 @@ Route::get('/logout', [AccountController::class, 'logout'])->name('logout');
 Route::get('/profile', [UserController::class, 'profile'])->name('profile')->middleware('auth');;
 
 Route::post('/check-credentials', [AccountController::class, 'checkCredentials'])->name('check-credentials');
+
+//cart
+Route::get('/cart', [CartController::class, 'index'])->name("cart");
+Route::get('/add/{id}', [HomeController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');

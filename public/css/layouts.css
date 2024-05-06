@@ -64,6 +64,19 @@ nav .login a:hover{
     background: #facc22;
     color: #fff;
 }
+.login-cart{
+    display: flex;
+}
+.cart{
+    margin-left: 50px;
+}
+.fa-cart-shopping{
+    display: inline-block;
+    color: #000;
+}
+.fa-cart-shopping:hover{
+    color: #facc22;
+}
 
 /*Footer*/
 

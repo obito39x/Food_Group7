@@ -77,7 +77,9 @@
                                 @endfor
                             </div>
                             <p class="price">${{ $product->new_price }}<sub><del>${{ $product->old_price }}</del></sub></p>
-                            <a href="#" class="menu_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
+                            <a href="{{ route('cart.add', $product->id) }}" class="menu_btn">
+                                <i class="fa-solid fa-burger"></i>Order Now
+                            </a>
                         </div>
                     </div>
                 @empty
@@ -88,6 +90,7 @@
             </div>
         </div>
     </div>
+    
     <!-- Phân trang -->
     <div class="pagination-wrapper">
         <div class="pagination">

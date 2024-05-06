@@ -1,0 +1,63 @@
+/* CSS */
+
+.container {
+    max-width: 960px;
+    min-height: 500px;
+    margin: 0px auto;
+    padding: 150px 0;
+    
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.product-list {
+    border: solid 5px black;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+.fa-trash{
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    color: red;
+}
+.product {
+    position: relative;
+    display: flex;
+    margin: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.product h3 {
+    line-height: 300%;
+    left: 70px;
+    font-size: 18px;
+    position: absolute;
+    margin-bottom: 10px;
+}
+
+.product .price {
+    position: absolute;
+    right: 50px;
+    width: 150px;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+img{
+    height: 50px;
+    width: 50px;
+}
+.quantity{
+    font-size: 16px;
+    position: absolute;
+    bottom: 10px;
+    height: 20px;
+    width: 150px;
+    right: 50px;
+}
+

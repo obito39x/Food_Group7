@@ -67,7 +67,11 @@ nav .login a:hover{
 .login-cart{
     display: flex;
 }
+.btnlogin{
+    line-height: 43.6px;
+}
 .cart{
+    line-height: 43.6px;
     margin-left: 50px;
 }
 .fa-cart-shopping{

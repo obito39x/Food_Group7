@@ -75,3 +75,5 @@ Route::post('/check-credentials', [AccountController::class, 'checkCredentials']
 Route::get('/cart', [CartController::class, 'index'])->name("cart");
 Route::get('/add/{id}', [HomeController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::post('/cart/checkout/process', [CartController::class, 'saveorder'])->name('checkout.process');

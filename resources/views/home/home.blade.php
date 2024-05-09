@@ -447,7 +447,7 @@
 
     <!--Oder-->
 
-    <!-- <div class="oder">
+ <div class="oder">
 
         <h1><span>Oder</span>Now</h1>
 
@@ -503,5 +503,5 @@
 
         </div>
 
-    </div> -->
+    </div> 
     @endsection

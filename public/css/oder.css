@@ -1,0 +1,34 @@
+.container{
+    margin-bottom: 48px;
+}
+.product{
+position: relative;
+min-height: 50px;
+font-size: small;
+margin: 10px;
+}
+.name{
+    position: absolute;
+    left: 50px;
+    top: 10px;
+}
+img{
+    position: absolute;
+    top: 10px;
+    height: 40px;
+    width: 40px;
+}
+.quantity{
+position: absolute;
+bottom: 5px;
+left: 50px;
+}
+.price{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+p{
+    display: block;
+    margin: 0px !important;
+}

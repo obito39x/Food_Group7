@@ -7,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="{{ asset('/css/cart.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/menuAccount.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="shortcut icon" href="image/short_icon.png">
+    <script src="{{ asset('/js/menu.js') }}"></script>
     <title>Cart</title>
 </head>
 
@@ -29,7 +31,7 @@
                 @endphp
                 @foreach ($products as $product)
                     <div class="product">
-                        <img src="{{ asset($product->image_url) }}">
+                        <img class="img-url" src="{{ asset($product->image_url) }}">
                         <h3>{{ $product->name }}</h3>
                         <p class="price">Price: ${{ $product->new_price }}</p>
                         <a href="{{ route('cart.remove', ['id' => $product->id]) }}"><i class="fa-solid fa-trash"></i></a>

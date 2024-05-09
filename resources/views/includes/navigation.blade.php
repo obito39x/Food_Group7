@@ -10,6 +10,11 @@
         <li><a href="{{ route('blog') }}" class="{{ request()->routeIs('blog') ? 'current' : '' }}">Blog</a></li>
     </ul>
     <div class="login-cart">
+        <div class="cart">
+            <a href="{{ route('cart') }}" class="btn btn-icon {{ request()->routeIs('cart') ? 'current' : '' }}">
+                <img src="{{ asset('image/cart.png') }}" alt="icon cart" width="30px">
+            </a>
+        </div>
         <div class="login">
             @if(Auth::check())
             <button type="button" class="btn position-relative btn-icon" id="btn-3" onclick="toggleMenu()">
@@ -31,9 +36,7 @@
                 <a href="{{ route('login') }}">Login</a>
             @endif
         </div>
-        <div class="cart">
-            <a href="{{ route('cart') }}" class="{{ request()->routeIs('cart') ? 'current' : '' }}"><i class="fa-solid fa-cart-shopping"></i></a>
-        </div>
+        
     </div>
     
     

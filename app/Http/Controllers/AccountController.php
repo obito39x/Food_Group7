@@ -17,26 +17,38 @@ class AccountController extends Controller
         return view('login.singup');
     }
     public function signup(Request $req){
-        $req->merge(['password'=>Hash::make($req->password)]);
-        //validate
+        $validatedData = $req->validate([
+            'username' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    
+        $req->merge(['password' => Hash::make($req->password)]);
+    
         try {
-            $account = Account::create($req->all());
+            $account = Account::create([
+                'username' => $validatedData['username'],
+                'email' => $validatedData['email'],
+                'password' => $validatedData['password'],
+            ]);
             User::create([
                 'id_account' => $account->id,
-                'username' => $req->username,
-                'email' => $req->email
+                'username' => $validatedData['username'],
+                'email' => $validatedData['email']
             ]);
         } catch (\Throwable $th) {
-            dd($th);
+            // Xử lý lỗi nếu có
+            return redirect()->back()->withErrors('Unable to create account. Please try again.');
         }
-        // dd($req->all());
+    
         return redirect()->route('login');
-    }
+    }    
     public function postLogin(Request $req){
-        if(Auth::attempt(['username' => $req->username, 'password' => $req->password])){
-            return redirect()->route('home');
+        $validate = $req->only('username', 'password');
+        if (Auth::attempt($validate)) {
+            return redirect()->route('home'); 
         }
-        return redirect()->back()->with('error', 'Account or password is incorrect!');
+        return redirect()->back()->with('error', 'Invalid username or password.');
     }
     public function logout(){
         Auth::logout();

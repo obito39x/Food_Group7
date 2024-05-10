@@ -44,9 +44,10 @@ class HomeController extends Controller
 
         return view('home.menu', compact('products'));
     }
-    public function addToCart($id)
+    public function addToCart(Request $request)
     {
-        $product = Product::findOrfail($id);
+        $id = $request->input('productId');
+        $product = Product::findOrfail( $id);
         $cart = session()->get('cart',[]);
         if(isset($cart[$id])){
             $cart[$id]['quantity']++;

@@ -8,13 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     public $timestamps = false;
+    
     protected $fillable = ['id_account', 'username', 'fullname', 'email', 'phone_number', 'gender', 'date_user', 'img'];
-
+    protected $primaryKey = 'id_user';
     // public function account(){
     //     return $this->hasOne(Account::class, 'id_account', 'id');
     // }
-    public function account(){
-    return $this->belongsTo(Account::class, 'id_account', 'id');
-}
-
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'id_account', 'id');
+    }
+    public function findById($id)
+    {
+        return User::find($id);
+    }
 }

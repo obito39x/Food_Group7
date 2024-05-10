@@ -75,10 +75,19 @@ nav .login a:hover{
     margin-left: 50px;
 }
 .fa-cart-shopping{
+    animation: bounce-animation 0.5s ease;
     display: inline-block;
     color: #000;
 }
 .fa-cart-shopping:hover{
+    color: #facc22;
+}
+.fa-cart-shopping {
+    transition: transform 0.3s ease;
+}
+
+.fa-cart-shopping.bounce {
+    transform: translateY(-15px);
     color: #facc22;
 }
 
@@ -87,7 +96,7 @@ nav .login a:hover{
 footer{
     width: 100%;
     background: #eeeeee;
-    padding: 30px 0 0 20px;
+    padding: 30px 0 20px 20px;
 }
 
 footer .footer_main{

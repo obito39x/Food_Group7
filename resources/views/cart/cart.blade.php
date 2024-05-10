@@ -33,7 +33,7 @@
                     <div class="product">
                         <img class="img-url" src="{{ asset($product->image_url) }}">
                         <h3>{{ $product->name }}</h3>
-                        <p class="price">Price: ${{ $product->new_price }}</p>
+                        <p class="price">Price: {{ $product->new_price }}$</p>
                         <a href="{{ route('cart.remove', ['id' => $product->id]) }}"><i class="fa-solid fa-trash"></i></a>
                         <div class="quantity">
                             <p>Quantity: {{session()->get("cart.$product->id.quantity", 1)}}</p>
@@ -51,8 +51,12 @@
                        
                 @endforeach
             </div>
-            <p>Total Amount: ${{ $totalAmount }}</p>
-            <a href="" class="checkout-btn">Buy</a> <!-- Thêm nút thanh toán -->
+            <p class="total">Total Amount: {{ $totalAmount }}$</p>
+              
+              
+            
+             <!-- Thêm nút thanh toán -->
+             <button  class="comic-button" onclick="window.location='{{ route('checkout') }}'">Buy</button>
         @else
             <p>Your cart is empty.</p>
         @endif

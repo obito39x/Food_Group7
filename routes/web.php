@@ -9,6 +9,8 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +47,15 @@ Route::get('/login', function () {
 Route::get('/singup', function () {
     return view('login.singup');
 })->name("singup");
+
+//Dashboard
+Route::get('/admin', [DashboardController::class, 'index'])->name("dashboard");
+
+Route::get('/admin/order', [OderController::class, 'index'])->name("dashboard.order");
+
 Route::get('/admin/manegement/product', [ManageProductController::class,'index'])->name("manageProduct");
 // Hiển thị form thêm sản phẩm
-Route::get('/admin/management/product/create', [ManageProductController::class, 'create'])->name("createProduct");
+Route::get('/admin/management/product', [ManageProductController::class, 'create'])->name("createProduct");
 
 // Lưu sản phẩm mới
 Route::post('/admin/management/product/store', [ManageProductController::class, 'store'])->name("storeProduct");
@@ -75,5 +83,7 @@ Route::post('/check-credentials', [AccountController::class, 'checkCredentials']
 
 //cart
 Route::get('/cart', [CartController::class, 'index'])->name("cart");
-Route::get('/add/{id}', [HomeController::class, 'addToCart'])->name('cart.add');
+Route::post('/add', [HomeController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::post('/cart/checkout/process', [CartController::class, 'saveorder'])->name('checkout.process');

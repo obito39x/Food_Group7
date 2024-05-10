@@ -1,10 +1,11 @@
 /* CSS */
 
 .container {
+    position: relative;
     max-width: 960px;
     min-height: 500px;
     margin: 0px auto;
-    padding: 150px 0;
+    padding: 150px 50px;
      
 }
 
@@ -48,7 +49,7 @@ h1 {
     font-size: 16px;
     margin-bottom: 5px;
 }
-img-url{
+.img-url{
     height: 50px;
     width: 50px;
 }
@@ -60,4 +61,42 @@ img-url{
     width: 150px;
     right: 50px;
 }
-
+.total{
+   position: absolute;
+   right: 10px;
+   margin-top: 20px;
+   border: solid 1px black;
+   padding: 10px;
+}
+.comic-button {
+    position: absolute;
+    right: 10px;
+    margin-top: 70px;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #facc22;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px #000;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .comic-button:hover {
+    background-color: #fff;
+    color: rgb(42, 38, 38);
+    border: 2px solid #d3e324;
+    box-shadow: 5px 5px 0px #d3e324;
+  }
+  
+  .comic-button:active {
+    background-color: #fcf414;
+    box-shadow: none;
+    transform: translateY(4px);
+  }
+  

@@ -19,6 +19,7 @@
 @extends('layouts.app') <!-- Extend the main layout -->
 
 @section('content')
+
     <div class="search_box">
     </div>
     <!-- Banner -->
@@ -35,13 +36,16 @@
         <form action="{{ route('menu') }}" method="GET">
             <input type="hidden" name="query" value="{{ request('query') }}">
             <div class="category-buttons">
-                <button type="submit" name="category" value="all" class="{{ request('category') == 'all' ? 'active' : '' }}">All</button>
-                <button type="submit" name="category" value="1" class="{{ request('category') == '1' ? 'active' : '' }}">Food</button>
-                <button type="submit" name="category" value="2" class="{{ request('category') == '2' ? 'active' : '' }}">Drinks</button>
+                <button type="submit" name="category" value="all"
+                    class="{{ request('category') == 'all' ? 'active' : '' }}">All</button>
+                <button type="submit" name="category" value="1"
+                    class="{{ request('category') == '1' ? 'active' : '' }}">Food</button>
+                <button type="submit" name="category" value="2"
+                    class="{{ request('category') == '2' ? 'active' : '' }}">Drinks</button>
             </div>
         </form>
     </div>
-    
+
     <!-- Menu -->
     <div class="menu_box">
         <div class="menu">
@@ -60,26 +64,31 @@
                                     $halfStar = $product->rating - $fullStars; // Phần nửa sao
                                     $emptyStars = 5 - ceil($product->rating); // Số sao trống
                                 @endphp
-    
+
                                 {{-- Hiển thị sao đầy đủ --}}
                                 @for ($i = 0; $i < $fullStars; $i++)
                                     <i class="fa-solid fa-star"></i>
                                 @endfor
-    
+
                                 {{-- Hiển thị sao nửa --}}
                                 @if ($halfStar >= 0.5)
                                     <i class="fa-solid fa-star-half-stroke"></i>
                                 @endif
-    
+
                                 {{-- Hiển thị sao trống --}}
                                 @for ($i = 0; $i < $emptyStars; $i++)
                                     <i class="fa-solid fa-star-empty"></i>
                                 @endfor
                             </div>
-                            <p class="price">${{ $product->new_price }}<sub><del>${{ $product->old_price }}</del></sub></p>
-                            <a href="{{ route('cart.add', $product->id) }}" class="menu_btn">
-                                <i class="fa-solid fa-burger"></i>Order Now
-                            </a>
+                            <p class="price">{{ $product->new_price }}$<sub><del>{{ $product->old_price }}$</del></sub>
+                            </p>
+                            <button class="CartBtn" onclick="addToCart({{ $product->id }})">
+                                <span class="IconContainer">
+                                    <i class="fa-solid fa-burger"></i>
+                                </span>
+
+                                <p class="text">Order Now</p>
+                            </button>
                         </div>
                     </div>
                 @empty
@@ -90,7 +99,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Phân trang -->
     <div class="pagination-wrapper">
         <div class="pagination">
@@ -98,17 +107,40 @@
             @if ($products->currentPage() > 1)
                 <a href="{{ $products->previousPageUrl() }}" class="pagination-btn">Previous</a>
             @endif
-    
+
             {{-- Hiển thị trang hiện tại --}}
             <span>Page {{ $products->currentPage() }} on {{ $products->lastPage() }}</span>
-    
+
             {{-- Nút Next --}}
             @if ($products->hasMorePages())
                 <a href="{{ $products->nextPageUrl() }}" class="pagination-btn">Next</a>
             @endif
         </div>
     </div>
-    
-    
-@endsection
 
+
+
+@endsection
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    function addToCart(productId) {
+
+        // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
+        axios.post('{{ route('cart.add') }}', {
+                productId: productId
+            })
+            .then(function(response) {
+                document.querySelector('.fa-cart-shopping').classList.add('bounce');
+                // Xóa lớp bounce sau khi hoàn thành animation
+                setTimeout(function() {
+                    document.querySelector('.fa-cart-shopping').classList.remove('bounce');
+                }, 300);
+            })
+            .catch(function(error) {
+                // Xử lý lỗi (nếu có)
+                console.error(error);
+
+
+            });
+    }
+</script>

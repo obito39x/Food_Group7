@@ -1,24 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="{{ asset('/css/management/manageProduct.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="short icon" href="{{ asset('image/short_icon.png') }}">
-    <title>Product Management</title>
-    <script src="{{ asset('/js/menu.js') }}"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-@include('includes.navigation') 
+@extends('admin.dashboard') <!-- Kế thừa layout chính -->
 
-<div class="Management">   
-    <div class="addProduct">
-        <a href="{{ route('createProduct') }}" class="buttonAdd"><span>Add</span><i class="fa-solid fa-plus"></i></a>
+@section('content')
+<main>
+    <div class="head-title">
+        <div class="left">
+            <h1>Product Management</h1>
+            <ul class="breadcrumb">
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                <li><i class="bx bx-chevron-right"></i></li>
+                <li><a href="#" class="active">Product Management</a></li>
+            </ul>
+        </div>
+        <button  title="Add" class="cssbuttons-io-button" onclick="window.location='{{ route('createProduct') }}'">
+            <svg height="25" width="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"></path><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path></svg>
+            <span>Add Product</span>
+          </button>
     </div>
-    <div class="table-container">
-       
+
+    <div class="table-data">
         <table>
             <thead>
                 <tr>
@@ -43,12 +42,12 @@
                     <td>${{ $product->old_price }}</td>
                     <td>${{ $product->new_price }}</td>
                     <td class="edit">
-                        <a href="{{ route('editProduct', $product) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{{ route('editProduct', $product) }}"><i class="bx bxs-edit"></i></a>
                         <form action="{{ route('deleteProduct', $product) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button class="buttonsubmit" type="submit">
-                                <i class="fa-solid fa-trash"></i>
+                                <i class="bx bxs-trash"></i>
                             </button>
                         </form>
                     </td>
@@ -57,4 +56,6 @@
             </tbody>
         </table>
     </div>
-</div>
+</main>
+
+@endsection

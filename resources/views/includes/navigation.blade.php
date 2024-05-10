@@ -12,7 +12,7 @@
     <div class="login-cart">
         <div class="cart">
             <a href="{{ route('cart') }}" class="btn btn-icon {{ request()->routeIs('cart') ? 'current' : '' }}">
-                <img src="{{ asset('image/cart.png') }}" alt="icon cart" width="30px">
+                <i class="fa-solid fa-cart-shopping"></i>
             </a>
         </div>
         <div class="login">
@@ -33,7 +33,7 @@
             </button>
             @else 
                 
-                <a href="{{ route('login') }}">Login</a>
+                <a class="btnlogin" href="{{ route('login') }}">Login</a>
             @endif
         </div>
         

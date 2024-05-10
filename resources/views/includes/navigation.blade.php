@@ -31,7 +31,7 @@
                     </ul>
                 </div>
             </button>
-            @else
+            @else 
                 
                 <a href="{{ route('login') }}">Login</a>
             @endif

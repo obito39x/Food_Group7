@@ -29,7 +29,7 @@ class AccountController extends Controller
             $account = Account::create([
                 'username' => $validatedData['username'],
                 'email' => $validatedData['email'],
-                'password' => $validatedData['password'],
+                'password' => $req->password,
             ]);
             User::create([
                 'id_account' => $account->id,
@@ -44,8 +44,8 @@ class AccountController extends Controller
         return redirect()->route('login');
     }    
     public function postLogin(Request $req){
-        $validate = $req->only('username', 'password');
-        if (Auth::attempt($validate)) {
+        // $validate = $req->only('username', 'password');
+        if (Auth::attempt(['username' => $req->username, 'password' => $req->password])) {
             return redirect()->route('home'); 
         }
         return redirect()->back()->with('error', 'Invalid username or password.');

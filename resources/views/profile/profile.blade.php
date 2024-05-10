@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 
 <head>
     <meta charset="UTF-8">
@@ -20,15 +20,16 @@
     <!-- profile -->
     @section('content');
     <section class="" style="padding: 100px 0 50px 0;">
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="{{ route('profile.update', $profile->id) }}" method="post" enctype="multipart/form-data">
+            @csrf
             <div class="container mt-5">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="text-center">
                             @if(!empty($profile->img))
-                            <img src="{{ $profile->img }}" alt="User Image" class="img-fluid profile-image mb-3" style="width: 150px; height: 150px;">
+                                <img id="preview-image" src="{{ $profile->img }}" alt="User Image" class="img-fluid profile-image mb-3" style="width: 150px; height: 150px;">
                             @else
-                            <img src="{{ asset('image/profile.png') }}" alt="Default Image" class="img-fluid profile-image mb-3" style="width: 150px; height: 150px;">
+                                <img id="preview-image" src="{{ asset('img_profile/profile.png') }}" alt="Default Image" class="img-fluid profile-image mb-3" style="width: 150px; height: 150px;">
                             @endif
                             @if(!empty($profile->fullname))
                             <h4>{{ $profile->fullname }}</h4>
@@ -36,15 +37,20 @@
                             <h4>{{ $profile->username }}</h4>
                             @endif
                             <label class="btnn img">
-                                Thay đổi ảnh
+                                Edit Image
                                 <input type="file" id="edit_image" name="image" class="input-file" disabled>
                             </label>
                         </div>
                     </div>
                     <div class="col-md-8">
                         <div class="d-lex justify-content-between align-items-center mb-4">
-                            <h2 class="fw-bold text-uppercase">Hồ Sơ</h2>
+                            <h2 class="fw-bold text-uppercase">Profile</h2>
                         </div>
+                        @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <div style="color: red;">{{ $error }}</div>
+                            @endforeach
+                        @endif
                             <div class="row mt-4">
                                 <div class="col-md-6 mb-3">
                                     <label for="" class="form-label">Username:</label>
@@ -52,7 +58,7 @@
                                         value="{{ $profile->username }}" readonly>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="" class="form-label">Họ và Tên:</label>
+                                    <label for="" class="form-label">FullName:</label>
                                     <input type="text" class="form-control" name="fullname" id="fullname"
                                         value="{{ $profile->fullname }}" readonly>
                                 </div>
@@ -62,17 +68,17 @@
                                         value="{{ $profile->email }}" readonly>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="" class="form-label">Số điện thoại:</label>
-                                    <input type="text" class="form-control" name="phone" id="phone"
+                                    <label for="" class="form-label">Phone Number:</label>
+                                    <input type="text" class="form-control" name="phone_number" id="phone"
                                         value="{{ $profile->phone_number ?? 'Không có thông tin' }}" readonly>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <label for="ngaySinh" class="form-label">Ngày sinh:</label>
-                                    <input type="date" class="form-control" id="date" name="date"
+                                    <label for="ngaySinh" class="form-label">Day of Birth:</label>
+                                    <input type="date" class="form-control" id="date" name="date_user"
                                         value="{{ $profile->date_user }}" readonly>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <label class="form-label">Giới tính:</label>
+                                    <label class="form-label">Gender:</label>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="gender" id="nam" value="nam"
                                         {{ $profile->gender == 'nam' ? 'checked' : '' }} disabled>
@@ -88,9 +94,8 @@
                             </div>
                             <input type="hidden" name="user_id" value="">
                             <div class="col-md-6 mb-3">
-                                <button type="button" class="btnn btn-primary" id="editButton" onclick="enableEdit()">Chỉnh sửa</button>
-                                <button type="submit" class="btnn btn-success" name="submit" id="saveButton" style="display: none;">Lưu</button>
-                                <a href=""></a>
+                                <button type="button" class="btnn btn-primary" id="editButton" onclick="enableEdit()">Edit</button>
+                                <button type="submit" class="btnn btn-success" name="submit" id="saveButton" style="display: none;">Save</button>
                             </div>
                         
                     </div>
@@ -100,6 +105,21 @@
     </section>
     @endsection
     <!-- end of profile -->
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('edit_image').addEventListener('change', function(event) {
+            var output = document.getElementById('preview-image');
+            if (event.target.files && event.target.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    output.src = e.target.result;
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+    });
+    </script>
 </body>
 
 </html>

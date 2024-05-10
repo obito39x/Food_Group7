@@ -23,7 +23,8 @@
                 @endif
                 @csrf
                 <input type="text" class="field" placeholder="User Name" name="username">
-                <input type="password" class="field" maxlength="10" placeholder="Password" name="password">
+                <input type="password" class="field" maxlength="10" placeholder="Password" name="password" id="password">
+                <input type="checkbox" class="check_box" id="show_password"><label for="show_password"><p>Show Password</p>
                 <input type="checkbox" class="check_box"><p>Remember Password</p>
                 <button type="submit" class="submit_btn">Login</button>
                 
@@ -45,5 +46,18 @@
 
     </div>
     
+    <script>
+    document.getElementById('show_password').addEventListener('click', function () {
+        // Lấy các trường input password
+        var password = document.getElementById('password');
+
+        // Kiểm tra trạng thái của checkbox và thay đổi kiểu của các trường input
+        if (this.checked) {
+            password.type = 'text';
+        } else {
+            password.type = 'password';
+        }
+    });
+    </script>
 </body>
 </html>

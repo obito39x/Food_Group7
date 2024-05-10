@@ -22,18 +22,19 @@
             <form action="" method="post" class="input_box">
             @csrf
                 <input type="email" class="field" placeholder="Email" name="email">
-                @error('email')
+                @error('email') 
                     <div style="color: red;">{{ $message }}</div>
                 @enderror
                 <input type="text" class="field" placeholder="Username" name="username">
                 @error('username')
                     <div style="color: red;">{{ $message }}</div>
                 @enderror
-                <input type="password" class="field" placeholder="Password" name="password">
-                <input type="password" class="field" placeholder="Confirm Password" name="password_confirmation">
+                <input type="password" class="field" placeholder="Password" name="password" id="password">
+                <input type="password" class="field" placeholder="Confirm Password" name="password_confirmation" id="confirm_password">
                 @error('password')
                     <div style="color: red;">{{ $message }}</div>
                 @enderror
+                <input type="checkbox" class="check_box" id="show_password"><label for="show_password"><p>Show Password</p>
                 <button type="submit" class="submit_btn" name="submit">Register</button>
 
                 <div class="social_icon">
@@ -53,53 +54,23 @@
 
     </div>
 
+    <script>
+    document.getElementById('show_password').addEventListener('click', function () {
+        // Lấy các trường input password
+        var password = document.getElementById('password');
+        var confirm_password = document.getElementById('confirm_password');
+
+        // Kiểm tra trạng thái của checkbox và thay đổi kiểu của các trường input
+        if (this.checked) {
+            password.type = 'text';
+            confirm_password.type = 'text';
+        } else {
+            password.type = 'password';
+            confirm_password.type = 'password';
+        }
+    });
+    </script>
 </body>
-<!-- <script>
-    window.onload = function() {
-        var form = document.querySelector("form");
-        form.addEventListener('submit', function(event) {
-            var password = document.querySelector('input[name="password"]').value;
-            var confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
 
-            if (password !== confirmPassword) {
-                alert('Passwords do not match.');
-                event.preventDefault(); // Ngăn chặn form được gửi đi nếu mật khẩu không khớp
-            }
-        });
-    };
-
-    document.addEventListener("DOMContentLoaded", function() {
-    const usernameInput = document.querySelector('input[name="username"]');
-    const emailInput = document.querySelector('input[name="email"]');
-    const form = document.querySelector('form');
-    
-    function checkCredentials() {
-        fetch('{{ route('check-credentials') }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                username: usernameInput.value,
-                email: emailInput.value
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.username_exists) {
-                alert('Username already exists.');
-            }
-            if (data.email_exists) {
-                alert('Email already exists.');
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    usernameInput.addEventListener('blur', checkCredentials);
-    emailInput.addEventListener('blur', checkCredentials);
-});
-</script> -->
 
 </html>

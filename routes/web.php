@@ -78,6 +78,11 @@ Route::get('/logout', [AccountController::class, 'logout'])->name('logout');
 Route::get('/profile', [UserController::class, 'profile'])->name('profile')->middleware('auth');
 //update profile
 Route::post('/profile/update/{id}', [UserController::class, 'updateProfile'])->name('profile.update')->middleware('auth');
+//change password
+Route::get('/changePassword', function(){
+    return view('login.changePassword');
+})->name('formChangePassword');
+Route::post('/changePassword', [AccountController::class, 'changePassword'])->name('changePassword');
 
 Route::post('/check-credentials', [AccountController::class, 'checkCredentials'])->name('check-credentials');
 

@@ -119,6 +119,15 @@ button[type="submit"]:hover {
 }
 
 </style>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Tìm li có class mystore
+        const mystoreLi = document.querySelector("#sidebar .mystore");
+
+        // Thêm lớp active cho li mystore
+        mystoreLi.classList.add("active");
+    });
+</script>
 @extends('admin.dashboard') <!-- Kế thừa layout chính -->
 
 @section('content')
@@ -183,13 +192,5 @@ button[type="submit"]:hover {
     reader.readAsDataURL(input.files[0]);
 }
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Tìm li có class mystore
-        const mystoreLi = document.querySelector("#sidebar .mystore");
 
-        // Thêm lớp active cho li mystore
-        mystoreLi.classList.add("active");
-    });
-</script>
 @endsection

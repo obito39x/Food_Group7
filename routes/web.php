@@ -9,8 +9,11 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OderController;
+use App\Models\Categorie;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,9 +52,17 @@ Route::get('/singup', function () {
 })->name("singup");
 
 //Dashboard
+Route::get('/admin/mystore', [DashboardController::class, 'mystore'])->name("mystore");
 Route::get('/admin', [DashboardController::class, 'index'])->name("dashboard");
 
-Route::get('/admin/order', [OderController::class, 'index'])->name("dashboard.order");
+
+
+Route::get('/admin/management/categories', [CategoriesController::class, 'index'])->name("categories");
+Route::get('/admin/management/categories/create', [CategoriesController::class, 'create'])->name("categories.create");
+Route::post('/admin/management/categories', [CategoriesController::class, 'store'])->name("categories.store");
+Route::get('/admin/management/categories/{id}', [CategoriesController::class, 'destroy'])->name("categories.delete");
+Route::get('/admin/management/categories/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
+Route::put('/admin/management/categories/{id}', [CategoriesController::class, 'update'])->name("categories.update");
 
 Route::get('/admin/manegement/product', [ManageProductController::class,'index'])->name("manageProduct");
 // Hiển thị form thêm sản phẩm
@@ -88,3 +99,7 @@ Route::post('/add', [HomeController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/cart/checkout/process', [CartController::class, 'saveorder'])->name('checkout.process');
+
+//oder
+Route::get('/admin/order/{id}/confirm', [OderController::class, 'comfirm'])->name("order.comfirm");
+Route::get('/admin/order', [OderController::class, 'index'])->name("dashboard.order");

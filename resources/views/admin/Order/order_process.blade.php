@@ -217,76 +217,86 @@
         position: relative;
     }
 
-    .component-title {
-        width: 100%;
-        position: absolute;
-        z-index: 999;
-        top: 30px;
-        left: 0;
-        padding: 0;
-        margin: 0;
-        font-size: 1rem;
-        font-weight: 700;
-        color: #888;
-        text-align: center;
+    .customCheckBoxHolder {
+        margin: 5px;
+        display: flex;
     }
 
-    .ul {
+    .customCheckBox {
         width: fit-content;
-        height: fit-content;
-        background-color: transparent;
-        list-style: none;
-    }
-
-    .li {
-        margin-bottom: 5px;
-    }
-
-    .button {
-        background-color: transparent;
-        font-family: sans-serif;
-        color: rgb(0, 0, 0);
-        border: none;
-        font-size: 22px;
-        font-weight: 700;
-        padding: 10px 30px;
-        cursor: pointer;
         position: relative;
-        padding-left: 11px;
-        text-align: center;
-        transition: 0.1s;
-        z-index: 1;
-    }
-
-    .p {
-        z-index: 2;
-        position: relative;
-    }
-
-    .button:hover {
-        color: rgb(172, 40, 0);
-        text-align: center;
-    }
-
-    
-
-    .button::before {
-        content: "";
-        border-radius: 1px;
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        background-color: tomato;
-        left: -10px;
-        top: 19px;
+        overflow: hidden;
         cursor: pointer;
-        transform: rotate(225deg);
-        transition: 0.3s;
-        z-index: -1;
+        user-select: none;
+        padding: 2px 8px;
+        background-color: rgba(0, 0, 0, 0.16);
+        border-radius: 0px;
+        color: rgba(255, 255, 255, 0.7);
+        transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition-duration: 300ms;
+        transition-property: color, background-color, box-shadow;
+        display: flex;
+        height: 32px;
+        align-items: center;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 1px 0px inset, rgba(255, 255, 255, 0.17) 0px 1px 1px 0px;
+        outline: none;
+        justify-content: center;
+        min-width: 55px;
     }
 
-    .button:active::before {
-        background-color: rgb(255, 38, 0);
+    .customCheckBox:hover {
+        background-color: #2c2c2c;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.23) 0px -4px 1px 0px inset, rgba(255, 255, 255, 0.17) 0px -1px 1px 0px, rgba(0, 0, 0, 0.17) 0px 2px 4px 1px;
+    }
+
+    .customCheckBox .inner {
+        font-size: 18px;
+        font-weight: 900;
+        pointer-events: none;
+        transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition-duration: 300ms;
+        transition-property: transform;
+        transform: translateY(0px);
+    }
+
+    .customCheckBox:hover .inner {
+        transform: translateY(-2px);
+    }
+
+    .customCheckBoxWrapper:first-of-type .customCheckBox {
+        border-bottom-left-radius: 5px;
+        border-top-left-radius: 5px;
+        border-right: 0px;
+    }
+
+    .customCheckBoxWrapper:last-of-type .customCheckBox {
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+        border-left: 0px;
+    }
+
+    .customCheckBoxInput {
+        display: none;
+    }
+
+    .customCheckBoxInput:checked+.customCheckBoxWrapper .customCheckBox {
+        background-color: #2d6737;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.23) 0px -4px 1px 0px inset, rgba(255, 255, 255, 0.17) 0px -1px 1px 0px, rgba(0, 0, 0, 0.17) 0px 2px 4px 1px;
+    }
+
+    .customCheckBoxInput:checked+.customCheckBoxWrapper .customCheckBox .inner {
+        transform: translateY(-2px);
+    }
+
+    .customCheckBoxInput:checked+.customCheckBoxWrapper .customCheckBox:hover {
+        background-color: #34723f;
+        box-shadow: rgba(0, 0, 0, 0.26) 0px -4px 1px 0px inset, rgba(255, 255, 255, 0.17) 0px -1px 1px 0px, rgba(0, 0, 0, 0.15) 0px 3px 6px 2px;
+    }
+
+    .customCheckBoxWrapper .customCheckBox:hover .inner {
+        transform: translateY(-2px);
     }
 </style>
 @extends('admin.dashboard') <!-- Kế thừa layout của trang dashboard -->
@@ -320,23 +330,19 @@
                     </li>
                 </ul>
             </div>
-            <ul class="ul">
-                <li class="li">
-                    <button class="button" onclick="redirectToOrderDashboard('Pending')">
-                        <p class="p">Pending</p>
-                    </button>
-                </li>
-                <li class="li">
-                    <button class="button" onclick="redirectToOrderDashboard('Process')">
-                        <p class="p">Process</p>
-                    </button>
-                </li>
-                <li class="li">
-                    <button class="button" onclick="redirectToOrderDashboard('Completed')">
-                        <p class="p">Completed</p>
-                    </button>
-                </li>
-            </ul>
+            <div class="customCheckBoxHolder">
+
+                <input class="tab tab--1" id="tab1" name="tab" type="radio" value="pending" />
+                <label for="tab1" class="tab_label">Pending</label>
+
+                <input class="tab tab--2" id="tab2" name="tab" type="radio" value="process" />
+                <label for="tab2" class="tab_label">Process</label>
+
+                <input class="tab tab--3" id="tab3" name="tab" type="radio" value="completed" />
+                <label for="tab3" class="tab_label">Completed</label>
+
+            </div>
+
         </div>
         <div class="container">
             @if (count($orders) > 0)
@@ -407,31 +413,5 @@
         </div>
 
     </main>
-    <script>
-        const queryString = window.location.search;
-
-        // Tạo một đối tượng URLSearchParams từ query string
-        const params = new URLSearchParams(queryString);
-
-        // Lấy giá trị của tham số "status"
-        const status = params.get('status');
-
-        // Kiểm tra nếu status là 'Process' thì ẩn phần tử 'confirmation'
-        if (status === 'Process' || status === 'Completed') {
-            // Ẩn phần tử 'confirmation'
-            var confirmationElements = document.getElementsByClassName("confirmation");
-            for (var i = 0; i < confirmationElements.length; i++) {
-                confirmationElements[i].style.display = "none";
-            }
-        }
-        document.addEventListener("DOMContentLoaded", function() {
-            // Tìm tất cả các phần tử có lớp là "confirmation"
-            var confirmationElements = document.getElementsByClassName("confirmation");
-        });
-
-        function redirectToOrderDashboard(status) {
-            window.location = "{{ route('dashboard.order') }}?status=" + status;
-        }
-    </script>
     <!-- MAIN -->
 @endsection

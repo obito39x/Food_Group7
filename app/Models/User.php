@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    
+
     protected $table = 'users';
     public $timestamps = false;
-    
+
     protected $fillable = ['id_account', 'username', 'fullname', 'email', 'phone_number', 'gender', 'date_user', 'img'];
-    protected $primaryKey = 'id_user';
     // public function account(){
     //     return $this->hasOne(Account::class, 'id_account', 'id');
     // }
@@ -28,15 +27,12 @@ class User extends Model
             }
         });
     }
-public function account(){
-return $this->belongsTo(Account::class, 'id_account');
-
-
-}
-public function findById($id)
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'id_account');
+    }
+    public function findById($id)
     {
         return User::find($id);
     }
-
 }
- 

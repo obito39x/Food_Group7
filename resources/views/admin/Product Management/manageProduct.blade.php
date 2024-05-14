@@ -1,6 +1,15 @@
 @extends('admin.dashboard') <!-- Kế thừa layout chính -->
 
 @section('content')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Tìm li có class mystore
+        const mystoreLi = document.querySelector("#sidebar .mystore");
+
+        // Thêm lớp active cho li mystore
+        mystoreLi.classList.add("active");
+    });
+</script>
 <main>
     <div class="head-title">
         <div class="left">
@@ -8,7 +17,9 @@
             <ul class="breadcrumb">
                 <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 <li><i class="bx bx-chevron-right"></i></li>
-                <li><a href="#" class="active">Product Management</a></li>
+                <li><a href="{{ route('mystore') }}" class="active">My Store</a></li>
+                <li><i class="bx bx-chevron-right"></i></li>
+                <li><a href="" class="active">Product Management</a></li>
             </ul>
         </div>
         <button  title="Add" class="cssbuttons-io-button" onclick="window.location='{{ route('createProduct') }}'">

@@ -90,7 +90,7 @@ class CartController extends Controller
         $district = $request->input('district');
         $ward = $request->input('ward');
         $totalAmount = 0;
-
+        $status_id = 2;
         // Chuyển đổi chuỗi JSON thành một mảng PHP
         $products = json_decode($request->input('products'));
 
@@ -114,6 +114,7 @@ class CartController extends Controller
         $order->ward = $ward;
         $order->payment_method = $paymentMethod;
         $order->total_amount = $totalAmount;
+        $order->status_id = $status_id;
         if (Auth::check()) {
             // Người dùng đã đăng nhập
             $account = Auth::user();

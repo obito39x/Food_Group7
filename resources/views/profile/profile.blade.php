@@ -18,9 +18,9 @@
 <body>
     @extends('layouts.app')
     <!-- profile -->
-    @section('content');
+    @section('content')
     <section class="" style="padding: 100px 0 50px 0;">
-        <form action="{{ route('profile.update', $profile->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('profile.update', $profile->id_user) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="container mt-5">
                 <div class="row">
@@ -70,7 +70,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="" class="form-label">Phone Number:</label>
                                     <input type="text" class="form-control" name="phone_number" id="phone"
-                                        value="{{ $profile->phone_number ?? 'Không có thông tin' }}" readonly>
+                                        value="{{ $profile->phone_number }}" readonly>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="ngaySinh" class="form-label">Day of Birth:</label>

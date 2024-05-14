@@ -54,15 +54,12 @@ nav ul li a:hover{
 nav .login a{
     color: #000;
     text-decoration: none;
-    border: 2px solid #facc22;
-    padding: 7px 20px;
     border-radius: 20px;
-    transition: 0.3s;
+    transition: 0.1s;
 }
 
 nav .login a:hover{
-    background: #facc22;
-    color: #fff;
+    color: #facc22;
 }
 .login-cart{
     display: flex;

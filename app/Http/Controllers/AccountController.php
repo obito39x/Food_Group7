@@ -63,4 +63,26 @@ class AccountController extends Controller
             'email_exists' => $emailExists,
         ]);
     }
+    //thay đổi mật khẩu
+    public function changePassword(Request $req){
+        $req->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:6|confirmed'
+        ]);
+    
+        $user = Auth::user();
+    
+        // Kiểm tra mật khẩu hiện tại có khớp không
+        if (!Hash::check($req->current_password, $user->password)) {
+            // Nếu không khớp, thông báo lỗi
+            return back()->withErrors(['current_password' => 'Current password is incorrect!']);
+        }
+    
+        // Nếu khớp, cập nhật mật khẩu mới
+        $user->password = Hash::make($req->new_password);
+        $user->save();
+    
+        // Chuyển hướng người dùng đến trang chủ với thông báo thành công
+        return redirect()->route('home');
+    }    
 }

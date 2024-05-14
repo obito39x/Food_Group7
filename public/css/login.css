@@ -15,7 +15,7 @@
 
 .hero .login_form{
     width: 400px;
-    height: 490px;
+    height: 550px;
     background-image: url("/image/login_card_bg.png");
     background-size: cover;
     background-position: center;
@@ -66,7 +66,7 @@
 }
 
 .hero .login_form .input_box .check_box{
-    margin: 25px 0;
+    margin: 5px 0;
     accent-color: #facc22;
     cursor: pointer;
 }
@@ -74,7 +74,7 @@
 .hero .login_form .input_box p{
     position: relative;
     left: 20px;
-    bottom: 40px;
+    bottom: 20px;
     width: 50%;
     color: #434343;
 }

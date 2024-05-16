@@ -16,19 +16,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJmQdW5s2USl6ungjcVLe6iQRbKNOTSWw&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            var hoChiMinh = { lat: 10.852410, lng: 106.758740 };
+            var mapOptions = {
+                center: hoChiMinh,
+                zoom: 15
+            };
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            var marker = new google.maps.Marker({
+                position: hoChiMinh,
+                map: map,
+                title: 'Hồ Chí Minh'
+            });
+        }
+    </script>
 </head>
 
 <body>
-<<<<<<< HEAD
     @include('includes.navigation')
     @yield('content')
     @include('includes.footer')
-=======
-    @include('includes.navigation') 
-    @yield('content') 
-    @include('includes.footer') 
-    
->>>>>>> 1cec98353e765c637c0e554da8d51a01c5f3a88f
 </body>
 
 </html>

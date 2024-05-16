@@ -476,11 +476,7 @@
 
     <!--Oder-->
 
-<<<<<<< HEAD
     <div class="oder">
-=======
- <!-- <div class="oder">
->>>>>>> 1cec98353e765c637c0e554da8d51a01c5f3a88f
 
         <h1><span>Oder</span>Now</h1>
 
@@ -536,10 +532,5 @@
 
         </div>
 
-<<<<<<< HEAD
     </div>
 @endsection
-=======
-    </div>  -->
-    @endsection
->>>>>>> 1cec98353e765c637c0e554da8d51a01c5f3a88f

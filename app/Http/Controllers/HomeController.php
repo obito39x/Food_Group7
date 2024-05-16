@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Cookie;
 use Termwind\Components\Dd;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+
 class HomeController extends Controller
 {
     public function index()
@@ -105,30 +106,30 @@ class HomeController extends Controller
         }
 
         // Lấy danh sách sản phẩm đã lọc hoặc tất cả sản phẩm nếu không có lọc
-        $products = $productsQuery->paginate(2)->appends(request()->query());
+        $products = $productsQuery->paginate(9)->appends(request()->query());
 
         // Lấy danh sách danh mục
         $categories = Categorie::all();
         if ($sortBy == "best_selling") {
-            if($categoryId == 'all'){
+            if ($categoryId == 'all') {
                 $topSellingProducts = OrderItem::join('products', 'order_items.product_id', '=', 'products.id')
-                ->join('categories', 'products.id_categories', '=', 'categories.id_category')
-                ->select('order_items.product_id', 'products.name as product_name', 'categories.name as category_name', OrderItem::raw('SUM(order_items.quantity) as total_quantity'))
-                ->groupBy('order_items.product_id', 'products.name', 'categories.name')
-                ->orderByDesc('total_quantity')
-                ->limit(10)
-                ->get();
-            }else{
+                    ->join('categories', 'products.id_categories', '=', 'categories.id_category')
+                    ->select('order_items.product_id', 'products.name as product_name', 'categories.name as category_name', OrderItem::raw('SUM(order_items.quantity) as total_quantity'))
+                    ->groupBy('order_items.product_id', 'products.name', 'categories.name')
+                    ->orderByDesc('total_quantity')
+                    ->limit(10)
+                    ->get();
+            } else {
                 $topSellingProducts = OrderItem::join('products', 'order_items.product_id', '=', 'products.id')
-                ->join('categories', 'products.id_categories', '=', 'categories.id_category')
-                ->select('order_items.product_id', 'products.name as product_name', 'categories.name as category_name', OrderItem::raw('SUM(order_items.quantity) as total_quantity'))
-                ->where('categories.id_category', '=', $categoryId)
-                ->groupBy('order_items.product_id', 'products.name', 'categories.name')
-                ->orderByDesc('total_quantity')
-                ->limit(10)
-                ->get();
+                    ->join('categories', 'products.id_categories', '=', 'categories.id_category')
+                    ->select('order_items.product_id', 'products.name as product_name', 'categories.name as category_name', OrderItem::raw('SUM(order_items.quantity) as total_quantity'))
+                    ->where('categories.id_category', '=', $categoryId)
+                    ->groupBy('order_items.product_id', 'products.name', 'categories.name')
+                    ->orderByDesc('total_quantity')
+                    ->limit(10)
+                    ->get();
             }
-            
+
 
             // Khởi tạo mảng để lưu trữ các sản phẩm bán chạy nhất
             $product_filter = [];
@@ -136,14 +137,22 @@ class HomeController extends Controller
                 $product = Product::find($topSellingProduct->product_id);
                 $product_filter[] = $product;
             }
+            $productCollection = collect($product_filter);
+
+            // Lấy trang hiện tại từ request, mặc định là 1 nếu không có
+            $currentPage = request()->input('page', 1);
+            $perPage = 9; // Số lượng sản phẩm trên mỗi trang
+            $currentPageItems = $productCollection->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
             // Gán danh sách sản phẩm bán chạy nhất vào danh sách sản phẩm chính
             $products = new LengthAwarePaginator(
-                $product_filter, // Mảng sản phẩm
-                count($product_filter), // Tổng số sản phẩm
-                9, // Số lượng sản phẩm trên mỗi trang
-                LengthAwarePaginator::resolveCurrentPage(), // Trang hiện tại
-                ['path' => LengthAwarePaginator::resolveCurrentPath()] // Các đường dẫn cần thiết
+                $currentPageItems, // Các sản phẩm trên trang hiện tại
+                $productCollection->count(), // Tổng số sản phẩm
+                $perPage, // Số lượng sản phẩm trên mỗi trang
+                $currentPage, // Trang hiện tại
+                ['path' => request()->url(), 'query' => request()->query()] // Các đường dẫn cần thiết
             );
+
         }
 
         return view('home.menu', compact('products', 'categories'));

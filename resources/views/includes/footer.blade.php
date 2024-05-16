@@ -56,5 +56,6 @@
     </div>
 
     <p class="end">Design by<span><i class="fa-solid fa-face-grin"></i> Group 7</span></p>
+    <div id="map" style="height: 300px; width: 30%;"></div>
 
 </footer>

@@ -35,7 +35,6 @@ class User extends Model
     {
         return User::find($id);
     }
-<<<<<<< HEAD
     public function likedBlogs()
     {
         return $this->belongsToMany(Blog::class, 'blog_likes', 'user_id', 'blog_id');
@@ -54,6 +53,4 @@ class User extends Model
     {
         return $this->belongsToMany(User::class, 'user_follows', 'following_user_id', 'user_id');
     }
-=======
->>>>>>> e5a6c6c44d19333b91f405c58f5deaa2b25319ec
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetailController;
 use App\Http\Controllers\OderController;
 use App\Models\Categorie;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -97,11 +98,12 @@ Route::post('/check-credentials', [AccountController::class, 'checkCredentials']
 //cart
 Route::get('/cart', [CartController::class, 'index'])->name("cart");
 Route::post('/add', [HomeController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/cart/checkout/process', [CartController::class, 'saveorder'])->name('checkout.process');
 
-<<<<<<< HEAD
+
 
 //BLOG
 Route::get('/blog', function () {
@@ -130,8 +132,15 @@ Route::put('/comments/{id}', [BlogController::class, 'updateComment'])->name('co
 Route::delete('/comments/{id}', [BlogController::class, 'deleteComment'])->name('comments.delete');
 // follow
 Route::post('/user/toggle-follow/{id}', [UserController::class, 'toggleFollow'])->name('user.toggle-follow');
-=======
+
 //oder
 Route::get('/admin/order/{id}/confirm', [OderController::class, 'comfirm'])->name("order.comfirm");
 Route::get('/admin/order', [OderController::class, 'index'])->name("dashboard.order");
->>>>>>> e5a6c6c44d19333b91f405c58f5deaa2b25319ec
+Route::get('/order-history', [OderController::class, 'history'])->name('order.history');
+Route::post('/order-history/{id}', [OderController::class, 'success'])->name("order.success");
+Route::get('/order-history/{id}/cancel', [OderController::class, 'cancel'])->name("order.cancel");
+
+//detail
+Route::get('/menu/detail/{id}',[DetailController::class, 'index'])->name("detail");
+Route::post('/menu/detail/add', [DetailController::class, 'add'])->name('detail.add');
+

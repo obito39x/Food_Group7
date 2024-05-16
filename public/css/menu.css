@@ -1,15 +1,14 @@
-
 /*Banner*/
 
-.banner_bg{
+.banner_bg {
     width: 100%;
     height: 50vh;
-    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)) , url("/image/banner_bg.jpeg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/image/banner_bg.jpeg");
     background-size: cover;
     background-position: center;
 }
 
-.banner_bg h1{
+.banner_bg h1 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,21 +18,23 @@
     top: 50%;
 }
 
-.banner_bg h1 span{
+.banner_bg h1 span {
     color: #facc22;
     margin-left: 15px;
 }
+
 /*Seach*/
 /* Form style */
 .formseach {
     outline: 2px solid #3e3030;
-    transform: translate(340%, 100%);
+    transform: translate(200%, 0%);
     width: 300px;
     display: flex;
     background-color: #e5e5e5;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 20px;
 }
 
 /* Input style */
@@ -68,12 +69,12 @@ button i {
 
 /*Menu*/
 
-.menu{
+.menu {
     width: 100%;
     padding: 10px 0 20px 0;
 }
 
-.menu .menu_box{
+.menu .menu_box {
     width: 95%;
     margin: 45px auto 0 auto;
     display: grid;
@@ -81,66 +82,67 @@ button i {
     grid-gap: 30px 10px;
 }
 
-.menu .menu_box .menu_card{
+.menu .menu_box .menu_card {
     background-image: url("/image/menu_card_bg.png");
     background-size: cover;
     background-position: center;
     margin: 0 auto;
     width: 450px;
     height: 575px;
-    cursor: pointer;
+
     padding: 20px 0;
     text-align: center;
     border-radius: 10px;
-    box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
 }
 
-.menu .menu_box .menu_card .menu_img{
+.menu .menu_box .menu_card .menu_img {
     margin: 0 auto;
     width: 420px;
     height: 300px;
     margin-bottom: 15px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
-.menu .menu_box .menu_card .menu_img img{
+.menu .menu_box .menu_card .menu_img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
 }
 
-.menu .menu_box .menu_card .menu_text h2{
+.menu .menu_box .menu_card .menu_text h2 {
     font-size: 30px;
     margin-bottom: 15px;
 }
 
-.menu .menu_box .menu_card .menu_text p{
+.menu .menu_box .menu_card .menu_text p {
     line-height: 21px;
     margin-bottom: 15px;
     margin: 0 auto;
     width: 400px;
 }
 
-.menu .menu_box .menu_card .menu_text .menu_icon{
+.menu .menu_box .menu_card .menu_text .menu_icon {
     color: #facc22;
     margin: 8px 0;
 }
 
-.menu .menu_box .menu_card .menu_text .price{
+.menu .menu_box .menu_card .menu_text .price {
     font-weight: bold;
     font-size: 20px;
     padding: 8px 0;
     margin-left: 45px;
 }
 
-.menu .menu_box .menu_card .menu_text .price sub{
+.menu .menu_box .menu_card .menu_text .price sub {
     margin-left: 5px;
     color: #6d6a6a;
     font-size: 13px;
 }
 
-.menu .menu_box .menu_card .menu_text .menu_btn{
+.menu .menu_box .menu_card .menu_text .menu_btn {
     color: #000;
     text-decoration: none;
     padding: 10px 20px;
@@ -151,12 +153,12 @@ button i {
     z-index: 5;
 }
 
-.menu .menu_box .menu_card .menu_text .menu_btn:hover{
-    
+.menu .menu_box .menu_card .menu_text .menu_btn:hover {
+
     color: #fff;
 }
 
-.menu .menu_box .menu_card .menu_text .menu_btn::before{
+.menu .menu_box .menu_card .menu_text .menu_btn::before {
     content: '';
     position: absolute;
     top: 0;
@@ -168,15 +170,16 @@ button i {
     z-index: -1;
 }
 
-.menu .menu_box .menu_card .menu_text .menu_btn:hover::before{
+.menu .menu_box .menu_card .menu_text .menu_btn:hover::before {
     top: unset;
     width: 100%;
     bottom: 0;
 }
 
-.menu .menu_box .menu_card .menu_text .menu_btn i{
+.menu .menu_box .menu_card .menu_text .menu_btn i {
     margin-right: 8px;
 }
+
 .menu .menu_box .menu_card .menu_text .CartBtn {
     width: 140px;
     height: 40px;
@@ -191,10 +194,11 @@ button i {
     overflow: hidden;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
     position: relative;
-    margin:10px 155px;
-  }
-  
-  .menu .menu_box .menu_card .menu_text .CartBtn .IconContainer {
+    margin: 10px 155px;
+    z-index: 1;
+}
+
+.menu .menu_box .menu_card .menu_text .CartBtn .IconContainer {
     position: absolute;
     left: -50px;
     width: 30px;
@@ -207,13 +211,13 @@ button i {
     overflow: hidden;
     z-index: 2;
     transition-duration: .5s;
-  }
-  
-  .icon {
+}
+
+.icon {
     border-radius: 1px;
-  }
-  
-  .menu .menu_box .menu_card .menu_text .CartBtn  .text {
+}
+
+.menu .menu_box .menu_card .menu_text .CartBtn .text {
     height: 100%;
     width: fit-content;
     display: flex;
@@ -224,26 +228,26 @@ button i {
     transition-duration: .5s;
     font-size: 1.04em;
     font-weight: 600;
-  }
-  
-  .menu .menu_box .menu_card .menu_text .CartBtn:hover .IconContainer {
-    background-color:  inherit;
+}
+
+.menu .menu_box .menu_card .menu_text .CartBtn:hover .IconContainer {
+    background-color: inherit;
     transform: translateX(58px);
     border-radius: 40px;
     transition-duration: .5s;
-  }
-  
-  .menu .menu_box .menu_card .menu_text .CartBtn:hover .text {
-    transform: translate(10px,0px);
+}
+
+.menu .menu_box .menu_card .menu_text .CartBtn:hover .text {
+    transform: translate(10px, 0px);
     transition-duration: .5s;
-  }
-  
-  .menu .menu_box .menu_card .menu_text .CartBtn:active {
+}
+
+.menu .menu_box .menu_card .menu_text .CartBtn:active {
     background-color: #e0e0e0;
     transform: scale(0.95);
     transition-duration: .1s;
-  }
-  
+}
+
 /*pagination*/
 .pagination-wrapper {
     display: flex;
@@ -261,8 +265,9 @@ button i {
     justify-content: center;
     align-items: center;
 }
+
 .pagination-btn {
-    
+
     padding: 8px 12px;
     margin: 0 4px;
     color: #fff;
@@ -285,12 +290,16 @@ button i {
     font-size: 16px;
     color: #333;
 }
+
 /*Category*/
 .category-filter {
     color: #000;
     display: flex;
-    justify-content: center; /* căn giữa theo chiều ngang */
-    align-items: center; /* căn giữa theo chiều dọc */
+    margin-left: 20px;
+    justify-content: center;
+    /* căn giữa theo chiều ngang */
+    align-items: center;
+    /* căn giữa theo chiều dọc */
 }
 
 .category-buttons button {
@@ -300,7 +309,8 @@ button i {
     margin-right: 10px;
     border: none;
     cursor: pointer;
-    background-color: #e5e5e5;;
+    background-color: #e5e5e5;
+    ;
     border-radius: 50px;
 }
 
@@ -308,14 +318,92 @@ button i {
     background-color: #facc22;
     color: #333;
 }
+
 .category-buttons button:hover {
     background-color: #facc22;
     color: #333;
 }
+
 @keyframes bounce-animation {
-    0% { transform: translateY(0); }
-    25% { transform: translateY(-10px); }
-    50% { transform: translateY(0); }
-    75% { transform: translateY(-5px); }
-    100% { transform: translateY(0); }
+    0% {
+        transform: translateY(0);
+    }
+
+    25% {
+        transform: translateY(-10px);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+
+    75% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* bộ lọc */
+.filter {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    background-color: #908f8f;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.192);
+    cursor: pointer;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.021);
+    transition: all 0.3s;
+    margin-right: 50px;
+
+}
+
+.filter svg {
+    height: 16px;
+    fill: rgb(77, 77, 77);
+    transition: all 0.3s;
+}
+
+.filter:hover {
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.11);
+    background-color: rgb(59, 59, 59);
+}
+
+.filter:hover svg {
+    fill: white;
+}
+
+.filter-frame {
+    display: none;
+    margin-bottom: 20px;
+    justify-content: center;
+    position: fixed;
+    width: 500px;
+    height: 300px; 
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    background-color: white;
+}
+
+.filter-frame button {
+    padding: 10px 20px;
+    margin: 50px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    
+}
+
+.filter-frame button:hover {
+    background-color: #0056b3;
 }

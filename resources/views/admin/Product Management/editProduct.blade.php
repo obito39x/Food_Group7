@@ -155,15 +155,15 @@ button[type="submit"]:hover {
         </div>
         <div class="form-group">
             <label for="rating">Rating:</label>
-            <input type="number" name="rating" id="rating" min="1" max="5" value="{{ $product->rating }} required">
+            <input type="number" name="rating" id="rating" min="1" max="5" value="{{ $product->rating }}" required>
         </div>
         <div class="form-group">
             <label for="old_price">Old Price:</label>
-            <input type="number" name="old_price" id="old_price" value="{{ $product->old_price }} required">
+            <input type="number" name="old_price" id="old_price" value="{{ $product->old_price }}" required>
         </div>
         <div class="form-group">
             <label for="new_price">New Price:</label>
-            <input type="number" name="new_price" id="new_price" value="{{ $product->new_price }} required">
+            <input type="number" name="new_price" id="new_price" value="{{ $product->new_price }}" required>
         </div>
         <div class="form-group">
             <label for="category">Category:</label>

@@ -20,7 +20,7 @@
     <!-- profile -->
     @section('content')
     <section class="" style="padding: 100px 0 50px 0;">
-        <form action="{{ route('profile.update', $profile->id_user) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('profile.update', $profile->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="container mt-5">
                 <div class="row">

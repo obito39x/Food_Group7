@@ -58,26 +58,33 @@ class CartController extends Controller
     }
     public function checkout()
     {
-        $cart = Session::get('cart', []);
+        $user = Auth::user();
+        
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Please login to view your order history.');
+        } else {
+
+            $profile = User::where('id_account', $user->id)->first();
+            $cart = Session::get('cart', []);
 
 
-        // Khởi tạo mảng để lưu trữ danh sách sản phẩm từ giỏ hàng
-        $products = [];
+            // Khởi tạo mảng để lưu trữ danh sách sản phẩm từ giỏ hàng
+            $products = [];
 
-        // Lặp qua các sản phẩm trong giỏ hàng
-        foreach ($cart as $productId => $item) {
-            // Tìm sản phẩm theo ID
-            $product = Product::find($productId);
+            // Lặp qua các sản phẩm trong giỏ hàng
+            foreach ($cart as $productId => $item) {
+                // Tìm sản phẩm theo ID
+                $product = Product::find($productId);
 
-            // Kiểm tra xem sản phẩm có tồn tại không
-            if ($product) {
-                // Thêm sản phẩm vào mảng $products
-                $products[] = $product;
+                // Kiểm tra xem sản phẩm có tồn tại không
+                if ($product) {
+                    // Thêm sản phẩm vào mảng $products
+                    $products[] = $product;
+                }
             }
         }
-
         // Trả về view 'cart' và truyền danh sách sản phẩm vào view
-        return view('cart.checkout', compact('products'));
+        return view('cart.checkout', compact('products','profile'));
     }
     public function saveorder(Request $request)
     {
@@ -118,13 +125,12 @@ class CartController extends Controller
         if (Auth::check()) {
             // Người dùng đã đăng nhập
             $account = Auth::user();
-           
+
             $user = User::where('id_account', $account->id)->first();
             if ($user) {
-                
                 // Tìm thấy người dùng có id_account tương ứng
-                $order->id_user = $user->id_user;
-            } 
+                $order->id_user = $user->id;
+            }
 
             // $order->id_user = $user->id;
         }
@@ -147,6 +153,35 @@ class CartController extends Controller
             $order_item->save();
         }
         session()->forget('cart');
-        return redirect()->route('cart');
+        return redirect()->route('order.history');
+    }
+    public function update(Request $request)
+    {
+        $productId = $request->input('id');
+        $quantity = $request->input('quantity');
+
+        if ($quantity < 1) {
+            $quantity = 1;
+        }
+
+        $cart = session()->get('cart', []);
+        if (isset($cart[$productId])) {
+            $cart[$productId]['quantity'] = $quantity;
+        } else {
+            $cart[$productId] = ['quantity' => $quantity];
+        }
+
+        session()->put('cart', $cart);
+
+        // Tính tổng số tiền mới
+        $totalAmount = 0;
+        foreach ($cart as $id => $item) {
+            $product = Product::find($id);
+            if ($product) {
+                $totalAmount += $product->new_price * $item['quantity'];
+            }
+        }
+
+        return response()->json(['success' => true, 'totalAmount' => $totalAmount]);
     }
 }

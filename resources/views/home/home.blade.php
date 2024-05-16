@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +9,11 @@
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/menuAccount.css') }}" rel="stylesheet">
     <link rel="short icon" href="{{ asset('image/short_icon.png') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="{{ asset('/js/menu.js') }}"></script>
 </head>
 @extends('layouts.app') <!-- Extend the main layout -->
@@ -24,14 +28,14 @@
                 <h1>Get Fresh<span> Food</span><br>in a Easy Way</h1>
 
                 <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Laborum, minus magnam nobis quam impedit nemo quaerat ex 
-                    necessitatibus ipsum totam voluptatum, fugit cupiditate 
-                    provident, quasi perspiciatis blanditiis illo nesciunt quae. 
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Accusantium odio tenetur laudantium corrupti impedit 
-                    quidem dolore beatae, iure labore magni repellendus 
-                    inventore, eaque obcaecati commodi ipsa numquam. Accusamus, 
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Laborum, minus magnam nobis quam impedit nemo quaerat ex
+                    necessitatibus ipsum totam voluptatum, fugit cupiditate
+                    provident, quasi perspiciatis blanditiis illo nesciunt quae.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Accusantium odio tenetur laudantium corrupti impedit
+                    quidem dolore beatae, iure labore magni repellendus
+                    inventore, eaque obcaecati commodi ipsa numquam. Accusamus,
                     molestiae veritatis.
                 </p>
 
@@ -63,7 +67,7 @@
             <div class="about_text">
 
                 <h1><span>About</span>Us</h1>
-                @foreach($about as $ab)
+                @foreach ($about as $ab)
                     <h3>{{ $ab->question }}</h3>
                     <p>{{ $ab->description }}</p>
                 @endforeach
@@ -107,55 +111,80 @@
         <h1>Our<span>Menu</span></h1>
 
         <div class="menu_box">
-            @foreach($topRatedProducts as $product)
-            <div class="menu_card">
-
-                <div class="menu_img">
-                    <img src="{{ $product->image_url}}">
-                </div>
-
-                <div class="menu_text">
-
-                    <h2>{{ $product->name }}</h2>
-                    <p>
-                        {{ $product->description}}
-                    </p>
-
-                    <div class="menu_icon">
-                        @php
-                            $fullStars = floor($product->rating); // Số sao đầy đủ
-                            $halfStar = $product->rating - $fullStars; // Phần nửa sao
-                            $emptyStars = 5 - ceil($product->rating); // Số sao trống
-                        @endphp
-                    
-                        {{-- Hiển thị sao đầy đủ --}}
-                        @for ($i = 0; $i < $fullStars; $i++)
-                            <i class="fa-solid fa-star"></i>
-                        @endfor
-                    
-                        {{-- Hiển thị sao nửa --}}
-                        @if($halfStar >= 0.5)
-                            <i class="fa-solid fa-star-half-stroke"></i>
-                        @endif
-                    
-                        {{-- Hiển thị sao trống --}}
-                        @for ($i = 0; $i < $emptyStars; $i++)
-                            <i class="fa-solid fa-star-empty"></i>
-                        @endfor
+            @forelse ($topRatedProducts as $product)
+                <div class="menu_card">
+                    <div class="menu_img">
+                        <img src="{{ asset($product->image_url) }}">
                     </div>
+                    <div class="menu_text">
+                        <h2>{{ $product->name }}</h2>
+                        <p>{{ $product->description }}</p>
+                        <div class="menu_icon">
+                            @php
+                                $fullStars = floor($product->rating); // Số sao đầy đủ
+                                $halfStar = $product->rating - $fullStars; // Phần nửa sao
+                                $emptyStars = 5 - ceil($product->rating); // Số sao trống
+                            @endphp
 
-                    <p class="price">${{ $product->new_price }}<sub><del>${{ $product->old_price }}</del></sub></p>
+                            {{-- Hiển thị sao đầy đủ --}}
+                            @for ($i = 0; $i < $fullStars; $i++)
+                                <i class="fa-solid fa-star"></i>
+                            @endfor
 
-                    <a href="#" class="menu_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
+                            {{-- Hiển thị sao nửa --}}
+                            @if ($halfStar >= 0.5)
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                            @endif
 
+                            {{-- Hiển thị sao trống --}}
+                            @for ($i = 0; $i < $emptyStars; $i++)
+                                <i class="fa-solid fa-star-empty"></i>
+                            @endfor
+                        </div>
+                        <p class="price">{{ $product->new_price }}$<sub><del>{{ $product->old_price }}$</del></sub>
+                        </p>
+                        <button class="CartBtn" onclick="addToCart({{ $product->id }})">
+                            <span class="IconContainer">
+                                <i class="fa-solid fa-burger"></i>
+                            </span>
+
+                            <p class="text">Order Now</p>
+                        </button>
+                    </div>
                 </div>
+            @empty
+                <div class="menu_box">
+                    <h1>No products found.</h1>
+                </div>
+            @endforelse
 
-            </div>
-            @endforeach
-           
         </div>
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function addToCart(productId) {
+
+            // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
+            axios.post('{{ route('cart.add') }}', {
+                    productId: productId
+                })
+                .then(function(response) {
+                    document.querySelector('.fa-cart-shopping').classList.add('bounce');
+                    // Xóa lớp bounce sau khi hoàn thành animation
+                    setTimeout(function() {
+                        document.querySelector('.fa-cart-shopping').classList.remove('bounce');
+                    }, 300);
+                })
+                .catch(function(error) {
+                    // Xử lý lỗi (nếu có)
+                    console.error(error);
+
+
+                });
+        }
+    </script>
+
 
 
 
@@ -187,7 +216,7 @@
 
             @foreach ($image_path as $image)
                 <div class="gallery_image">
-                    <img src="{{$image->image_path}}">
+                    <img src="{{ $image->image_path }}">
                 </div>
             @endforeach
 
@@ -214,8 +243,8 @@
                     <h2>Triplae Food</h2>
                     <h1>40%</h1>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Itaque quibusdam quas distinctio sit? Corrupti 
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Itaque quibusdam quas distinctio sit? Corrupti
                         necessitatibus modi nobis?
                     </p>
                     <a href="{{ route('menu') }}" class="offer_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
@@ -234,8 +263,8 @@
 
                     <h2>Buy 2 pizza and get a <br>free Drink</h2>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Itaque quibusdam quas distinctio sit? Corrupti 
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Itaque quibusdam quas distinctio sit? Corrupti
                         necessitatibus modi nobis?
                     </p>
                     <a href="{{ route('menu') }}" class="offer_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
@@ -266,9 +295,9 @@
                     <h2>Lâm Vũ</h2>
                     <p class="job">Member</p>
                     <p class="info">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Accusantium cupiditate deserunt odio in fugiat dolore! 
-                        Veniam sit quod iusto quas eligendi. Natus numquam 
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Accusantium cupiditate deserunt odio in fugiat dolore!
+                        Veniam sit quod iusto quas eligendi. Natus numquam
                         aspernatur alias illo voluptates dolorem, id ad.
                     </p>
                 </div>
@@ -281,9 +310,9 @@
                     <h2>Anh Tuấn</h2>
                     <p class="job">Leader</p>
                     <p class="info">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Accusantium cupiditate deserunt odio in fugiat dolore! 
-                        Veniam sit quod iusto quas eligendi. Natus numquam 
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Accusantium cupiditate deserunt odio in fugiat dolore!
+                        Veniam sit quod iusto quas eligendi. Natus numquam
                         aspernatur alias illo voluptates dolorem, id ad.
                     </p>
                 </div>
@@ -296,9 +325,9 @@
                     <h2>Tiến Duy</h2>
                     <p class="job">Member</p>
                     <p class="info">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Accusantium cupiditate deserunt odio in fugiat dolore! 
-                        Veniam sit quod iusto quas eligendi. Natus numquam 
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Accusantium cupiditate deserunt odio in fugiat dolore!
+                        Veniam sit quod iusto quas eligendi. Natus numquam
                         aspernatur alias illo voluptates dolorem, id ad.
                     </p>
                 </div>
@@ -330,8 +359,8 @@
                     </h3>
 
                     <p class="blog_text">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-                        Eos rerum commodi fugiat eum assumenda vel cumque eaque 
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                        Eos rerum commodi fugiat eum assumenda vel cumque eaque
                         totam doloribus.
                     </p>
 
@@ -372,8 +401,8 @@
                     </h3>
 
                     <p class="blog_text">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-                        Eos rerum commodi fugiat eum assumenda vel cumque eaque 
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                        Eos rerum commodi fugiat eum assumenda vel cumque eaque
                         totam doloribus.
                     </p>
 
@@ -414,8 +443,8 @@
                     </h3>
 
                     <p class="blog_text">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-                        Eos rerum commodi fugiat eum assumenda vel cumque eaque 
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                        Eos rerum commodi fugiat eum assumenda vel cumque eaque
                         totam doloribus.
                     </p>
 
@@ -447,7 +476,7 @@
 
     <!--Oder-->
 
- <div class="oder">
+    <div class="oder">
 
         <h1><span>Oder</span>Now</h1>
 
@@ -503,5 +532,5 @@
 
         </div>
 
-    </div> 
-    @endsection
+    </div>
+@endsection

@@ -269,10 +269,8 @@ section .main .main_image img{
 
 .menu{
     width: 100%;
-    height: 100vh;
-    padding: 75px 0;
+    padding: 10px 0 20px 0;
 }
-
 .menu h1{
     display: flex;
     align-items: center;
@@ -290,8 +288,8 @@ section .main .main_image img{
     width: 95%;
     margin: 45px auto 0 auto;
     display: grid;
-    grid-gap: 30px 10px;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 30px 10px;
 }
 
 .menu .menu_box .menu_card{
@@ -301,11 +299,11 @@ section .main .main_image img{
     margin: 0 auto;
     width: 450px;
     height: 575px;
-    text-align: center;
     cursor: pointer;
     padding: 20px 0;
+    text-align: center;
     border-radius: 10px;
-    box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
 }
 
 .menu .menu_box .menu_card .menu_img{
@@ -313,7 +311,7 @@ section .main .main_image img{
     width: 420px;
     height: 300px;
     margin-bottom: 15px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.7);
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
 }
 
 .menu .menu_box .menu_card .menu_img img{
@@ -360,11 +358,12 @@ section .main .main_image img{
     border: 2px solid #facc22;
     position: relative;
     top: 20px;
-    z-index: 5;
     transition: 0.3s;
+    z-index: 5;
 }
 
 .menu .menu_box .menu_card .menu_text .menu_btn:hover{
+    
     color: #fff;
 }
 
@@ -375,20 +374,86 @@ section .main .main_image img{
     left: 0;
     width: 0;
     height: 100%;
-    background-color: #facc22;
-    z-index: -1;
+    background: #facc22;
     transition: 0.3s;
+    z-index: -1;
 }
 
 .menu .menu_box .menu_card .menu_text .menu_btn:hover::before{
     top: unset;
-    bottom: 0;
     width: 100%;
+    bottom: 0;
 }
 
 .menu .menu_box .menu_card .menu_text .menu_btn i{
     margin-right: 8px;
 }
+.menu .menu_box .menu_card .menu_text .CartBtn {
+    width: 140px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    background-color: rgb(255, 208, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: .5s;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
+    position: relative;
+    margin:10px 155px;
+  }
+  
+  .menu .menu_box .menu_card .menu_text .CartBtn .IconContainer {
+    position: absolute;
+    left: -50px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 2;
+    transition-duration: .5s;
+  }
+  
+  .icon {
+    border-radius: 1px;
+  }
+  
+  .menu .menu_box .menu_card .menu_text .CartBtn  .text {
+    height: 100%;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(17, 17, 17);
+    z-index: 1;
+    transition-duration: .5s;
+    font-size: 1.04em;
+    font-weight: 600;
+  }
+  
+  .menu .menu_box .menu_card .menu_text .CartBtn:hover .IconContainer {
+    background-color:  inherit;
+    transform: translateX(58px);
+    border-radius: 40px;
+    transition-duration: .5s;
+  }
+  
+  .menu .menu_box .menu_card .menu_text .CartBtn:hover .text {
+    transform: translate(10px,0px);
+    transition-duration: .5s;
+  }
+  
+  .menu .menu_box .menu_card .menu_text .CartBtn:active {
+    background-color: #e0e0e0;
+    transform: scale(0.95);
+    transition-duration: .1s;
+  }
 
 
 
@@ -443,7 +508,6 @@ section .main .main_image img{
     padding: 10px 20px;
     text-decoration: none;
     position: relative;
-    top: 10%;
     left: 46%;
     z-index: 5;
 }

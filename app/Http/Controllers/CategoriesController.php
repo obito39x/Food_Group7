@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Termwind\Components\Dd;
 
@@ -28,9 +29,16 @@ class CategoriesController extends Controller
     }
     public function destroy($id)
     {
+        $relatedRecords = Product::where('id_categories', $id)->exists(); // Ví dụ: Sử dụng Product model và category_id là khóa ngoại
 
-        Categorie::destroy($id);
-        return redirect()->route('categories');
+        if ($relatedRecords) {
+            // Nếu có bản ghi liên quan, hiển thị thông báo cảnh báo
+            return redirect()->route('categories')->with('warning', 'Cannot delete this category because it is being used in other records.');
+        } else {
+            // Nếu không có bản ghi liên quan, xóa danh mục và chuyển hướng
+            Categorie::destroy($id);
+            return redirect()->route('categories')->with('success', 'Category deleted successfully.');
+        }
     }
     public function edit(Categorie $category)
     {

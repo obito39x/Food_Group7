@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManageProductController;
@@ -33,10 +34,6 @@ Route::get('/about', [HomeController::class, 'about'])->name("about");
 // Sử dụng MenuController để xử lý route menu
 Route::get('/menu', [HomeController::class, 'menu'])->name("menu");
 // Route::get('/menu/search', [HomeController::class, 'menu'])->name('menu.search');
-
-Route::get('/blog', function () {
-    return view('home.blog');
-})->name("blog");
 
 Route::get('/gallery', [HomeController::class, 'gallery'])->name("gallery");
 //login
@@ -83,7 +80,7 @@ Route::get('/changePassword', function(){
     return view('login.changePassword');
 })->name('formChangePassword');
 Route::post('/changePassword', [AccountController::class, 'changePassword'])->name('changePassword');
-
+ 
 Route::post('/check-credentials', [AccountController::class, 'checkCredentials'])->name('check-credentials');
 
 //cart
@@ -92,3 +89,32 @@ Route::post('/add', [HomeController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/cart/checkout/process', [CartController::class, 'saveorder'])->name('checkout.process');
+
+
+//BLOG
+Route::get('/blog', function () {
+    return view('home.blog');
+})->name("blog");
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog/create', [BlogController::class, 'view_profile'])->name('create_blog')->middleware('auth');
+//create blog
+Route::post('/blog/add', [BlogController::class, 'create_blog'])->name('blog.add');
+//show blog
+Route::get('/blog/{id}', [BlogController::class, 'showBlog'])->name('blog.show');
+// delete blog
+Route::delete('/blog/{id}', [BlogController::class, 'deleteBlog'])->name('blogs.delete');
+// edit blog
+Route::put('/blog/{id}', [BlogController::class, 'updateContent'])->name('blog.updateContent');
+// like blog
+Route::post('/blog/toggle-like/{id}', [BlogController::class, 'toggleLike'])->name('blog.toggle-like');
+// view blog
+Route::get('/blog/view/{id}', [BlogController::class, 'incrementView'])->name('blog.view');
+// comment blog
+Route::post('/comments/{id_blog}', [BlogController::class, 'addComment']);
+Route::get('/comments/{id_blog}', [BlogController::class, 'getComments']);
+// edit comment
+Route::put('/comments/{id}', [BlogController::class, 'updateComment'])->name('comments.update');
+// delete comment
+Route::delete('/comments/{id}', [BlogController::class, 'deleteComment'])->name('comments.delete');
+// follow
+Route::post('/user/toggle-follow/{id}', [UserController::class, 'toggleFollow'])->name('user.toggle-follow');

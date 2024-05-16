@@ -54,16 +54,10 @@ nav ul li a:hover{
 nav .login a{
     color: #000;
     text-decoration: none;
-    border: 2px solid;
     border-radius: 20px;
-    padding: 7px 20px;
     transition: 0.3s;
 }
 
-nav .login a:hover{
-    background: #facc22;
-    color: #fff;
-}
 
 
 

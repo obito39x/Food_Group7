@@ -10,6 +10,15 @@
         <li><a href="{{ route('blog') }}" class="{{ request()->routeIs('blog') ? 'current' : '' }}">Blog</a></li>
     </ul>
     <div class="login-cart">
+        <div class="notifications">
+            <a href="" class="btn btn-icon ">
+                <i class="fa-solid fa-bell"></i>
+                
+            </a>
+            <div class="notification-dropdown">
+                
+            </div>
+        </div>
         <div class="cart">
             <a href="{{ route('cart') }}" class="btn btn-icon {{ request()->routeIs('cart') ? 'current' : '' }}">
                 <i class="fa-solid fa-cart-shopping"></i>
@@ -37,8 +46,5 @@
                 <a class="btnlogin" href="{{ route('login') }}">Login</a>
             @endif
         </div>
-        
     </div>
-    
-    
 </nav>

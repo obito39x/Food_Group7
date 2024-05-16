@@ -122,7 +122,7 @@ class CartController extends Controller
             if ($user) {
                 
                 // Tìm thấy người dùng có id_account tương ứng
-                $order->id_user = $user->id_user;
+                $order->id_user = $user->id;
             } 
 
             // $order->id_user = $user->id;

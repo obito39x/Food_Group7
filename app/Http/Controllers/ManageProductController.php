@@ -13,7 +13,7 @@ class ManageProductController extends Controller
     public function index()
     {
         // Lấy tất cả sản phẩm từ model Product
-        $products = Product::all();
+        $products = Product::all(); 
 
         // Trả về view 'menu' và truyền dữ liệu sản phẩm vào view
         return view('admin.Product Management.manageProduct')->with('products', $products);

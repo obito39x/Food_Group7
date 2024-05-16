@@ -13,5 +13,6 @@
     @include('includes.navigation') 
     @yield('content') 
     @include('includes.footer') 
+    
 </body>
 </html>

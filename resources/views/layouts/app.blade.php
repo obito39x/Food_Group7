@@ -19,9 +19,16 @@
 </head>
 
 <body>
+<<<<<<< HEAD
     @include('includes.navigation')
     @yield('content')
     @include('includes.footer')
+=======
+    @include('includes.navigation') 
+    @yield('content') 
+    @include('includes.footer') 
+    
+>>>>>>> 1cec98353e765c637c0e554da8d51a01c5f3a88f
 </body>
 
 </html>

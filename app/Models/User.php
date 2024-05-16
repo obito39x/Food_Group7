@@ -35,4 +35,25 @@ class User extends Model
     {
         return User::find($id);
     }
+<<<<<<< HEAD
+    public function likedBlogs()
+    {
+        return $this->belongsToMany(Blog::class, 'blog_likes', 'user_id', 'blog_id');
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
+    
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'user_follows', 'user_id', 'following_user_id');
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'user_follows', 'following_user_id', 'user_id');
+    }
+=======
+>>>>>>> e5a6c6c44d19333b91f405c58f5deaa2b25319ec
 }

@@ -12,7 +12,7 @@ class UserController extends Controller
         $account = Auth::user();
         $user = $account->user;
         return view('profile.profile', ['profile' => $user]);
-    }
+    } 
 
     public function updateProfile(Request $request, $id_user)
     {
@@ -35,6 +35,28 @@ class UserController extends Controller
         $user->update($data);
         return redirect()->back();
     }
+    public function toggleFollow($id)
+    {
+        try {
+            $userToFollow = User::findOrFail($id);
+            $account = Auth::user();
+            $currentUser = $account->user;
 
+            if ($currentUser->following()->where('following_user_id', $id)->exists()) {
+                $currentUser->following()->detach($id);
+                $isFollowing = false;
+            } else {
+                $currentUser->following()->attach($id);
+                $isFollowing = true;
+            }
+
+            return response()->json([
+                'success' => true,
+                'following' => $isFollowing
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }    
 }
  

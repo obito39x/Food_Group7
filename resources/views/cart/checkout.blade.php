@@ -22,15 +22,15 @@
                             @csrf
                             <div class="form-group">
                                 <label for="email">E-mail:</label>
-                                <input type="email" name="email" id="email" class="form-control" required>
+                                <input type="email" name="email" id="email" class="form-control" value="{{$profile->email}}" required>
                             </div>
                             <div class="form-group">
                                 <label for="fullname">Họ và tên:</label>
-                                <input type="text" name="fullname" id="fullname" class="form-control" required>
+                                <input type="text" name="fullname" id="fullname" class="form-control" value="{{$profile->fullname}}" required>
                             </div>
                             <div class="form-group">
                                 <label for="phone">Số điện thoại:</label>
-                                <input type="text" name="phone" id="phone" class="form-control" required>
+                                <input type="text" name="phone" id="phone" class="form-control" value="{{$profile->phone_number}}" required>
                             </div>
                             <div class="form-group">
                                 <label for="address">Địa chỉ nhận hàng:</label>

@@ -63,7 +63,15 @@ $(document).ready(function () {
                                         </ul>
                                     </div>
                                 </div>
-                                <p class="comment-content">${response.comment}</p>
+                                    <p class="comment-text">
+                                        ${response.comment}
+                                    </p>
+                                    <form class="edit-comment-form" data-comment-id="${response.comment_id}}" style="display: none;">
+                                        <textarea class="form-control edit-comment-text"
+                                            rows="3">${response.comment}}</textarea>
+                                        <button type="submit" class="btn-save">Save</button>
+                                        <button type="button" class="btn-cancel cancel-edit">Cancel</button>
+                                    </form>
                             </div>
                         </div>
                     `;
@@ -200,6 +208,71 @@ $(document).ready(function () {
         var blogId = $(this).data('blog-id');
 
         alert('Report blog: ' + blogId);
+    });
+    $(document).on('click', '.delete-blog', function(e) {
+        e.preventDefault();
+        var blogId = $(this).data('blog-id');
+
+        if (confirm('Are you sure you want to delete this blog?')) {
+            $.ajax({
+                url: '/blog/' + blogId,
+                type: 'DELETE',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Blog deleted successfully');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Request failed: ' + xhr.responseText);
+                }
+            });
+        }
+    });
+    $('.edit-blog').click(function (e) {
+        e.preventDefault();
+        var blogId = $(this).data('blog-id');
+        var blogContent = $(this).closest('.blog_tag'); // Sửa thành tên class chứa form
+        blogContent.find('.blog_text').hide();
+        blogContent.find('.edit-blog-form').show();
+    });
+
+    $('.cancel-edit').click(function () {
+        var blogContent = $(this).closest('.blog_tag'); // Sửa thành tên class chứa form
+        blogContent.find('.edit-blog-form').hide();
+        blogContent.find('.blog_text').show();
+    });
+
+    $('.edit-blog-form').submit(function (e) {
+        e.preventDefault();
+        var blogId = $(this).data('blog-id');
+        var blogText = $(this).find('.edit-blog-text').val();
+        var blogContent = $(this).closest('.blog_tag'); // Sửa thành tên class chứa form
+
+        $.ajax({
+            url: '/blog/' + blogId,
+            type: 'PUT',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                content: blogText
+            },
+            success: function (response) {
+                if (response.success) {
+                    blogContent.find('.blog_text').text(response.content).show();
+                    blogContent.find('.edit-blog-form').hide();
+                } else {
+                    alert('Error: ' + response.error);
+                }
+            },
+            error: function (xhr) {
+                alert('Request failed: ' + xhr.responseText);
+            }
+        });
     });
 });
 // post.js

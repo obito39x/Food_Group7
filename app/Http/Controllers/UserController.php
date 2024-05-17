@@ -15,9 +15,7 @@ class UserController extends Controller
         $profile = $account->user;
         
         if(Auth::check()){
-
-            $account = Auth::user();
-            $user = $account->user->id_user;
+            $user = $profile->id_user;
             $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
         }
         else{

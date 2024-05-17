@@ -97,6 +97,8 @@
                         <ul>
                             <li><img src="{{ asset('image/profile.png') }}" alt="Profile"><a
                                     href="{{ route('profile') }}">Profile</a></li>
+                            <li><img src="{{ asset('image/logout.png') }}" alt="Logout"><a
+                                    href="{{ route('order.history') }}">Order History</a></li>
                             <li><img src="{{ asset('image/key.png') }}" alt="ResetPassword"><a
                                     href="{{ route('changePassword') }}">Reset Password</a></li>
                             <li><img src="{{ asset('image/logout.png') }}" alt="Logout"><a

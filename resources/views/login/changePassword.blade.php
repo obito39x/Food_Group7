@@ -11,9 +11,7 @@
 </head>
 <body>
     <div class="hero">
-
         <div class="login_form">
-
             <h1>Change Password</h1>
             @if ($errors->any())
                 @foreach ($errors->all() as $error)

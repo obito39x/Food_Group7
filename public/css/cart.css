@@ -54,6 +54,7 @@ h1 {
     width: 50px;
 }
 .quantity{
+    display: flex;
     font-size: 16px;
     position: absolute;
     bottom: 10px;
@@ -99,4 +100,33 @@ h1 {
     box-shadow: none;
     transform: translateY(4px);
   }
-  
+  .quantity button {
+    line-height: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.quantity button:hover {
+    background-color: #0056b3;
+}
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.quantity-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}   

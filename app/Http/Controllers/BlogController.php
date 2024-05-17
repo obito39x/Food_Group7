@@ -14,7 +14,7 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::orderBy('created_at', 'desc')->get();
+        $blogs = Blog::where('status', 'approved')->orderBy('created_at', 'desc')->get();
 
         // Kiểm tra và thêm thuộc tính 'is_liked' cho mỗi blog
         foreach ($blogs as $blog) {
@@ -29,14 +29,13 @@ class BlogController extends Controller
         $followers = collect();
         if ($account) {
             $followers = $account->user->followers ?? collect();
-        } 
-        if(Auth::check()){
+        }
+        if (Auth::check()) {
             $account = Auth::user();
             $user = $account->user->id_user;
             $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
-            
-        }
-        else{
+
+        } else {
             $notifications = [];
         }
         return view('home.blog', compact('blogs', 'followedUsers', 'followers', 'notifications'));
@@ -45,7 +44,14 @@ class BlogController extends Controller
     {
         $account = Auth::user(); // Lấy thông tin người dùng hiện tại
         $user = $account->user;
-        return view('blog.create_blog', compact('user'));
+
+        if (Auth::check()) {
+            $notifications = Notification::where('user_id', $user->id_user)->orderBy('created_at', 'desc')->get();
+
+        } else {
+            $notifications = [];
+        }
+        return view('blog.create_blog', compact('user', 'notifications'));
     }
     public function create_blog(Request $req)
     {
@@ -74,11 +80,21 @@ class BlogController extends Controller
             'content' => $req->content,
             'img' => $imagePath,
             'id_user' => $id_user,
+            'status' => 'pending'
         ]);
 
         // Chuyển hướng về trang danh sách blog
         return redirect()->route('blog');
     }
+    public function approveBlog($id)
+    {
+        $blog = Blog::findOrFail($id);
+        $blog->status = 'approved';
+        $blog->save();
+
+        return redirect()->back()->with('success', 'Blog approved successfully!');
+    }
+
     public function showBlog($id)
     {
         $blog = Blog::with([
@@ -93,7 +109,16 @@ class BlogController extends Controller
         $blog->is_liked = $blog->likers->contains(Auth::id());
         $blog->like_count = $blog->likers->count();
 
-        return view('blog.post', compact('blog'));
+        if (Auth::check()) {
+            $account = Auth::user();
+            $user = $account->user->id_user;
+            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
+
+        } else {
+            $notifications = [];
+        }
+
+        return view('blog.post', compact('blog', 'notifications'));
     }
     public function deleteBlog($id)
     {
@@ -171,22 +196,29 @@ class BlogController extends Controller
         $req->validate(['comment' => 'required|string']);
 
         $account = Auth::user();
-        $id_user = $account->user->id_user;
+        $id_user = $account->user;
 
         $comment = new Comment([
-            'user_id' => $id_user,
+            'user_id' => $id_user->id_user,
             'blog_id' => $id_blog,
             'comment' => $req->comment
         ]);
         $comment->save();
-
         // Tăng số lượng bình luận trong blog
         $blog = Blog::findOrFail($id_blog);
         $blog->increment('comment_count');
+        // Tạo thông báo
+        $notification = new Notification([
+            'user_id' => $blog->id_user,
+            'type' => 'comment',
+            'content' => $id_user->username . ' has commented on your blog: ' . $req->comment,
+            'blog_id' => $blog->id_blog,
+            'is_read' => 0
+        ]);
+        $notification->save();
 
         return response()->json([
             'success' => true,
-            'id' => $req->id,
             'comment' => $req->comment,
             'user' => [
                 'fullname' => $account->user->fullname,
@@ -194,7 +226,9 @@ class BlogController extends Controller
                 'img' => $account->user->img
             ],
             'time_diff' => $comment->getTimeDiff(),
-            'commentCount' => $blog->comment_count
+            'commentCount' => $blog->comment_count,
+            'is_user_comment' => true,
+            'comment_id' => $comment->id
         ]);
     }
 

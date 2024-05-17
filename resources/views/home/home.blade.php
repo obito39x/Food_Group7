@@ -67,7 +67,7 @@
         <div class="about_text">
 
             <h1><span>About</span>Us</h1>
-            @foreach($about as $ab)
+            @foreach ($about as $ab)
                 <h3>{{ $ab->question }}</h3>
                 <p>{{ $ab->description }}</p>
             @endforeach
@@ -111,20 +111,14 @@
     <h1>Our<span>Menu</span></h1>
 
     <div class="menu_box">
-        @foreach($topRatedProducts as $product)
+        @forelse ($topRatedProducts as $product)
                 <div class="menu_card">
-
                     <div class="menu_img">
-                        <img src="{{ $product->image_url}}">
+                        <img src="{{ asset($product->image_url) }}">
                     </div>
-
                     <div class="menu_text">
-
                         <h2>{{ $product->name }}</h2>
-                        <p>
-                            {{ $product->description}}
-                        </p>
-
+                        <p>{{ $product->description }}</p>
                         <div class="menu_icon">
                             @php
                                 $fullStars = floor($product->rating); // Số sao đầy đủ
@@ -138,7 +132,7 @@
                             @endfor
 
                             {{-- Hiển thị sao nửa --}}
-                            @if($halfStar >= 0.5)
+                            @if ($halfStar >= 0.5)
                                 <i class="fa-solid fa-star-half-stroke"></i>
                             @endif
 
@@ -147,19 +141,50 @@
                                 <i class="fa-solid fa-star-empty"></i>
                             @endfor
                         </div>
+                        <p class="price">{{ $product->new_price }}$<sub><del>{{ $product->old_price }}$</del></sub>
+                        </p>
+                        <button class="CartBtn" onclick="addToCart({{ $product->id }})">
+                            <span class="IconContainer">
+                                <i class="fa-solid fa-burger"></i>
+                            </span>
 
-                        <p class="price">${{ $product->new_price }}<sub><del>${{ $product->old_price }}</del></sub></p>
-
-                        <a href="#" class="menu_btn"><i class="fa-solid fa-burger"></i>Order Now</a>
-
+                            <p class="text">Order Now</p>
+                        </button>
                     </div>
-
                 </div>
-        @endforeach
+        @empty
+            <div class="menu_box">
+                <h1>No products found.</h1>
+            </div>
+        @endforelse
 
     </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    function addToCart(productId) {
+
+        // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
+        axios.post('{{ route('cart.add') }}', {
+            productId: productId
+        })
+            .then(function (response) {
+                document.querySelector('.fa-cart-shopping').classList.add('bounce');
+                // Xóa lớp bounce sau khi hoàn thành animation
+                setTimeout(function () {
+                    document.querySelector('.fa-cart-shopping').classList.remove('bounce');
+                }, 300);
+            })
+            .catch(function (error) {
+                // Xử lý lỗi (nếu có)
+                console.error(error);
+
+
+            });
+    }
+</script>
+
 
 
 
@@ -191,7 +216,7 @@
 
         @foreach ($image_path as $image)
             <div class="gallery_image">
-                <img src="{{$image->image_path}}">
+                <img src="{{ $image->image_path }}">
             </div>
         @endforeach
 
@@ -252,9 +277,6 @@
 
 </div>
 
-
-
-
 <!--Team-->
 
 <div class="team">
@@ -301,7 +323,6 @@
     <h1>Our<span>Blog</span></h1>
 
     <div class="blog_box">
-
         @foreach ($blogs as $blog)
 
             <div class="blog_card">
@@ -321,7 +342,7 @@
                     <hr>
                     <div class="view_and_like">
                         <div class="view">
-                            <p>{{ $blog->view_count }} Views</p>
+                            <p>{{ $blog->view_count }} views</p>
                             <p class="b_comm">{{ $blog->comment_count }} comments</p>
                         </div>
                         <div class="like">
@@ -331,8 +352,7 @@
                     </div>
                 </div>
             </div>
-        @endforeach 
-
+        @endforeach
     </div>
 
 </div>
@@ -341,61 +361,61 @@
 
 <!--Oder-->
 
-<!-- <div class="oder">
+<div class="oder">
 
-        <h1><span>Oder</span>Now</h1>
+    <h1><span>Oder</span>Now</h1>
 
-        <div class="oder_main">
+    <div class="oder_main">
 
-            <div class="oder_img">
-                <img src="image/oder.png">
-            </div>
+        <div class="oder_img">
+            <img src="image/oder.png">
+        </div>
 
-            <div class="oder_form">
+        <div class="oder_form">
 
-                <h2>Home Delivery</h2>
+            <h2>Home Delivery</h2>
 
-                <div class="oder_list">
+            <div class="oder_list">
 
-                    <div class="oder_left">
+                <div class="oder_left">
 
-                        <p>Full Name</p>
-                        <input type="text" placeholder="John Deo">
+                    <p>Full Name</p>
+                    <input type="text" placeholder="John Deo">
 
-                        <p>Number</p>
-                        <input type="number" placeholder="+94 12 345 6789">
+                    <p>Number</p>
+                    <input type="number" placeholder="+94 12 345 6789">
 
-                        <p>Extra food</p>
-                        <input type="text" placeholder="with cola">
+                    <p>Extra food</p>
+                    <input type="text" placeholder="with cola">
 
-                        <p>You Address</p>
-                        <textarea placeholder="Enter You Address"></textarea>
-
-                    </div>
-
-                    <div class="oder_right">
-
-                        <p>Email</p>
-                        <input type="email" placeholder="johndeo123@gmail.com">
-
-                        <p>Food Name</p>
-                        <input type="text" placeholder="Pizza">
-
-                        <p>How Much</p>
-                        <input type="number" placeholder="3">
-
-                        <p>You Message</p>
-                        <textarea placeholder="Enter Your Message"></textarea>
-
-                    </div>
+                    <p>You Address</p>
+                    <textarea placeholder="Enter You Address"></textarea>
 
                 </div>
 
-                <a href="#" class="oder_btn"><i class="fa-solid fa-burger"></i>Oder Now</a>
+                <div class="oder_right">
+
+                    <p>Email</p>
+                    <input type="email" placeholder="johndeo123@gmail.com">
+
+                    <p>Food Name</p>
+                    <input type="text" placeholder="Pizza">
+
+                    <p>How Much</p>
+                    <input type="number" placeholder="3">
+
+                    <p>You Message</p>
+                    <textarea placeholder="Enter Your Message"></textarea>
+
+                </div>
 
             </div>
 
+            <a href="#" class="oder_btn"><i class="fa-solid fa-burger"></i>Oder Now</a>
+
         </div>
 
-    </div>  -->
+    </div>
+
+</div>
 @endsection

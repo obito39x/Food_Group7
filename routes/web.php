@@ -12,6 +12,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetailController;
 use App\Http\Controllers\OderController;
 use App\Http\Controllers\NotificationController;
 use App\Models\Categorie;
@@ -52,6 +53,8 @@ Route::get('/singup', function () {
 //Dashboard
 Route::get('/admin/mystore', [DashboardController::class, 'mystore'])->name("mystore");
 Route::get('/admin', [DashboardController::class, 'index'])->name("dashboard");
+Route::get('/admin/blogs', [DashboardController::class, 'blogs'])->name("blogs");
+Route::post('/admin/blogs/{id}/approve', [BlogController::class, 'approveBlog'])->name('admin.blogs.approve');
 
 
 
@@ -98,14 +101,18 @@ Route::post('/check-credentials', [AccountController::class, 'checkCredentials']
 //cart
 Route::get('/cart', [CartController::class, 'index'])->name("cart");
 Route::post('/add', [HomeController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/cart/checkout/process', [CartController::class, 'saveorder'])->name('checkout.process');
+
+
 
 //BLOG
 Route::get('/blog', function () {
     return view('home.blog');
 })->name("blog");
+
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog/create', [BlogController::class, 'view_profile'])->name('create_blog')->middleware('auth');
 //create blog
@@ -129,10 +136,18 @@ Route::put('/comments/{id}', [BlogController::class, 'updateComment'])->name('co
 Route::delete('/comments/{id}', [BlogController::class, 'deleteComment'])->name('comments.delete');
 // follow
 Route::post('/user/toggle-follow/{id}', [UserController::class, 'toggleFollow'])->name('user.toggle-follow');
+
 // notification
 Route::post('/notifications', [NotificationController::class, 'createNotification']);
-Route::put('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
 
 //oder
 Route::get('/admin/order/{id}/confirm', [OderController::class, 'comfirm'])->name("order.comfirm");
 Route::get('/admin/order', [OderController::class, 'index'])->name("dashboard.order");
+Route::get('/order-history', [OderController::class, 'history'])->name('order.history');
+Route::post('/order-history/{id}', [OderController::class, 'success'])->name("order.success");
+Route::get('/order-history/{id}/cancel', [OderController::class, 'cancel'])->name("order.cancel");
+
+//detail
+Route::get('/menu/detail/{id}',[DetailController::class, 'index'])->name("detail");
+Route::post('/menu/detail/add', [DetailController::class, 'add'])->name('detail.add');
+

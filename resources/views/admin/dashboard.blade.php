@@ -55,6 +55,12 @@
 					<span class="text">Team</span>
 				</a>
 			</li>
+			<li class="{{ request()->routeIs('blogs') ? 'active' : '' }}">
+				<a href="{{route('blogs')}}">
+					<i class='bx bxl-blogger' ></i>
+					<span class="text">Blogs</span>
+				</a>
+			</li>
 		</ul>
 		<ul class="side-menu">
 			<li>

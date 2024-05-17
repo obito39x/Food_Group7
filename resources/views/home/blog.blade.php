@@ -68,8 +68,8 @@
                         </h2>
                         <form class="edit-blog-form" data-blog-id="{{ $blog->id_blog }}" style="display: none;">
                             <textarea class="form-control edit-blog-text" rows="3">{{ $blog->content }}</textarea>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <button type="button" class="btn btn-secondary cancel-edit">Cancel</button>
+                            <button type="submit" class="btn-save">Save</button>
+                            <button type="button" class="btn-cancel cancel-edit">Cancel</button>
                         </form>
                         <p class="blog_text">
                             {{ $blog->content }}

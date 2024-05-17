@@ -26,6 +26,7 @@
     <div class="banner_bg">
         <h1>Our <span>Menu</span></h1>
     </div>
+
     <!--Tim Kiem-->
     <form class="formseach" action="{{ route('menu') }}" method="GET">
         <input type="text" name="query" placeholder="Search...">
@@ -33,15 +34,28 @@
     </form>
     <!--Danh Muc-->
     <div class="category-filter">
+        <!--Bộ Lọc-->
+        <button onclick="toggleFilterFrame()" title="filter" class="filter">
+            <svg viewBox="0 0 512 512" height="1em">
+                <path
+                    d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z">
+                </path>
+            </svg>
+        </button>
+        <div class="filter-frame">
+            <button onclick="filterBestSelling('{{ request('category') }}')">Best Selling</button>
+            <button onclick="filterHighestRated()">Highest Rated</button>
+        </div>
         <form action="{{ route('menu') }}" method="GET">
-            <input type="hidden" name="query" value="{{ request('query') }}">
             <div class="category-buttons">
                 <button type="submit" name="category" value="all"
                     class="{{ request('category') == 'all' ? 'active' : '' }}">All</button>
-                <button type="submit" name="category" value="1"
-                    class="{{ request('category') == '1' ? 'active' : '' }}">Food</button>
-                <button type="submit" name="category" value="2"
-                    class="{{ request('category') == '2' ? 'active' : '' }}">Drinks</button>
+                @foreach ($categories as $category)
+                    <button type="submit" name="category" value="{{ $category->id_category }}"
+                        class="{{ request('category') == $category->id_category ? 'active' : '' }}">
+                        {{ $category->name }}
+                    </button>
+                @endforeach
             </div>
         </form>
     </div>
@@ -52,12 +66,12 @@
             <div class="menu_box anim">
                 @forelse ($products as $product)
                     <div class="menu_card">
-                        <div class="menu_img">
+                        <div class="menu_img" onclick="window.location='{{ route('detail', ['id' => $product->id]) }}'">
                             <img src="{{ asset($product->image_url) }}">
                         </div>
                         <div class="menu_text">
                             <h2>{{ $product->name }}</h2>
-                            <p>{{ $product->description }}</p>
+                            {{-- <p>{{ $product->description }}</p> --}}
                             <div class="menu_icon">
                                 @php
                                     $fullStars = floor($product->rating); // Số sao đầy đủ
@@ -143,4 +157,26 @@
 
             });
     }
+</script>
+<script>
+    function toggleFilterFrame() {
+        var filterFrames = document.getElementsByClassName("filter-frame");
+        for (var i = 0; i < filterFrames.length; i++) {
+            if (filterFrames[i].style.display === 'flex') {
+                filterFrames[i].style.display = 'none';
+            } else {
+                filterFrames[i].style.display = 'flex';
+            }
+        }
+    }
+</script>
+<script>
+    // Hàm để lọc sản phẩm bán chạy nhất
+    function filterBestSelling(categoryId) {
+    var url = "{{ route('menu') }}?filter=best_selling";
+    if (categoryId) {
+        url += "&category=" + categoryId;
+    }
+    window.location = url;
+}
 </script>

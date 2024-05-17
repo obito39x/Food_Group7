@@ -19,6 +19,7 @@
     <script src="{{ asset('/js/post.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -52,7 +53,7 @@
                                                         <li><a href="#" class="edit-blog"
                                                                 data-blog-id="{{ $blog->id_blog }}">Edit</a></li>
                                                         <li><a href="#" class="delete-blog"
-                                                                data-blog-id_blog="{{ $blog->id_blog }}">Delete</a></li>
+                                                                data-blog-id="{{ $blog->id_blog }}">Delete</a></li>
                                                     @else
                                                         <li><a href="#" class="report-blog"
                                                                 data-blog-id="{{ $blog->id_blog }}">Report</a></li>

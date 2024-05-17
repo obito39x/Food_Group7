@@ -53,22 +53,28 @@
                             <img id="preview" src="" alt="Image Preview">
                         </div>
 
-                        <div class="foot">
-                            <div class="options">
-                                <p>Add to Your Post</p>
-                                <ul class="list">
-                                    <label class="">
-                                        <li>
-                                            <img src="{{ asset('icons/gallery.svg') }}" alt="gallery">
-                                            <input type="file" id="edit_image" name="img" class="input-file"
-                                                accept="image/*">
-                                        </li>
-                                    </label>
-                                </ul>
-                            </div>
-                            <button type="submit">Post</button>
+                        <div class="options">
+                            <p>Add to Your Post</p>
+                            <ul class="list">
+                                <label class="">
+                                    <li>
+                                        <img src="{{ asset('icons/gallery.svg') }}" alt="gallery">
+                                        <input type="file" id="edit_image" name="img" class="input-file"
+                                            accept="image/*">
+                                    </li>
+                                </label>
+                            </ul>
                         </div>
+                        <button type="submit">Post</button>
+
                     </form>
+                    <script>
+                        Swal.fire({
+                            title: "Success!",
+                            text: "{{ session('success') }}",
+                            icon: "success",
+                        });
+                    </script>
                 </section>
 
             </div>

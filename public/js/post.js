@@ -121,27 +121,58 @@ $(document).ready(function () {
             var commentId = $(this).data('comment-id');
             var blogId = $('#commentForm').data('blog-id');
 
-            if (confirm('Are you sure you want to delete this comment?')) {
-                $.ajax({
-                    url: '/comments/' + commentId,
-                    type: 'DELETE',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            location.reload();
-                        } else {
-                            alert('Error: ' + response.error);
+            // Hiển thị SweetAlert xác nhận trước khi xóa
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Are you sure you want to delete this comment?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Nếu người dùng xác nhận xóa, thực hiện yêu cầu AJAX
+                    $.ajax({
+                        url: '/comments/' + commentId,
+                        type: 'DELETE',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                // Hiển thị SweetAlert khi xóa thành công
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "Your comment has been deleted.",
+                                    icon: "success"
+                                }).then(() => {
+                                    // Tải lại trang sau khi xóa thành công
+                                    location.reload();
+                                });
+                            } else {
+                                // Hiển thị SweetAlert khi có lỗi xóa
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: "Failed to delete comment. Please try again later.",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        error: function (xhr) {
+                            // Hiển thị SweetAlert khi có lỗi yêu cầu AJAX
+                            Swal.fire({
+                                title: "Error!",
+                                text: "Request failed: " + xhr.responseText,
+                                icon: "error"
+                            });
                         }
-                    },
-                    error: function (xhr) {
-                        alert('Request failed: ' + xhr.responseText);
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
     });
+
     $(document).ready(function () {
         // Hiển thị form chỉnh sửa bình luận khi nhấp vào nút "Edit"
         $(document).on('click', '.edit-comment', function (e) {
@@ -149,7 +180,7 @@ $(document).ready(function () {
             var commentId = $(this).data('comment-id');
             var commentContainer = $(this).closest('.comment-container');
             var commentContent = commentContainer.find('.comment-content');
-            
+
             commentContent.find('.comment-text').hide();
             commentContent.find('.edit-comment-form').show();
         });
@@ -158,7 +189,7 @@ $(document).ready(function () {
         $(document).on('click', '.cancel-edit', function (e) {
             e.preventDefault();
             var commentContent = $(this).closest('.comment-content');
-            
+
             commentContent.find('.edit-comment-form').hide();
             commentContent.find('.comment-text').show();
         });
@@ -170,26 +201,49 @@ $(document).ready(function () {
             var commentText = $(this).find('.edit-comment-text').val();
             var commentContent = $(this).closest('.comment-content');
 
-            $.ajax({
-                url: '/comments/' + commentId,
-                type: 'PUT',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    comment: commentText
-                },
-                success: function (response) {
-                    if (response.success) {
-                        commentContent.find('.comment-text').text(response.comment).show();
-                        commentContent.find('.edit-comment-form').hide();
-                    } else {
-                        alert('Error: ' + response.error);
-                    }
-                },
-                error: function (xhr) {
-                    alert('Request failed: ' + xhr.responseText);
+            // Hiển thị SweetAlert xác nhận trước khi lưu thay đổi
+            Swal.fire({
+                title: "Do you want to save the changes?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    // Nếu người dùng chấp nhận lưu, thực hiện yêu cầu AJAX
+                    $.ajax({
+                        url: '/comments/' + commentId,
+                        type: 'PUT',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            comment: commentText
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                // Hiển thị SweetAlert khi lưu thành công
+                                Swal.fire("Saved!", "", "success").then(() => {
+                                    // Cập nhật nội dung bình luận trên giao diện
+                                    commentContent.find('.comment-text').text(response.comment).show();
+                                    commentContent.find('.edit-comment-form').hide();
+                                });
+                            } else {
+                                // Hiển thị SweetAlert khi có lỗi trong quá trình lưu
+                                Swal.fire("Error!", "Failed to save changes. Please try again later.", "error");
+                            }
+                        },
+                        error: function (xhr) {
+                            // Hiển thị SweetAlert khi có lỗi yêu cầu AJAX
+                            Swal.fire("Error!", "Request failed: " + xhr.responseText, "error");
+                        }
+                    });
+                } else if (result.isDenied) {
+                    // Hiển thị SweetAlert khi người dùng không muốn lưu thay đổi
+                    Swal.fire("Changes are not saved", "", "info");
                 }
             });
         });
+
     });
 });
 
@@ -209,31 +263,63 @@ $(document).ready(function () {
 
         alert('Report blog: ' + blogId);
     });
-    $(document).on('click', '.delete-blog', function(e) {
+    $(document).on('click', '.delete-blog', function (e) {
         e.preventDefault();
         var blogId = $(this).data('blog-id');
 
-        if (confirm('Are you sure you want to delete this blog?')) {
-            $.ajax({
-                url: '/blog/' + blogId,
-                type: 'DELETE',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    if (response.success) {
-                        alert('Blog deleted successfully');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + response.error);
+        // Hiển thị SweetAlert xác nhận trước khi xóa
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Are you sure you want to delete this blog?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Nếu người dùng xác nhận xóa, thực hiện yêu cầu AJAX
+                $.ajax({
+                    url: '/post/' + blogId,
+                    type: 'DELETE',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Hiển thị SweetAlert khi xóa thành công
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your blog has been deleted.",
+                                icon: "success"
+                            }).then(() => {
+                                // Tải lại trang sau khi xóa thành công
+                                window.location.href = '/blog'; // Chuyển hướng về trang blog
+                            });
+                        } else {
+                            // Hiển thị SweetAlert khi có lỗi xóa
+                            Swal.fire({
+                                title: "Error!",
+                                text: "Failed to delete blog. Please try again later.",
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function (xhr) {
+                        // Hiển thị SweetAlert khi có lỗi yêu cầu AJAX
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Request failed: " + xhr.responseText,
+                            icon: "error"
+                        });
                     }
-                },
-                error: function(xhr) {
-                    alert('Request failed: ' + xhr.responseText);
-                }
-            });
-        }
+                });
+            }
+        });
     });
+
+
+
     $('.edit-blog').click(function (e) {
         e.preventDefault();
         var blogId = $(this).data('blog-id');
@@ -254,23 +340,45 @@ $(document).ready(function () {
         var blogText = $(this).find('.edit-blog-text').val();
         var blogContent = $(this).closest('.blog_tag'); // Sửa thành tên class chứa form
 
-        $.ajax({
-            url: '/blog/' + blogId,
-            type: 'PUT',
-            data: {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                content: blogText
-            },
-            success: function (response) {
-                if (response.success) {
-                    blogContent.find('.blog_text').text(response.content).show();
-                    blogContent.find('.edit-blog-form').hide();
-                } else {
-                    alert('Error: ' + response.error);
-                }
-            },
-            error: function (xhr) {
-                alert('Request failed: ' + xhr.responseText);
+        // Hiển thị SweetAlert xác nhận trước khi lưu thay đổi
+        Swal.fire({
+            title: "Do you want to save the changes?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Save",
+            denyButtonText: `Don't save`
+        }).then((result) => {
+            /* Xử lý dựa trên kết quả của SweetAlert */
+            if (result.isConfirmed) {
+                // Nếu người dùng chấp nhận lưu thay đổi, thực hiện yêu cầu AJAX
+                $.ajax({
+                    url: '/blog/' + blogId,
+                    type: 'PUT',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        content: blogText
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Hiển thị SweetAlert thông báo khi lưu thành công
+                            Swal.fire("Saved!", "", "success").then(() => {
+                                // Cập nhật nội dung bài đăng và ẩn form chỉnh sửa
+                                blogContent.find('.blog_text').text(response.content).show();
+                                blogContent.find('.edit-blog-form').hide();
+                            });
+                        } else {
+                            // Hiển thị SweetAlert khi có lỗi xảy ra
+                            Swal.fire("Error!", response.error, "error");
+                        }
+                    },
+                    error: function (xhr) {
+                        // Hiển thị SweetAlert khi có lỗi yêu cầu AJAX
+                        Swal.fire("Error!", "Request failed: " + xhr.responseText, "error");
+                    }
+                });
+            } else if (result.isDenied) {
+                // Nếu người dùng không muốn lưu thay đổi, hiển thị SweetAlert thông báo
+                Swal.fire("Changes are not saved", "", "info");
             }
         });
     });

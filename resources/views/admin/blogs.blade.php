@@ -23,7 +23,7 @@
                 <div class="blog_image">
                     <img src="{{ $blog->img }}">
                 </div>
-                <div class="blog_tag">
+                <div class="blog_tag" data-id="{{ $blog->id_blog }}">
                     <div class="blog-header">
                         <div class="blog_date">
                             <p>{{ $blog->getTimeDiff() }}<i class="fa-solid fa-calendar-days"></i></p>
@@ -39,7 +39,7 @@
                 <div class="blog-status">
                     <form action="{{ route('admin.blogs.approve', $blog->id_blog) }}" method="POST">
                         @csrf
-                        <button class="reward-btn" type="submit">
+                        <button class="reward-btn" type="submit" data-id="{{ $blog->id_blog }}">
                             <span class="IconContainer">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 60 20" class="box-top box">
                                     <path stroke-linecap="round" stroke-width="4" stroke="#6A8EF6" d="M2 18L58 18"></path>
@@ -249,3 +249,5 @@
         margin-bottom: 5px;
     }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script></script>

@@ -84,7 +84,7 @@ class BlogController extends Controller
         ]);
 
         // Chuyển hướng về trang danh sách blog
-        return redirect()->route('blog');
+        return redirect()->route('blog')->with('success', 'Blog has been sent to admin for approval');
     }
     public function approveBlog($id)
     {
@@ -135,6 +135,26 @@ class BlogController extends Controller
             $blog->delete();
 
             return response()->json(['success' => true, 'content' => $blog->content]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function deletePost($id)
+    {
+        try {
+            $blog = Blog::findOrFail($id);
+
+            // Kiểm tra nếu người dùng là chủ của blog
+            $account = Auth::user();
+            $id_user = $account->user->id_user;
+            if ($id_user !== $blog->id_user) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $blog->delete();
+
+            // Trả về URL trước đó của trang blog
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

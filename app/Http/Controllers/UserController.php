@@ -13,12 +13,11 @@ class UserController extends Controller
     {
         $account = Auth::user();
         $profile = $account->user;
-        
-        if(Auth::check()){
+
+        if (Auth::check()) {
             $user = $profile->id_user;
             $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
-        }
-        else{
+        } else {
             $notifications = [];
         }
 
@@ -34,8 +33,7 @@ class UserController extends Controller
             'email',
             'phone_number',
             'gender',
-            '
-                                date_user',
+            'date_user',
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg '
         ]);
 

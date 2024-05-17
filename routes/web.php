@@ -121,6 +121,7 @@ Route::post('/blog/add', [BlogController::class, 'create_blog'])->name('blog.add
 Route::get('/blog/{id}', [BlogController::class, 'showBlog'])->name('blog.show');
 // delete blog
 Route::delete('/blog/{id}', [BlogController::class, 'deleteBlog'])->name('blogs.delete');
+Route::delete('/post/{id}', [BlogController::class, 'deletePost'])->name('blogs.delete');
 // edit blog
 Route::put('/blog/{id}', [BlogController::class, 'updateContent'])->name('blog.updateContent');
 // like blog

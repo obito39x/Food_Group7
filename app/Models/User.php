@@ -10,6 +10,7 @@ class User extends Model
 
     protected $table = 'users';
     public $timestamps = false;
+    protected $primaryKey = 'id_user';
 
     protected $fillable = ['id_account', 'username', 'fullname', 'email', 'phone_number', 'gender', 'date_user', 'img'];
     // public function account(){
@@ -35,7 +36,6 @@ class User extends Model
     {
         return User::find($id);
     }
-<<<<<<< HEAD
     public function likedBlogs()
     {
         return $this->belongsToMany(Blog::class, 'blog_likes', 'user_id', 'blog_id');
@@ -54,6 +54,8 @@ class User extends Model
     {
         return $this->belongsToMany(User::class, 'user_follows', 'following_user_id', 'user_id');
     }
-=======
->>>>>>> e5a6c6c44d19333b91f405c58f5deaa2b25319ec
+    public function notifications()
+    {
+        return $this->belongsToMany(User::class, 'notifications', 'user_id', 'user_id');
+    }
 }

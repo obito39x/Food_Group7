@@ -9,7 +9,7 @@ function toggleLike(blogId) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
+        if (data.success) { 
             const likeCount = document.querySelector(`#like-count-${blogId}`);
             const likeIcon = document.querySelector(`#like-icon-${blogId}`);
             const viewCount = document.querySelector(`#view-count-${blogId}`);
@@ -102,3 +102,27 @@ $(document).ready(function () {
         });
     });
 });
+window.onload = function() {
+    showFollowed();
+};
+
+function showFollowed() {
+    document.getElementById("followed_list").style.display = "block";
+    document.getElementById("follower_list").style.display = "none";
+    moveIndicator(0);
+}
+
+function showFollower() {
+    document.getElementById("followed_list").style.display = "none";
+    document.getElementById("follower_list").style.display = "block";
+    moveIndicator(1);
+}
+
+function moveIndicator(index) {
+    const indicator = document.querySelector('.indicator');
+    if (index === 0) {
+        indicator.style.left = '2px';
+    } else {
+        indicator.style.left = 'calc(50% - 2px)';
+    }
+}

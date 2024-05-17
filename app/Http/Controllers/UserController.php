@@ -5,20 +5,42 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Notification;
 
 class UserController extends Controller
 {
-    public function profile(){
+    public function profile()
+    {
         $account = Auth::user();
-        $user = $account->user;
-        return view('profile.profile', ['profile' => $user]);
-    } 
+        $profile = $account->user;
+        
+        if(Auth::check()){
+
+            $account = Auth::user();
+            $user = $account->user->id_user;
+            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
+        }
+        else{
+            $notifications = [];
+        }
+
+        return view('profile.profile', compact('profile', 'notifications'));
+    }
 
     public function updateProfile(Request $request, $id_user)
     {
         $user = User::findOrFail($id_user);
-        $data = $request->only(['username', 'fullname', 'email', 'phone_number', 'gender', 'date_user', 'img']);
-        
+        $data = $request->only([
+            'username',
+            'fullname',
+            'email',
+            'phone_number',
+            'gender',
+            '
+                                date_user',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg '
+        ]);
+
         // Kiểm tra email có bị trùng lặp không
         if ($request->email !== $user->email && User::where('email', $request->email)->exists()) {
             return redirect()->back()->withErrors(['email' => 'The email has already been taken.']);
@@ -48,7 +70,16 @@ class UserController extends Controller
             } else {
                 $currentUser->following()->attach($id);
                 $isFollowing = true;
+                // Tạo thông báo
+                $notification = new Notification([
+                    'user_id' => $id,
+                    'type' => 'follow',
+                    'content' => $currentUser->username . ' has followed you.',
+                    'is_read' => 0
+                ]);
+                $notification->save();
             }
+
 
             return response()->json([
                 'success' => true,
@@ -57,6 +88,5 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-    }    
+    }
 }
- 

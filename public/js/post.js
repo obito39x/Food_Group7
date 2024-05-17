@@ -37,20 +37,33 @@ $(document).ready(function () {
                 if (response.success) {
                     $('#comment').val('');
                     var userName = response.user.fullname || response.user.username;
+                    var userImage = response.user.img || '/img_profile/profile.png';
                     var newCommentHtml = `
                         <div class="comment-list">
-                            <div class="comment-avatar">
-                                <img src="${response.user.img || '/img_profile/profile.png'}" alt="avatar" class="img">
-                            </div>
-                            <div class="comment-content">
-                                <div class="comment-header">
-                                    <p class="comment-user">${userName}</p>
+                            <div class="comment-container">
+                                <div class="user">
+                                    <div class="user-pic">
+                                        <div class="comment-avatar">
+                                            <img src="${userImage}" alt="avatar" class="img">
+                                        </div>
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="comment-user">${userName}</span>
+                                        <p class="comment-time">${response.time_diff}</p>
+                                    </div>
                                     <div class="comment-options">
                                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                        <ul class="comment-menu" style="display: none;">
+                                            ${response.is_user_comment ? `
+                                                <li><a href="#" class="edit-comment" data-comment-id="${response.comment_id}">Edit</a></li>
+                                                <li><a href="#" class="delete-comment" data-comment-id="${response.comment_id}">Delete</a></li>
+                                            ` : `
+                                                <li><a href="#" class="report-comment" data-comment-id="${response.comment_id}">Report</a></li>
+                                            `}
+                                        </ul>
                                     </div>
                                 </div>
-                                <p class="comment-time">${response.time_diff}</p>
-                                <p class="comment-text">${response.comment}</p>
+                                <p class="comment-content">${response.comment}</p>
                             </div>
                         </div>
                     `;
@@ -59,11 +72,12 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                alert('Error: ' + error.message);
+                alert('Error: ' + error);
             }
         });
     });
 
+    // Update the submit button state based on the input field value
     updateSubmitButtonState();
 
     $('#comment').on('input', function () {
@@ -75,6 +89,7 @@ $(document).ready(function () {
         $('#submitBtn').prop('disabled', commentText === "");
     }
 });
+
 $(document).ready(function () {
     $(document).on('click', '.comment-options i', function () {
         $(this).next('.comment-menu').toggle();
@@ -121,17 +136,21 @@ $(document).ready(function () {
     });
     $(document).ready(function () {
         // Hiển thị form chỉnh sửa bình luận khi nhấp vào nút "Edit"
-        $('.edit-comment').click(function (e) {
+        $(document).on('click', '.edit-comment', function (e) {
             e.preventDefault();
             var commentId = $(this).data('comment-id');
-            var commentContent = $(this).closest('.comment-content');
+            var commentContainer = $(this).closest('.comment-container');
+            var commentContent = commentContainer.find('.comment-content');
+            
             commentContent.find('.comment-text').hide();
             commentContent.find('.edit-comment-form').show();
         });
 
         // Hủy chỉnh sửa bình luận
-        $('.cancel-edit').click(function () {
+        $(document).on('click', '.cancel-edit', function (e) {
+            e.preventDefault();
             var commentContent = $(this).closest('.comment-content');
+            
             commentContent.find('.edit-comment-form').hide();
             commentContent.find('.comment-text').show();
         });

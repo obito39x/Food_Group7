@@ -11,7 +11,7 @@ body{
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(#8a8600, #a6c50b);
+  background-image: url("/image/bg.png");
 }
 ::selection{
   color: #fff;

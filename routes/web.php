@@ -13,6 +13,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OderController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Categorie;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -101,8 +102,6 @@ Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.r
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/cart/checkout/process', [CartController::class, 'saveorder'])->name('checkout.process');
 
-<<<<<<< HEAD
-
 //BLOG
 Route::get('/blog', function () {
     return view('home.blog');
@@ -130,8 +129,10 @@ Route::put('/comments/{id}', [BlogController::class, 'updateComment'])->name('co
 Route::delete('/comments/{id}', [BlogController::class, 'deleteComment'])->name('comments.delete');
 // follow
 Route::post('/user/toggle-follow/{id}', [UserController::class, 'toggleFollow'])->name('user.toggle-follow');
-=======
+// notification
+Route::post('/notifications', [NotificationController::class, 'createNotification']);
+Route::put('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
+
 //oder
 Route::get('/admin/order/{id}/confirm', [OderController::class, 'comfirm'])->name("order.comfirm");
 Route::get('/admin/order', [OderController::class, 'index'])->name("dashboard.order");
->>>>>>> e5a6c6c44d19333b91f405c58f5deaa2b25319ec

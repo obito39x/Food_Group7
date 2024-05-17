@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Gallery;
 use App\Models\About;
+use App\Models\Blog;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cookie;
 
@@ -17,8 +20,24 @@ class HomeController extends Controller
         $topRatedProducts = Product::orderByDesc('rating')->take(3)->get();
         $about = About::all();
         $image_path = Gallery::take(3)->get();
+
+        if(Auth::check()){
+
+            $account = Auth::user();
+            $user = $account->user->id_user;
+            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
+        }
+        else{
+            $notifications = [];
+        }
+        $blogs = Blog::orderBy('view_count', 'desc')->take(3)->get();
+
+        // Kiểm tra và thêm thuộc tính 'is_liked' cho mỗi blog
+        foreach ($blogs as $blog) {
+            $blog->is_liked = $blog->likers->contains(Auth::id());
+        }
         // Trả về view 'home' và truyền dữ liệu sản phẩm vào view
-        return view('home.home', compact('topRatedProducts', 'about', 'image_path'));
+        return view('home.home', compact('topRatedProducts', 'about', 'image_path', 'notifications', 'blogs'));
     }
     public function menu(Request $request)
     {
@@ -42,7 +61,17 @@ class HomeController extends Controller
         // Lấy danh sách sản phẩm đã lọc hoặc tất cả sản phẩm nếu không có lọc
         $products = $productsQuery->paginate(9)->appends(request()->query());
 
-        return view('home.menu', compact('products'));
+        if(Auth::check()){
+
+            $account = Auth::user();
+            $user = $account->user->id_user;
+            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
+        }
+        else{
+            $notifications = [];
+        }
+
+        return view('home.menu', compact('products', 'notifications'));
     }
     public function addToCart(Request $request)
     {
@@ -66,9 +95,18 @@ class HomeController extends Controller
     {
         // Lấy tất cả sản phẩm từ model Product
         $image_path = Gallery::all();
+        if(Auth::check()){
+
+            $account = Auth::user();
+            $user = $account->user->id_user;
+            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
+        }
+        else{
+            $notifications = [];
+        }
 
         // Trả về view 'menu' và truyền dữ liệu sản phẩm vào view
-        return view('home.gallery')->with('image_path', $image_path);
+        return view('home.gallery', compact('image_path', 'notifications'));
     }
 
 
@@ -76,6 +114,16 @@ class HomeController extends Controller
     {
         $about = About::all();
 
-        return view('home.about')->with('about', $about);
+        if(Auth::check()){
+
+            $account = Auth::user();
+            $user = $account->user->id_user;
+            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
+        }
+        else{
+            $notifications = [];
+        }
+
+        return view('home.about', compact('about', 'notifications'));
     }
 }

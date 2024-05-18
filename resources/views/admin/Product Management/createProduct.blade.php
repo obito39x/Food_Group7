@@ -127,7 +127,7 @@ button[type="submit"]:hover {
 <button type="button" class="button-back" onclick="window.history.back()">Back</button>
 <div class="formedit">
     
-    <form action="{{ route('storeProduct') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('POST')
         <div class="form-group">
@@ -140,7 +140,7 @@ button[type="submit"]:hover {
         </div>
         <div class="form-group">
             <label for="image_url">Image:</label>
-            <input type="file" name="image" id="image" onchange="previewImage(event)" required>
+            <input type="file" name="image" id="image" accept="image/*" onchange="previewImage(event)" required>
             <img id="preview" src="#" alt="Preview Image" style="max-width: 100px; max-height: 100px; margin-top: 10px; display: none;">
         </div>
         <div class="form-group">

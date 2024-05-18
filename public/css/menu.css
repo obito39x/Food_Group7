@@ -38,7 +38,7 @@
 }
 
 /* Input style */
-input[type="text"] {
+.search-container input[type="text"] {
     flex: 1;
     padding: 10px;
     border: none;
@@ -47,7 +47,7 @@ input[type="text"] {
 }
 
 /* Button style */
-button {
+.search-button {
     background-color: #facc22;
     color: white;
     padding: 10px 20px;
@@ -56,7 +56,7 @@ button {
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+.search-button:hover {
     background-color: #005a9e;
 }
 
@@ -290,39 +290,125 @@ button i {
     font-size: 16px;
     color: #333;
 }
-
-/*Category*/
-.category-filter {
-    color: #000;
+.form {
     display: flex;
-    margin-left: 20px;
-    justify-content: center;
-    /* căn giữa theo chiều ngang */
-    align-items: center;
-    /* căn giữa theo chiều dọc */
+    padding: 0 220px;
+    flex-direction: column;
 }
 
-.category-buttons button {
-    color: #000;
-    outline: 2px solid #3e3030;
-    padding: 10px 20px;
-    margin-right: 10px;
+.search-container {
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    border-radius: 20px;
+    flex: 1;
+    max-width: 500px;
+    margin: 0 calc(50% - 250px); /* Căn giữa phần search trong form */
+    margin-bottom: 10px; /* Có thể điều chỉnh khoảng cách giữa phần search và phần filter tại đây */
+    display: flex; /* Hiển thị phần tử con dưới dạng flexbox */
+    justify-content: center; /* Căn giữa các phần tử theo chiều ngang */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+}
+
+
+/* Để căn chỉnh phần search và phần filter thành hai cột */
+.search-container,
+.category-filter {
+    flex: 1;
+}
+
+/* Thiết lập margin hoặc padding nếu cần cho phần search và phần filter */
+.search-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 10px; /* Có thể điều chỉnh khoảng cách giữa ô tìm kiếm và ô lọc tại đây */
+}
+
+/* Căn chỉnh nút filter */
+.category-filter {
+    border-radius: 20px;
+    padding: 20px;
+    display: flex; /* Hiển thị phần tử và các phần tử con dưới dạng flexbox */
+    justify-content: center; /* Căn giữa các phần tử theo chiều ngang */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    margin-left: 10px; /* Tạo khoảng cách giữa ô tìm kiếm và bộ lọc */
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75); /* Thêm box shadow */
+}
+.search-button{
+    border-radius: 20px;
+}
+.seachtext{
+    border-radius: 20px;
+}
+
+.category-checkboxes {
+    display: flex; /* Hiển thị các phần tử con dưới dạng flexbox */
+    justify-content: center; /* Căn giữa các phần tử con theo chiều ngang */
+    align-items: center; /* Căn giữa các phần tử con theo chiều dọc */
+}
+
+.category-checkboxes input[type="checkbox"] {
+    display: none;
+}
+
+.category-checkboxes label {
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.category-checkboxes label.active {
+    background-color: #007bff;
+    color: #fff;
+}
+.contactButton {
+    margin-left: 30px;
+    background: #7079f0;
+    color: white;
+    font-family: inherit;
+    padding: 0.45em;
+    padding-left: 1em;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 0.9em;
     border: none;
     cursor: pointer;
-    background-color: #e5e5e5;
-    ;
-    border-radius: 50px;
-}
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    box-shadow: inset 0 0 1.6em -0.6em #714da6;
+    overflow: hidden;
+    position: relative;
+    height: 2.8em;
+    padding-right: 3em;
 
-.category-buttons button.active {
-    background-color: #facc22;
-    color: #333;
-}
-
-.category-buttons button:hover {
-    background-color: #facc22;
-    color: #333;
-}
+  }
+  
+  .iconButton {
+    margin-left: 1em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.2em;
+    width: 2.2em;
+    border-radius: 0.7em;
+    box-shadow: 0.1em 0.1em 0.6em 0.2em #7a8cf3;
+    right: 0.3em;
+    transition: all 0.3s;
+  }
+  
+  .contactButton:hover {
+    transform: translate(-0.05em, -0.05em);
+    box-shadow: 0.15em 0.15em #5566c2;
+  }
+  
+  .contactButton:active {
+    transform: translate(0.05em, 0.05em);
+    box-shadow: 0.05em 0.05em #5566c2;
+  }
+  
 
 @keyframes bounce-animation {
     0% {
@@ -344,66 +430,4 @@ button i {
     100% {
         transform: translateY(0);
     }
-}
-
-/* bộ lọc */
-.filter {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    background-color: #908f8f;
-    justify-content: center;
-    border: 1px solid rgba(0, 0, 0, 0.192);
-    cursor: pointer;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.021);
-    transition: all 0.3s;
-    margin-right: 50px;
-
-}
-
-.filter svg {
-    height: 16px;
-    fill: rgb(77, 77, 77);
-    transition: all 0.3s;
-}
-
-.filter:hover {
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.11);
-    background-color: rgb(59, 59, 59);
-}
-
-.filter:hover svg {
-    fill: white;
-}
-
-.filter-frame {
-    display: none;
-    margin-bottom: 20px;
-    justify-content: center;
-    position: fixed;
-    width: 500px;
-    height: 300px; 
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1;
-    background-color: white;
-}
-
-.filter-frame button {
-    padding: 10px 20px;
-    margin: 50px 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    width: 200px;
-    height: 50px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    
-}
-
-.filter-frame button:hover {
-    background-color: #0056b3;
 }

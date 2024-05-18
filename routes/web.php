@@ -13,6 +13,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OderController;
 use App\Models\Categorie;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -49,34 +50,7 @@ Route::get('/singup', function () {
     return view('login.singup');
 })->name("singup");
 
-//Dashboard
-Route::get('/admin/mystore', [DashboardController::class, 'mystore'])->name("mystore");
-Route::get('/admin', [DashboardController::class, 'index'])->name("dashboard");
 
-
-
-Route::get('/admin/management/categories', [CategoriesController::class, 'index'])->name("categories");
-Route::get('/admin/management/categories/create', [CategoriesController::class, 'create'])->name("categories.create");
-Route::post('/admin/management/categories', [CategoriesController::class, 'store'])->name("categories.store");
-Route::get('/admin/management/categories/{id}', [CategoriesController::class, 'destroy'])->name("categories.delete");
-Route::get('/admin/management/categories/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
-Route::put('/admin/management/categories/{id}', [CategoriesController::class, 'update'])->name("categories.update");
-
-Route::get('/admin/manegement/product', [ManageProductController::class,'index'])->name("manageProduct");
-// Hiển thị form thêm sản phẩm
-Route::get('/admin/management/product', [ManageProductController::class, 'create'])->name("createProduct");
-
-// Lưu sản phẩm mới
-Route::post('/admin/management/product/store', [ManageProductController::class, 'store'])->name("storeProduct");
-
-// Hiển thị form chỉnh sửa sản phẩm
-Route::get('/admin/management/product/edit/{product}', [ManageProductController::class, 'edit'])->name("editProduct");
-
-// Cập nhật sản phẩm
-Route::put('/admin/management/product/{id}', [ManageProductController::class, 'update'])->name("updateProduct");
-
-// Xóa sản phẩm
-Route::delete('/admin/management/product/{product}', [ManageProductController::class, 'destroy'])->name("deleteProduct");
 
 // signin and login
 Route::post('/singup', [AccountController::class, 'signup']);
@@ -143,4 +117,37 @@ Route::get('/order-history/{id}/cancel', [OderController::class, 'cancel'])->nam
 //detail
 Route::get('/menu/detail/{id}',[DetailController::class, 'index'])->name("detail");
 Route::post('/menu/detail/add', [DetailController::class, 'add'])->name('detail.add');
+
+
+
+
+
+Route::prefix('/admin')->group(function () {
+    Route::middleware('auth','role:admin')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name("dashboard");
+        Route::get('/mystore', [DashboardController::class, 'mystore'])->name("mystore");
+
+        // Category management routes
+        Route::prefix('/management/categories')->name('categories.')->group(function () {
+            Route::get('/', [CategoriesController::class, 'index'])->name("index");
+            Route::get('/create', [CategoriesController::class, 'create'])->name("create");
+            Route::post('/', [CategoriesController::class, 'store'])->name("store");
+            Route::get('/{id}', [CategoriesController::class, 'destroy'])->name("delete");
+            Route::get('/{category}/edit', [CategoriesController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [CategoriesController::class, 'update'])->name("update");
+        });
+
+        // Product management routes
+        Route::prefix('/management/product')->name('products.')->group(function () {
+            Route::get('/', [ManageProductController::class, 'index'])->name("index");
+            Route::get('/{id}/toggle-hide', [ManageProductController::class, 'toggleHide'])->name('toggleHide');
+            Route::get('/create', [ManageProductController::class, 'create'])->name("create");
+            Route::post('/store', [ManageProductController::class, 'store'])->name("store");
+            Route::get('/edit/{product}', [ManageProductController::class, 'edit'])->name("edit");
+            Route::put('/{id}', [ManageProductController::class, 'update'])->name("update");
+            Route::delete('/{product}', [ManageProductController::class, 'destroy'])->name("delete");
+        });
+
+    });
+});
 

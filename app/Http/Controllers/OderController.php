@@ -15,31 +15,48 @@ class OderController extends Controller
 {
     public function index(Request $request)
     {
+        $searchQuery = $request->query('search');
+        $status = $request->query('status', 'Pending'); // Sử dụng giá trị mặc định là 'Pending'
 
-        $status = $request->query('status');
-        if ($status == "Process") {
-            $orders = Order::getByStatus(3);
-        } else if ($status == "Completed") {
-            $orders = Order::getByStatus(1);
-        } else {
-            $orders = Order::getByStatus(2);
+        // Lọc đơn hàng theo trạng thái
+        switch ($status) {
+            case "Process":
+                $ordersQuery = Order::where('status_id', 3);
+                break;
+            case "Completed":
+                $ordersQuery = Order::where('status_id', 1);
+                break;
+            default:
+                $ordersQuery = Order::where('status_id', 2); // Trạng thái mặc định
+                break;
         }
 
+        // Thêm điều kiện tìm kiếm nếu có
+        if ($searchQuery) {
+            $ordersQuery->where(function ($query) use ($searchQuery) {
+                $query->where('email', 'LIKE', "%{$searchQuery}%")
+                    ->orWhere('fullname', 'LIKE', "%{$searchQuery}%")
+                    ->orWhere('phone', 'LIKE', "%{$searchQuery}%")
+                    ->orWhere('address', 'LIKE', "%{$searchQuery}%")
+                    ->orWhere('city', 'LIKE', "%{$searchQuery}%")
+                    ->orWhere('district', 'LIKE', "%{$searchQuery}%")
+                    ->orWhere('ward', 'LIKE', "%{$searchQuery}%");
+            });
+        }
+
+        // Thực hiện truy vấn để lấy kết quả
+        $orders = $ordersQuery->paginate(5);
+
+        // Lấy tất cả sản phẩm và các item của đơn hàng từ database
         $order_items = OrderItem::all();
         $products = Product::all();
-        return view('admin.Order.orders', compact('orders', 'order_items', 'products'));
+
+        return view('admin.Order.orders', compact('orders', 'order_items', 'products', 'searchQuery', 'status'));
     }
     public function comfirm($id)
     {
         Order::updateStatus($id, 3);
         return redirect()->route('dashboard.order');
-    }
-    public function process()
-    {
-        $orders = Order::getByStatus(3);
-        $order_items = OrderItem::all();
-        $products = Product::all();
-        return view('admin.Order.order_process', compact('orders', 'order_items', 'products'));
     }
     public function history()
     {

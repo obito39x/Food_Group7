@@ -27,84 +27,89 @@
         <h1>Our <span>Menu</span></h1>
     </div>
 
-    <!--Tim Kiem-->
-    <form class="formseach" action="{{ route('menu') }}" method="GET">
-        <input type="text" name="query" placeholder="Search...">
-        <button type="submit"><i class="fa-solid fa-search"></i></button>
-    </form>
-    <!--Danh Muc-->
-    <div class="category-filter">
-        <!--Bộ Lọc-->
-        <button onclick="toggleFilterFrame()" title="filter" class="filter">
-            <svg viewBox="0 0 512 512" height="1em">
-                <path
-                    d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z">
-                </path>
-            </svg>
-        </button>
-        <div class="filter-frame">
-            <button onclick="filterBestSelling('{{ request('category') }}')">Best Selling</button>
-            <button onclick="filterHighestRated()">Highest Rated</button>
+    <form class="form" action="{{ route('menu') }}" method="GET">
+        <div class="search-container">
+            <!-- Input tìm kiếm -->
+            <input class="seachtext" type="text" name="query" placeholder="Search...">
+            <!-- Nút tìm kiếm -->
+            <button type="submit" class="search-button">
+                <i class="fa-solid fa-search"></i>
+            </button>
         </div>
-        <form action="{{ route('menu') }}" method="GET">
-            <div class="category-buttons">
-                <button type="submit" name="category" value="all"
-                    class="{{ request('category') == 'all' ? 'active' : '' }}">All</button>
+        <!-- Bộ lọc -->
+        <div class="category-filter">
+            <!--Bộ Lọc-->
+            <div class="category-checkboxes">
                 @foreach ($categories as $category)
-                    <button type="submit" name="category" value="{{ $category->id_category }}"
-                        class="{{ request('category') == $category->id_category ? 'active' : '' }}">
-                        {{ $category->name }}
-                    </button>
+                    <input type="checkbox" name="category[]" id="category_{{ $category->id_category }}"
+                        value="{{ $category->id_category }}"
+                        {{ in_array($category->id_category, (array) request('category')) ? 'checked' : '' }}>
+                    <label for="category_{{ $category->id_category }}"
+                        class="{{ in_array($category->id_category, (array) request('category')) ? 'active' : '' }}">{{ $category->name }}</label>
                 @endforeach
             </div>
-        </form>
-    </div>
+            <!-- Nút Filter -->
+            <button class="contactButton">
+                Filter
+                <div class="iconButton">
+                    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                            fill="currentColor"></path>
+                    </svg>
+                </div>
+            </button>
+        </div>
+    </form>
+
 
     <!-- Menu -->
     <div class="menu_box">
         <div class="menu">
             <div class="menu_box anim">
                 @forelse ($products as $product)
-                    <div class="menu_card">
-                        <div class="menu_img" onclick="window.location='{{ route('detail', ['id' => $product->id]) }}'">
-                            <img src="{{ asset($product->image_url) }}">
-                        </div>
-                        <div class="menu_text">
-                            <h2>{{ $product->name }}</h2>
-                            {{-- <p>{{ $product->description }}</p> --}}
-                            <div class="menu_icon">
-                                @php
-                                    $fullStars = floor($product->rating); // Số sao đầy đủ
-                                    $halfStar = $product->rating - $fullStars; // Phần nửa sao
-                                    $emptyStars = 5 - ceil($product->rating); // Số sao trống
-                                @endphp
-
-                                {{-- Hiển thị sao đầy đủ --}}
-                                @for ($i = 0; $i < $fullStars; $i++)
-                                    <i class="fa-solid fa-star"></i>
-                                @endfor
-
-                                {{-- Hiển thị sao nửa --}}
-                                @if ($halfStar >= 0.5)
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                @endif
-
-                                {{-- Hiển thị sao trống --}}
-                                @for ($i = 0; $i < $emptyStars; $i++)
-                                    <i class="fa-solid fa-star-empty"></i>
-                                @endfor
+                        <div class="menu_card">
+                            <div class="menu_img"
+                                onclick="window.location='{{ route('detail', ['id' => $product->id]) }}'">
+                                <img src="{{ asset($product->image_url) }}">
                             </div>
-                            <p class="price">{{ $product->new_price }}$<sub><del>{{ $product->old_price }}$</del></sub>
-                            </p>
-                            <button class="CartBtn" onclick="addToCart({{ $product->id }})">
-                                <span class="IconContainer">
-                                    <i class="fa-solid fa-burger"></i>
-                                </span>
+                            <div class="menu_text">
+                                <h2>{{ $product->name }}</h2>
+                                {{-- <p>{{ $product->description }}</p> --}}
+                                <div class="menu_icon">
+                                    @php
+                                        $fullStars = floor($product->rating); // Số sao đầy đủ
+                                        $halfStar = $product->rating - $fullStars; // Phần nửa sao
+                                        $emptyStars = 5 - ceil($product->rating); // Số sao trống
+                                    @endphp
 
-                                <p class="text">Order Now</p>
-                            </button>
+                                    {{-- Hiển thị sao đầy đủ --}}
+                                    @for ($i = 0; $i < $fullStars; $i++)
+                                        <i class="fa-solid fa-star"></i>
+                                    @endfor
+
+                                    {{-- Hiển thị sao nửa --}}
+                                    @if ($halfStar >= 0.5)
+                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                    @endif
+
+                                    {{-- Hiển thị sao trống --}}
+                                    @for ($i = 0; $i < $emptyStars; $i++)
+                                        <i class="fa-solid fa-star-empty"></i>
+                                    @endfor
+                                </div>
+                                <p class="price">
+                                    {{ $product->new_price }}$<sub><del>{{ $product->old_price }}$</del></sub>
+                                </p>
+                                <button class="CartBtn" onclick="addToCart({{ $product->id }})">
+                                    <span class="IconContainer">
+                                        <i class="fa-solid fa-burger"></i>
+                                    </span>
+
+                                    <p class="text">Order Now</p>
+                                </button>
+                            </div>
                         </div>
-                    </div>
                 @empty
                     <div class="menu_box">
                         <h1>No products found.</h1>
@@ -171,12 +176,23 @@
     }
 </script>
 <script>
-    // Hàm để lọc sản phẩm bán chạy nhất
-    function filterBestSelling(categoryId) {
-    var url = "{{ route('menu') }}?filter=best_selling";
-    if (categoryId) {
-        url += "&category=" + categoryId;
-    }
-    window.location = url;
-}
+    // Chờ cho trang tải hoàn tất
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lấy tất cả các checkbox
+        var checkboxes = document.querySelectorAll('.category-checkboxes input[type="checkbox"]');
+
+        // Đặt sự kiện "change" cho từng checkbox
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                // Nếu checkbox đang được chọn
+                if (this.checked) {
+                    // Thêm lớp "active" cho label tương ứng
+                    this.nextElementSibling.classList.add('active');
+                } else {
+                    // Nếu checkbox không được chọn, xóa lớp "active" khỏi label tương ứng
+                    this.nextElementSibling.classList.remove('active');
+                }
+            });
+        });
+    });
 </script>

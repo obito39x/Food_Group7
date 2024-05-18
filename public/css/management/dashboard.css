@@ -413,12 +413,13 @@ body {
 	margin-top: 24px;
 	width: 100%;
 	color: var(--dark);
+	
 }
 #content main .table-data > div {
 	border-radius: 20px;
 	background: var(--light);
 	padding: 24px;
-	overflow-x: auto;
+	
 }
 #content main .table-data .head {
 	display: flex;
@@ -438,6 +439,9 @@ body {
 #content main .table-data .order {
 	flex-grow: 1;
 	flex-basis: 500px;
+	max-height: 500px;
+	overflow: hidden;
+    overflow-y: auto;
 }
 #content main .table-data .order table {
 	width: 100%;
@@ -597,7 +601,6 @@ body {
     max-height: calc(100vh - 56px);
     overflow-y: auto;
 }
-
 .head-title {
     display: flex;
     align-items: center;
@@ -605,6 +608,7 @@ body {
     grid-gap: 16px;
     flex-wrap: wrap;
 }
+
 .cssbuttons-io-button {
 	display: flex;
 	align-items: center;
@@ -745,4 +749,37 @@ svg{
     position: relative;
     left: 25%;
     cursor: pointer;
+}
+
+/* seach */
+.input {
+	width: 100%;
+	max-width: 150px;
+	height: 35px;
+	padding: 12px;
+	border-radius: 12px;
+	border: 1.5px solid lightgrey;
+	outline: none;
+	transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+	box-shadow: 0px 0px 20px -18px;
+  }
+  
+  .input:hover {
+	border: 2px solid lightgrey;
+	box-shadow: 0px 0px 20px -17px;
+  }
+  
+  .input:active {
+	transform: scale(0.95);
+  }
+  
+  .input:focus {
+	border: 2px solid grey;
+  }
+  .filter-box {
+    display: none;
+}
+
+.filter-box.show {
+    display: block;
 }

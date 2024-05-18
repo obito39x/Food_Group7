@@ -25,7 +25,7 @@ class CategoriesController extends Controller
         $data = $request->all(); // Lấy tất cả dữ liệu từ request
         // Tạo sản phẩm
         Categorie::create($data);
-        return redirect()->route('categories');
+        return redirect()->route('categories.index');
     }
     public function destroy($id)
     {
@@ -37,7 +37,7 @@ class CategoriesController extends Controller
         } else {
             // Nếu không có bản ghi liên quan, xóa danh mục và chuyển hướng
             Categorie::destroy($id);
-            return redirect()->route('categories')->with('success', 'Category deleted successfully.');
+            return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
         }
     }
     public function edit(Categorie $category)
@@ -51,6 +51,6 @@ class CategoriesController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('categories');
+        return redirect()->route('categories.index');
     }
 }

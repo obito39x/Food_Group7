@@ -21,6 +21,7 @@ class Account extends Authenticatable
         'email',
         'username',
         'password',
+        'role'
     ];
 
     /**

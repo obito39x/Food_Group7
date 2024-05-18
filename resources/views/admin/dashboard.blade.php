@@ -1,112 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<!-- Boxicons -->
-	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="short icon" href="{{ asset('image/short_icon.png') }}">
-	<!-- My CSS -->
-	<link rel="stylesheet" href="{{asset('/css/management/dashboard.css')}}">
 
-	<title>AdminHub</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="short icon" href="{{ asset('image/short_icon.png') }}">
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{{ asset('/css/management/dashboard.css') }}">
+
+    <title>AdminHub</title>
 </head>
+
 <body>
 
 
-	<!-- SIDEBAR -->
-	<section id="sidebar">
-		{{-- <a href="{{route('dashboard')}}" class="brand">
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        {{-- <a href="{{route('dashboard')}}" class="brand">
 			<i class='bx bxs-smile'></i>
 			<span class="text">AdminHub</span>
 		</a> --}}
-		<div class="brand logo">
-			<a href="{{ route('home') }}"><img src="{{ asset('image/logo.png') }}"></a>
-		</div>
-		<ul class="side-menu top">
-			<li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-				<a href="{{route('dashboard')}}">
-					<i class='bx bxs-dashboard' ></i>
-					<span class="text">Dashboard</span>
-				</a>
-			</li>
-			<li class="mystore {{ request()->routeIs('mystore') ? 'active' : '' }}">
-				<a href="{{route('mystore')}}">
-					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">My Store</span>
-				</a>
-			</li>
-			<li >
-				<a href="">
-					<i class="bx bxs-doughnut-chart"></i>
-					<span class="text">Analysis</span>
-				</a>
-			</li>
-			<li >
-				<a href="">
-					<i class='bx bxs-message-dots' ></i>
-					<span class="text">Message</span>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<i class='bx bxs-group' ></i>
-					<span class="text">Team</span>
-				</a>
-			</li>
-		</ul>
-		<ul class="side-menu">
-			<li>
-				<a href="#">
-					<i class='bx bxs-cog' ></i>
-					<span class="text">Settings</span>
-				</a>
-			</li>
-			<li >
-				<a href="#" class="logout">
-					<i class='bx bxs-log-out-circle' ></i>
-					<span class="text">Logout</span>
-				</a>
-			</li>
-		</ul>
-	</section>
-	<!-- SIDEBAR -->
+        <div class="brand logo">
+            <a href="{{ route('home') }}"><img src="{{ asset('image/logo.png') }}"></a>
+        </div>
+        <ul class="side-menu top">
+            <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <a href="{{ route('dashboard') }}">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="mystore {{ request()->routeIs('mystore') ? 'active' : '' }}">
+                <a href="{{ route('mystore') }}">
+                    <i class='bx bxs-shopping-bag-alt'></i>
+                    <span class="text">My Store</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="bx bxs-doughnut-chart"></i>
+                    <span class="text">Analysis</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class='bx bxs-message-dots'></i>
+                    <span class="text">Message</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class='bx bxs-group'></i>
+                    <span class="text">Team</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
 
 
 
-	<!-- CONTENT -->
-	<section id="content">
-		<!-- NAVBAR -->
-		<nav>
-			<i class='bx bx-menu' ></i>
-			<a href="#" class="nav-link">Categories</a>
-			<form action="#">
-				<div class="form-input">
-					<input type="search" placeholder="Search...">
-					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
-				</div>
-			</form>
-			<input type="checkbox" id="switch-mode" hidden>
-			<label for="switch-mode" class="switch-mode"></label>
-			<a href="#" class="notification">
-				<i class='bx bxs-bell' ></i>
-				<span class="num">8</span>
-			</a>
-			<a href="#" class="profile">
-				<img src="image/img_dashboard/people.png">
-			</a>
-		</nav>
-		<!-- NAVBAR -->
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <a href="#" class="nav-link">Categories</a>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode"></label>
+            <a href="#" class="notification">
+                <i class='bx bxs-bell'></i>
+                <span class="num">8</span>
+            </a>
+            @php
+                $account = Illuminate\Support\Facades\Auth::user();
 
-		<!-- MAIN -->
-		@yield('content') 
-		<!-- MAIN -->
-	</section>
-	<!-- CONTENT -->
-	
+                $user = \App\Models\User::where('id_account', $account->id)->first();
+            @endphp
+            <a href="#" class="profile">
+                <img src="{{$user->img}}">
+            </a>
+        </nav>
+        <!-- NAVBAR -->
 
-	<script src="{{asset('js/script.js')}}"></script>
+        <!-- MAIN -->
+        @yield('content')
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+
+    <script src="{{ asset('js/script.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Lấy tất cả các liên kết trong sidebar
@@ -131,4 +138,5 @@
         });
     </script>
 </body>
+
 </html>

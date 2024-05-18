@@ -9,14 +9,36 @@ use Dflydev\DotAccessData\Data;
 
 class ManageProductController extends Controller
 {
-    // Phương thức index để hiển thị trang menu
-    public function index()
+    public function index(Request $request)
     {
-        // Lấy tất cả sản phẩm từ model Product
-        $products = Product::all(); 
+        $productsQuery = Product::orderBy('id', 'desc');
 
-        // Trả về view 'menu' và truyền dữ liệu sản phẩm vào view
-        return view('admin.Product Management.manageProduct')->with('products', $products);
+        // Kiểm tra nếu có yêu cầu tìm kiếm
+        if ($request->has('search')) {
+            // Lấy từ khóa tìm kiếm từ request
+            $searchText = $request->input('search');
+
+            // Thực hiện tìm kiếm theo tên sản phẩm
+            $productsQuery->where('name', 'LIKE', "%{$searchText}%");
+        }
+
+        // Thực hiện phân trang với 10 sản phẩm mỗi trang
+        $products = $productsQuery->paginate(10);
+
+        // Trả về view 'admin.Product Management.manageProduct' và truyền dữ liệu sản phẩm vào view
+        return view('admin.Product Management.manageProduct', compact('products'));
+    }
+    public function toggleHide($id)
+    {
+        $product = Product::findOrFail($id);
+        if($product->hide == true){
+            $product->hide = false;
+        }else{
+            $product->hide = true;
+        }
+        
+        $product->save();
+        return redirect()->route('products.index');
     }
     public function create()
     {
@@ -44,7 +66,7 @@ class ManageProductController extends Controller
         // Tạo sản phẩm
         Product::create($data);
 
-        return redirect()->route('manageProduct');
+        return redirect()->route('products.index');
     }
 
     public function edit(Product $product)
@@ -75,12 +97,12 @@ class ManageProductController extends Controller
         $product->update($request->all());
 
         // Chuyển hướng đến route hiển thị danh sách sản phẩm
-        return redirect()->route('manageProduct');
+        return redirect()->route('products.index');
     }
 
     public function destroy(Product $product)
     {
         Product::destroy($product->id);
-        return redirect()->route('manageProduct');
+        return redirect()->route('product.index');
     }
 }

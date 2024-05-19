@@ -2,23 +2,82 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Notification;
 
 class UserController extends Controller
 {
-    public function profile(){
+
+    public function index()
+    {
+        $users = Account::all();
+        return view('admin.users.index', compact('users'));
+    }
+
+    public function edit(Account $user)
+    {
+        return view('admin.users.edit', compact('user'));
+    }
+
+    public function update(Request $request, Account $user)
+    {
+        $request->validate([
+            'username' => 'required',
+            'email' => 'required|email',
+        ]);
+        $user->update($request->all());
+
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully');
+    }
+
+    public function showAssignRoleForm(Account $user)
+    {
+        $roles = ['admin', 'editor', 'user']; // Define your roles here
+        return view('admin.users.assign-role', compact('user', 'roles'));
+    }
+
+    public function assignRole(Request $request, Account $user)
+    {
+        $request->validate([
+            'role' => 'required',
+        ]);
+        $user->role = $request->role;
+        $user->save();
+
+        return redirect()->route('admin.users.index')->with('success', 'Role assigned successfully');
+    }
+
+    public function profile()
+    {
         $account = Auth::user();
-        $user = $account->user;
-        return view('profile.profile', ['profile' => $user]);
-    } 
+        $profile = $account->user;
+
+        if (Auth::check()) {
+            $user = $profile->id_user;
+            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
+        } else {
+            $notifications = [];
+        }
+
+        return view('profile.profile', compact('profile', 'notifications'));
+    }
 
     public function updateProfile(Request $request, $id_user)
     {
         $user = User::findOrFail($id_user);
-        $data = $request->only(['username', 'fullname', 'email', 'phone_number', 'gender', 'date_user', 'img']);
-        
+        $data = $request->only([
+            'username',
+            'fullname',
+            'email',
+            'phone_number',
+            'gender',
+            'date_user',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg '
+        ]);
+
         // Kiểm tra email có bị trùng lặp không
         if ($request->email !== $user->email && User::where('email', $request->email)->exists()) {
             return redirect()->back()->withErrors(['email' => 'The email has already been taken.']);
@@ -48,7 +107,16 @@ class UserController extends Controller
             } else {
                 $currentUser->following()->attach($id);
                 $isFollowing = true;
+                // Tạo thông báo
+                $notification = new Notification([
+                    'user_id' => $id,
+                    'type' => 'follow',
+                    'content' => $currentUser->username . ' has followed you.',
+                    'is_read' => 0
+                ]);
+                $notification->save();
             }
+
 
             return response()->json([
                 'success' => true,
@@ -57,6 +125,5 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-    }    
+    }
 }
- 

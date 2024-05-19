@@ -3,14 +3,17 @@
     .main_blog .slide_1 .blog_box .blog_card {
         width: 100%;
     }
+
     .comment {
         width: 100%;
         margin-top: 20px;
     }
+
     .main_blog .slide_1 {
         width: 100%;
         height: auto;
     }
+
     .main_blog {
         flex-direction: column;
     }
@@ -85,7 +88,8 @@
     display: flex;
     align-items: center;
 }
-.main_blog .slide_1 .blog_box .blog_card .blog_tag .blog_user .name{
+
+.main_blog .slide_1 .blog_box .blog_card .blog_tag .blog_user .name {
     margin-top: 10px;
     font-size: 24px;
     font-style: italic;
@@ -147,8 +151,9 @@
     background: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     margin: 0 auto;
-    
+
 }
+
 .comment-list {
     display: flex;
     margin-bottom: 15px;
@@ -158,38 +163,14 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.comment-avatar {
-    margin-right: 15px;
-}
 
 .comment-avatar img {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-}
-
-.comment-content {
-    flex-grow: 1;
-}
-
-.comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.comment-user {
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.comment-time {
-    font-size: 0.875rem;
-    color: #999;
-}
-
-.comment-text {
-    margin-top: 10px;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Comment Section */
@@ -230,23 +211,14 @@
         margin-top: 20px;
     }
 }
+
 .comment-section .card {
     margin-bottom: 10px;
 }
+
 .comment-options {
     position: relative;
     cursor: pointer;
-}
-
-.comment-menu {
-    position: absolute;
-    right: 0;
-    background: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 100;
-    width: 120px;
 }
 
 .comment-menu li {
@@ -275,35 +247,43 @@
     cursor: pointer;
     margin-right: 20px;
 }
+
 .blog-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 .blog-head {
     display: flex;
     align-items: center;
 }
 
 .blog_user .img {
-    width: 50px; /* Adjust size as needed */
-    height: 50px; /* Adjust size as needed */
+    width: 50px;
+    /* Adjust size as needed */
+    height: 50px;
+    /* Adjust size as needed */
     border-radius: 50%;
-    margin-right: 10px; /* Adjust margin as needed */
+    margin-right: 10px;
+    /* Adjust margin as needed */
 }
 
 .blog_user .name {
     margin: 0;
-    font-size: 16px; /* Adjust size as needed */
+    font-size: 16px;
+    /* Adjust size as needed */
 }
-.follow-btn{
+
+.follow-btn {
     border: none;
     align-items: center;
     background: #ffffff00;
     color: #000000;
     padding-top: 10px;
 }
-.follow-btn:hover{
+
+.follow-btn:hover {
     color: #ffc800;
 }
 
@@ -314,7 +294,7 @@
     background: #ffffff;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 100;
     width: 120px;
 }
@@ -379,3 +359,233 @@
 .main_blog .slide_1 .blog_box .blog_card .blog_tag .blog_text::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.comment-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+}
+
+.comment-container .user {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 10px;
+    position: relative;
+}
+
+.comment-container .user .user-pic {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+}
+
+.comment-container .user .user-pic:after {
+    content: '';
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 50%;
+    background-color: #0fc45a;
+    border: 2px solid #ffffff;
+}
+
+.comment-container .user .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.comment-container .user .user-info span {
+    font-weight: 700;
+    font-size: 12px;
+    color: #47484b;
+}
+
+.comment-container .user .user-info p {
+    font-weight: 600;
+    font-size: 10px;
+    color: #acaeb4;
+}
+
+.comment-container .comment-options {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.comment-container .comment-options i {
+    font-size: 16px;
+    color: #47484b;
+}
+
+.comment-container .comment-options .comment-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.comment-container .comment-options:hover .comment-menu {
+    display: block;
+}
+
+.comment-container .comment-text {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    color: #5f6064;
+}
+
+.text-box {
+    width: 100%;
+    height: fit-content;
+    background-color: #f1f1f1;
+    padding: 8px;
+}
+
+.text-box .box-container {
+    background-color: #ffffff;
+    border-radius: 8px 8px 21px 21px;
+    padding: 8px;
+}
+
+.text-box textarea {
+    width: 100%;
+    height: 70px;
+    resize: none;
+    border: 0;
+    border-radius: 6px;
+    padding: 12px 12px 10px 12px;
+    font-size: 13px;
+    outline: none;
+    caret-color: #0a84ff;
+}
+
+
+
+.text-box button {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 0;
+    outline: none;
+}
+
+.text-box button:hover {
+    background-color: #f1f1f1;
+}
+
+.text-box .send {
+    width: 30px;
+    height: 30px;
+    background-color: #0a84ff;
+    margin: 0 0 0 auto;
+}
+
+.text-box .send:hover {
+    background-color: #026eda;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+.btn-save {
+    border: none;
+    color: #fff;
+    background-image: linear-gradient(30deg, #0400ff, #4ce3f7);
+    border-radius: 20px;
+    background-size: 100% auto;
+    font-family: inherit;
+    font-size: 17px;
+    padding: 0.2em 1.5em;
+    margin-top: 10px;
+   }
+   
+   .btn-save:hover {
+    background-position: right center;
+    background-size: 200% auto;
+    -webkit-animation: pulse 2s infinite;
+    animation: pulse512 1.5s infinite;
+   }
+   
+   @keyframes pulse512 {
+    0% {
+     box-shadow: 0 0 0 0 #05bada66;
+    }
+   
+    70% {
+     box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+    }
+   
+    100% {
+     box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+   }
+.btn-cancel {
+    border: none;
+    color: #fff;
+    background-image: linear-gradient(30deg, #0400ff, #4ce3f7);
+    border-radius: 20px;
+    background-size: 100% auto;
+    font-family: inherit;
+    font-size: 17px;
+    padding: 0.2em 1.2em;
+    margin-top: 10px;
+   }
+   
+   .btn-cancel:hover {
+    background-position: right center;
+    background-size: 200% auto;
+    -webkit-animation: pulse 2s infinite;
+    animation: pulse512 1.5s infinite;
+   }
+   
+   @keyframes pulse512 {
+    0% {
+     box-shadow: 0 0 0 0 #05bada66;
+    }
+   
+    70% {
+     box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+    }
+   
+    100% {
+     box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+   }

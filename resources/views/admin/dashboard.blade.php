@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,9 @@
     <!-- My CSS -->
     <link rel="stylesheet" href="{{ asset('/css/management/dashboard.css') }}">
 
-    <title>AdminHub</title>
+    <title>AdminFood</title>
 </head>
+
 
 <body>
 
@@ -39,10 +41,10 @@
                     <span class="text">My Store</span>
                 </a>
             </li>
-            <li>
-                <a href="">
-                    <i class="bx bxs-doughnut-chart"></i>
-                    <span class="text">Analysis</span>
+            <li class="users {{ request()->routeIs('users') ? 'active' : '' }}">
+                <a href="{{ route('admin.users.index') }}">
+                    <i class='bx bx-user'></i>
+                    <span class="text">Users</span>
                 </a>
             </li>
             <li>
@@ -66,7 +68,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="logout">
+                <a href="{{ route('logout') }}" class="logout">
                     <i class='bx bxs-log-out-circle'></i>
                     <span class="text">Logout</span>
                 </a>
@@ -119,24 +121,25 @@
             // Lấy tất cả các liên kết trong sidebar
             const sidebarLinks = document.querySelectorAll("#sidebar .side-menu a");
 
-            // Lặp qua mỗi liên kết
-            sidebarLinks.forEach(link => {
-                // Bắt sự kiện khi liên kết được nhấp vào
-                link.addEventListener("click", function() {
-                    // Lấy tất cả các phần tử li cùng cấp
-                    const siblings = this.parentNode.parentNode.querySelectorAll("li");
+			// Lặp qua mỗi liên kết
+			sidebarLinks.forEach(link => {
+				// Bắt sự kiện khi liên kết được nhấp vào
+				link.addEventListener("click", function () {
+					// Lấy tất cả các phần tử li cùng cấp
+					const siblings = this.parentNode.parentNode.querySelectorAll("li");
 
-                    // Loại bỏ lớp active từ tất cả các phần tử li cùng cấp
-                    siblings.forEach(item => {
-                        item.classList.remove("active");
-                    });
+					// Loại bỏ lớp active từ tất cả các phần tử li cùng cấp
+					siblings.forEach(item => {
+						item.classList.remove("active");
+					});
 
-                    // Thêm lớp active cho phần tử li chứa liên kết được nhấp vào
-                    this.parentNode.classList.add(".active");
-                });
-            });
-        });
-    </script>
+					// Thêm lớp active cho phần tử li chứa liên kết được nhấp vào
+					this.parentNode.classList.add(".active");
+				});
+			});
+		});
+	</script>
 </body>
+
 
 </html>

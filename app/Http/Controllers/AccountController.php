@@ -25,7 +25,7 @@ class AccountController extends Controller
     
         $req->merge(['password' => Hash::make($req->password)]);
     
-        try {
+        try { 
             $account = Account::create([
                 'username' => $validatedData['username'],
                 'email' => $validatedData['email'],
@@ -41,11 +41,12 @@ class AccountController extends Controller
             return redirect()->back()->withErrors('Unable to create account. Please try again.');
         }
     
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', 'Account created successfully.');
     }    
     public function postLogin(Request $req){
         // $validate = $req->only('username', 'password');
         if (Auth::attempt(['username' => $req->username, 'password' => $req->password])) {
+            $req->session()->flash('success', 'Login successfully');
             return redirect()->route('home'); 
         }
         return redirect()->back()->with('error', 'Invalid username or password.');

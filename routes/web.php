@@ -15,8 +15,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OderController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Categorie;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\TodoController;
+use App\Http\Controllers\WishlistController;
+use App\Models\Wishlist;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +47,7 @@ Route::get('/menu', [HomeController::class, 'menu'])->name("menu");
 Route::get('/gallery', [HomeController::class, 'gallery'])->name("gallery");
 //login
 Route::get('/login', function () {
-    return view('login.login'); 
+    return view('login.login');
 })->name("login");
 
 Route::get('/singup', function () {
@@ -62,11 +66,11 @@ Route::get('/profile', [UserController::class, 'profile'])->name('profile')->mid
 //update profile
 Route::post('/profile/update/{id}', [UserController::class, 'updateProfile'])->name('profile.update')->middleware('auth');
 //change password
-Route::get('/changePassword', function(){
+Route::get('/changePassword', function () {
     return view('login.changePassword');
 })->name('formChangePassword');
 Route::post('/changePassword', [AccountController::class, 'changePassword'])->name('changePassword');
- 
+
 Route::post('/check-credentials', [AccountController::class, 'checkCredentials'])->name('check-credentials');
 
 //cart
@@ -77,12 +81,15 @@ Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.r
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/cart/checkout/process', [CartController::class, 'saveorder'])->name('checkout.process');
 
-
+//Wishlist
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist')->middleware('auth');
+Route::post('/addwishlist', [HomeController::class, 'Wishlist'])->name('wishlist.add');
 
 //BLOG
 Route::get('/blog', function () {
     return view('home.blog');
 })->name("blog");
+
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog/create', [BlogController::class, 'view_profile'])->name('create_blog')->middleware('auth');
 //create blog
@@ -91,6 +98,7 @@ Route::post('/blog/add', [BlogController::class, 'create_blog'])->name('blog.add
 Route::get('/blog/{id}', [BlogController::class, 'showBlog'])->name('blog.show');
 // delete blog
 Route::delete('/blog/{id}', [BlogController::class, 'deleteBlog'])->name('blogs.delete');
+Route::delete('/post/{id}', [BlogController::class, 'deletePost'])->name('blogs.delete');
 // edit blog
 Route::put('/blog/{id}', [BlogController::class, 'updateContent'])->name('blog.updateContent');
 // like blog
@@ -107,6 +115,9 @@ Route::delete('/comments/{id}', [BlogController::class, 'deleteComment'])->name(
 // follow
 Route::post('/user/toggle-follow/{id}', [UserController::class, 'toggleFollow'])->name('user.toggle-follow');
 
+// notification
+Route::post('/notifications', [NotificationController::class, 'createNotification']);
+
 //oder
 Route::get('/admin/order/{id}/confirm', [OderController::class, 'comfirm'])->name("order.comfirm");
 Route::get('/admin/order', [OderController::class, 'index'])->name("dashboard.order");
@@ -115,7 +126,7 @@ Route::post('/order-history/{id}', [OderController::class, 'success'])->name("or
 Route::get('/order-history/{id}/cancel', [OderController::class, 'cancel'])->name("order.cancel");
 
 //detail
-Route::get('/menu/detail/{id}',[DetailController::class, 'index'])->name("detail");
+Route::get('/menu/detail/{id}', [DetailController::class, 'index'])->name("detail");
 Route::post('/menu/detail/add', [DetailController::class, 'add'])->name('detail.add');
 
 
@@ -123,7 +134,7 @@ Route::post('/menu/detail/add', [DetailController::class, 'add'])->name('detail.
 
 
 Route::prefix('/admin')->group(function () {
-    Route::middleware('auth','role:admin')->group(function () {
+    Route::middleware(['auth', 'role:admin,editor'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name("dashboard");
         Route::get('/mystore', [DashboardController::class, 'mystore'])->name("mystore");
 
@@ -148,6 +159,22 @@ Route::prefix('/admin')->group(function () {
             Route::delete('/{product}', [ManageProductController::class, 'destroy'])->name("delete");
         });
 
+        // User management routes
+        Route::prefix('/users')->name('admin.users.')->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+            Route::put('/{user}', [UserController::class, 'update'])->name('update');
+            Route::get('/{user}/assign-role', [UserController::class, 'showAssignRoleForm'])->name('assign-role');
+            Route::post('/{user}/assign-role', [UserController::class, 'assignRole'])->name('assign-role.store');
+        });
     });
 });
+
+Route::get('/todos', [TodoController::class, 'index'])->name('todos.index');
+Route::post('/todos', [TodoController::class, 'store'])->name('todos.store');
+Route::patch('/todos/{todo}', [TodoController::class, 'update'])->name('todos.update');
+Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
+
+
+//wishlist
 

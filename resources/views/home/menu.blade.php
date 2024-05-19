@@ -68,48 +68,64 @@
         <div class="menu">
             <div class="menu_box anim">
                 @forelse ($products as $product)
-                        <div class="menu_card">
-                            <div class="menu_img"
-                                onclick="window.location='{{ route('detail', ['id' => $product->id]) }}'">
-                                <img src="{{ asset($product->image_url) }}">
-                            </div>
-                            <div class="menu_text">
-                                <h2>{{ $product->name }}</h2>
-                                {{-- <p>{{ $product->description }}</p> --}}
-                                <div class="menu_icon">
-                                    @php
-                                        $fullStars = floor($product->rating); // Số sao đầy đủ
-                                        $halfStar = $product->rating - $fullStars; // Phần nửa sao
-                                        $emptyStars = 5 - ceil($product->rating); // Số sao trống
-                                    @endphp
-
-                                    {{-- Hiển thị sao đầy đủ --}}
-                                    @for ($i = 0; $i < $fullStars; $i++)
-                                        <i class="fa-solid fa-star"></i>
-                                    @endfor
-
-                                    {{-- Hiển thị sao nửa --}}
-                                    @if ($halfStar >= 0.5)
-                                        <i class="fa-solid fa-star-half-stroke"></i>
-                                    @endif
-
-                                    {{-- Hiển thị sao trống --}}
-                                    @for ($i = 0; $i < $emptyStars; $i++)
-                                        <i class="fa-solid fa-star-empty"></i>
-                                    @endfor
-                                </div>
-                                <p class="price">
-                                    {{ $product->new_price }}$<sub><del>{{ $product->old_price }}$</del></sub>
-                                </p>
-                                <button class="CartBtn" onclick="addToCart({{ $product->id }})">
-                                    <span class="IconContainer">
-                                        <i class="fa-solid fa-burger"></i>
-                                    </span>
-
-                                    <p class="text">Order Now</p>
-                                </button>
-                            </div>
+                    <div class="menu_card">
+                        @php
+                            $isInWishlist = false;
+                            foreach ($wishlist as $wish) {
+                                if ($wish->product_id == $product->id) {
+                                    $isInWishlist = true;
+                                    break;
+                                }
+                            }
+                        @endphp
+                        <span id="wishlist-icon-{{ $product->id }}" class="wishlist-icon"
+                            onclick="addToWishlist({{ $product->id }})">
+                            @if ($isInWishlist)
+                                <i class="fa-solid fa-heart fa-2x"></i>
+                            @else
+                                <i class="fa-regular fa-heart fa-2x"></i>
+                            @endif
+                        </span>
+                        <div class="menu_img" onclick="window.location='{{ route('detail', ['id' => $product->id]) }}'">
+                            <img src="{{ asset($product->image_url) }}">
                         </div>
+                        <div class="menu_text">
+                            <h2>{{ $product->name }}</h2>
+                            {{-- <p>{{ $product->description }}</p> --}}
+                            <div class="menu_icon">
+                                @php
+                                    $fullStars = floor($product->rating); // Số sao đầy đủ
+                                    $halfStar = $product->rating - $fullStars; // Phần nửa sao
+                                    $emptyStars = 5 - ceil($product->rating); // Số sao trống
+                                @endphp
+
+                                {{-- Hiển thị sao đầy đủ --}}
+                                @for ($i = 0; $i < $fullStars; $i++)
+                                    <i class="fa-solid fa-star"></i>
+                                @endfor
+
+                                {{-- Hiển thị sao nửa --}}
+                                @if ($halfStar >= 0.5)
+                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                @endif
+
+                                {{-- Hiển thị sao trống --}}
+                                @for ($i = 0; $i < $emptyStars; $i++)
+                                    <i class="fa-solid fa-star-empty"></i>
+                                @endfor
+                            </div>
+                            <p class="price">
+                                {{ $product->new_price }}$<sub><del>{{ $product->old_price }}$</del></sub>
+                            </p>
+                            <button class="CartBtn" onclick="addToCart({{ $product->id }})">
+                                <span class="IconContainer">
+                                    <i class="fa-solid fa-burger"></i>
+                                </span>
+
+                                <p class="text">Order Now</p>
+                            </button>
+                        </div>
+                    </div>
                 @empty
                     <div class="menu_box">
                         <h1>No products found.</h1>
@@ -156,6 +172,32 @@
                 }, 300);
             })
             .catch(function(error) {
+                // Xử lý lỗi (nếu có)
+                console.error(error);
+
+
+            });
+    }
+
+    function addToWishlist(productId) {
+        // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
+        axios.post('/addwishlist', {
+                productId: productId
+            })
+            .then(function(response) {
+                // window.location.reload();
+                // Nếu thành công, cập nhật trạng thái của biểu tượng tim
+            var wishlistIcon = document.getElementById('wishlist-icon-' + productId);
+            if (response.data.isInWishlist) {
+                console.log('Added to wishlist');
+                wishlistIcon.innerHTML = '<i class="fa-solid fa-heart fa-2x"></i>';
+            } else {
+                console.log('Removed from wishlist');
+                wishlistIcon.innerHTML = '<i class="fa-regular fa-heart fa-2x"></i>';
+            }
+            })
+            .catch(function(error) {
+                window.location.href = '/login';
                 // Xử lý lỗi (nếu có)
                 console.error(error);
 

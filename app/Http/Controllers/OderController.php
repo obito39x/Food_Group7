@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Termwind\Components\Dd;
@@ -71,8 +72,17 @@ class OderController extends Controller
         $orders = Order::where('id_user', $user->id)->orderBy('created_at', 'desc')->get();
         $order_items = OrderItem::all();
         $products = Product::all();
+        
+        if (Auth::check()) {
+            $account = Auth::user();
+            $user = $account->user->id_user;
+            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
+
+        } else {
+            $notifications = [];
+        }
         // Trả về view lịch sử đơn hàng
-        return view('admin.Order.history', compact('orders', 'order_items', 'products'));
+        return view('admin.Order.history', compact('orders', 'order_items', 'products', 'notifications'));
     }
     public function success(Request $request, $id)
     {

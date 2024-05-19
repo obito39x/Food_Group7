@@ -103,6 +103,7 @@ button i {
     margin-bottom: 15px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .menu .menu_box .menu_card .menu_img img {
@@ -431,3 +432,27 @@ button i {
         transform: translateY(0);
     }
 }
+.wishlist-icon{
+    margin-left: 300px;
+}
+@keyframes heartbeat {
+    from {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.3);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  
+  /* Định dạng cho biểu tượng tim */
+  .wishlist-icon i.fa-heart {
+    color: #ff6b6b; /* Màu của biểu tượng tim */
+  }
+  
+  /* Thêm hiệu ứng animation vào biểu tượng tim khi hover */
+  .wishlist-icon:hover i.fa-heart {
+    animation: heartbeat 0.5s infinite; /* Áp dụng hiệu ứng animation */
+  }

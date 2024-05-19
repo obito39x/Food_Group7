@@ -799,7 +799,7 @@ section .main .main_image img{
     bottom: 55px;
     padding: 15px 0;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 0;
 }
 

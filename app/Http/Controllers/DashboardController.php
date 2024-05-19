@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\User;
+use App\Models\Blog;
+use App\Models\Todo;
 use Illuminate\Http\Request;
 use Termwind\Components\Dd;
 
@@ -35,11 +37,19 @@ class DashboardController extends Controller
         // Truy vấn các đơn hàng
         $orders = $ordersQuery->limit(10)->get();
         $states = Status::all();
-        return view('admin.main', compact('new_order', 'visitors', 'total_sales', 'orders','states'));
+        $todos = Todo::all();
+        return view('admin.main', compact('new_order', 'visitors', 'total_sales', 'orders','states','todos'));
     }
 
     public function mystore()
     {
         return view('admin.mystore');
+    }
+    public function blogs()
+    {
+        $blogs = Blog::where('status', 'pending')->orderBy('created_at', 'desc')->get();
+
+
+        return view('admin.blogs', compact('blogs'));
     }
 }

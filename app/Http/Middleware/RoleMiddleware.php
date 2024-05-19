@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Termwind\Components\Dd;
 
 class RoleMiddleware
 {
@@ -14,14 +15,19 @@ class RoleMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string  $role
+     * @param  string[]  ...$roles
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, ...$roles)
     {
-        if (!Auth::check() || Auth::user()->role !== $role) {
-            // Redirect or abort if the user doesn't have the required role
-            return redirect('/login'); // or abort(403); for forbidden
+        if (!Auth::check()) {
+            return redirect('/login'); // Redirect to login if user is not authenticated
+        }
+
+        $user = Auth::user();
+
+        if (!in_array($user->role, $roles)) {
+            return abort(403); // Forbid access if user does not have the required role
         }
 
         return $next($request);

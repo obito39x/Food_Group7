@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Session;
 use Termwind\Components\Dd;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,6 @@ class CartController extends Controller
                 $products[] = $product;
             }
         }
-
         // Trả về view 'cart' và truyền danh sách sản phẩm vào view
         return view('cart.cart', compact('products'));
     }

@@ -1,6 +1,81 @@
 @extends('admin.dashboard') <!-- Extend the main layout -->
 
 @section('content')
+    <style>
+        .todo .head form {
+            display: flex;
+            align-items: center;
+        }
+
+        .todo .head input[type="text"] {
+            width: calc(100% - 40px);
+            /* Trừ đi chiều rộng của nút */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .todo .head button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .todo .head button i {
+            font-size: 18px;
+        }
+
+        .todo .head button:hover {
+            background-color: #45a049;
+        }
+
+        .todo .todo-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .todo .todo-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .todo .todo-list li.completed p {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .todo .todo-list li p {
+            margin: 0;
+            flex: 1;
+        }
+
+        .todo .todo-list li form {
+            display: inline-block;
+        }
+
+        .todo .todo-list li button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .todo .todo-list li button i {
+            color: #ff0000;
+        }
+
+        .todo .todo-list li button i:hover {
+            color: #b30000;
+        }
+    </style>
     <main>
         <div class="head-title">
             <div class="left">
@@ -103,35 +178,60 @@
                     </tbody>
                 </table>
             </div>
-            <div class="todo">
-                <div class="head">
-                    <h3>Todos</h3>
-                    <i class='bx bx-plus'></i>
-                    <i class='bx bx-filter'></i>
+            @php
+                $account = Illuminate\Support\Facades\Auth::user();
+            @endphp
+            @if ($account->role == 'admin')
+                <div class="todo">
+                    <div class="head">
+                        <h3>Todos</h3>
+                        <form action="{{ route('todos.store') }}" method="POST">
+                            @csrf
+                            <input type="text" name="title" placeholder="Add new todo">
+                            <button type="submit"><i class='bx bx-plus'></i></button>
+                        </form>
+                    </div>
+                    <ul class="todo-list">
+                        @foreach ($todos as $todo)
+                            <li class="{{ $todo->is_completed ? 'completed' : 'not-completed' }}">
+                                <form action="{{ route('todos.update', $todo->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <p>{{ $todo->title }}</p>
+                                    <input type="checkbox" name="is_completed" {{ $todo->is_completed ? 'checked' : '' }}
+                                        onchange="this.form.submit()">
+                                </form>
+                                <form action="{{ route('todos.destroy', $todo->id) }}" method="POST"
+                                    style="display:inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"><i class='bx bx-trash'></i></button>
+                                </form>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
-                <ul class="todo-list">
-                    <li class="completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded'></i>
-                    </li>
-                    <li class="completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded'></i>
-                    </li>
-                    <li class="not-completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded'></i>
-                    </li>
-                    <li class="completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded'></i>
-                    </li>
-                    <li class="not-completed">
-                        <p>Todo List</p>
-                        <i class='bx bx-dots-vertical-rounded'></i>
-                    </li>
-                </ul>
-            </div>
+            @else
+                <div class="todo">
+                    <div class="head">
+                        <h3>Todos</h3>
+                    </div>
+                    <ul class="todo-list">
+                        @foreach ($todos as $todo)
+                            <li class="{{ $todo->is_completed ? 'completed' : 'not-completed' }}">
+                                <form action="{{ route('todos.update', $todo->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <p>{{ $todo->title }}</p>
+                                    <input type="checkbox" name="is_completed" {{ $todo->is_completed ? 'checked' : '' }}
+                                        onchange="this.form.submit()">
+                                </form>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
         </div>
     </main>
 @endsection

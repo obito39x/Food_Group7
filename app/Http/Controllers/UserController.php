@@ -108,12 +108,10 @@ class UserController extends Controller
                 $currentUser->following()->attach($id);
                 $isFollowing = true;
                 // Tạo thông báo
-                $notification = new Notification([
-                    'user_id' => $id,
-                    'type' => 'follow',
-                    'content' => $currentUser->username . ' has followed you.',
-                    'is_read' => 0
-                ]);
+                $notification = new Notification();
+                $notification->user_id = $id;
+                $notification->type = 'follow';
+                $notification->data = $currentUser->username . ' has followed you ';
                 $notification->save();
             }
 

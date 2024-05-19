@@ -10,6 +10,7 @@ function toggleLike(blogId) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // window.location.reload();
                 const likeCount = document.querySelector(`#like-count-${blogId}`);
                 const likeIcon = document.querySelector(`#like-icon-${blogId}`);
                 const viewCount = document.querySelector(`#view-count-${blogId}`);
@@ -53,7 +54,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 // Nếu người dùng xác nhận xóa, thực hiện yêu cầu AJAX
                 $.ajax({
-                    url: '/blog/' + blogId,
+                    url: '/post/' + blogId,
                     type: 'DELETE',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content')

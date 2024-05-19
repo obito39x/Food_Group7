@@ -47,10 +47,10 @@
                     <span class="text">Users</span>
                 </a>
             </li>
-            <li>
-                <a href="">
+            <li class="blogs {{ request()->routeIs('blogs') ? 'active' : '' }}">
+                <a href="{{ route('admin.blog') }}">
                     <i class='bx bxs-message-dots'></i>
-                    <span class="text">Message</span>
+                    <span class="text">Blogs</span>
                 </a>
             </li>
             <li>

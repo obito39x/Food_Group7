@@ -89,7 +89,7 @@
                                 <td><button class="buton_sucess" onclick="showReviewForm({{ $order->id }})"> Success
                                     </button></td>
                             @elseif($order->status_id == 2)
-                                <td><button class="buton_sucess"
+                                <td><button class="buton_cancel"
                                         onclick="window.location='{{ route('order.cancel', $order->id) }}'"> Cancel
                                     </button></td>
                             @endif

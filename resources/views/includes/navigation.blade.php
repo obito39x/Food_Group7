@@ -47,7 +47,9 @@
                     if (Illuminate\Support\Facades\Auth::check()) {
                         $account = Illuminate\Support\Facades\Auth::user();
                         $user = $account->user->id;
-                        $notifications = App\Models\Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
+                        $notifications = App\Models\Notification::where('user_id', $user)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
                     } else {
                         $notifications = [];
                     }
@@ -75,7 +77,7 @@
                                 @endif
                             </div>
                             <div class="notification-info">
-                                <span>{{ $notification->content }}</span>
+                                <span>{{ $notification->data }}</span>
                                 <p>{{ $notification->getTimeDiff() }}</p>
                             </div>
                         </div>
@@ -112,7 +114,11 @@
                         <ul>
                             <li><img src="{{ asset('image/profile.png') }}" alt="Profile"><a
                                     href="{{ route('profile') }}">Profile</a></li>
-                            <li><img src="{{ asset('image/logout.png') }}" alt="Logout"><a
+                            @if($account->role == 'admin' || $account->role == 'editor')
+                            <li><img src="{{ asset('icons/icons8-user-secured-48.png') }}" alt="Logout"><a
+                                href="{{ route('dashboard') }}">Administration</a></li>
+                            @endif
+                            <li><img src="{{ asset('icons/icons8-order-history-48.png') }}" alt="Logout"><a
                                     href="{{ route('order.history') }}">Order History</a></li>
                             <li><img src="{{ asset('image/key.png') }}" alt="ResetPassword"><a
                                     href="{{ route('changePassword') }}">Reset Password</a></li>
@@ -127,4 +133,3 @@
         </div>
     </div>
 </nav>
-

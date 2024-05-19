@@ -3,6 +3,15 @@
 @section('content')
 
 <main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Tìm li có class mystore
+            const mystoreLi = document.querySelector("#sidebar .blogs");
+
+            // Thêm lớp active cho li mystore
+            mystoreLi.classList.add("active");
+        });
+    </script>
     <div class="head-title">
         <div class="left">
             <h1>Blogs</h1>
@@ -12,67 +21,67 @@
                 </li>
                 <li><i class='bx bx-chevron-right'></i></li>
                 <li>
-                    <a class="active" href="#">Blogs</a>
+                    <a class="active" href="{{ route('admin.blog') }}">Blogs</a>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="blog_box">
-        @foreach($blogs as $blog)
-            <div class="blog_card">
-                <div class="blog_image">
-                    <img src="{{ $blog->img }}">
-                </div>
-                <div class="blog_tag" data-id="{{ $blog->id_blog }}">
-                    <div class="blog-header">
-                        <div class="blog_date">
-                            <p>{{ $blog->getTimeDiff() }}<i class="fa-solid fa-calendar-days"></i></p>
-                        </div>
+        <div class="blog_box">
+            @foreach($blogs as $blog)
+                <div class="blog_card">
+                    <div class="blog_image">
+                        <img src="{{ $blog->img }}">
                     </div>
-                    <h2 class="blog_heading">
-                        <div class="title">{{ $blog->title }}</div>
-                    </h2>
-                    <p class="blog_text">
-                        {{ $blog->content }}
-                    </p>
-                </div>
-                <div class="blog-status">
-                    <form action="{{ route('admin.blogs.approve', $blog->id_blog) }}" method="POST">
-                        @csrf
-                        <button class="reward-btn" type="submit" data-id="{{ $blog->id_blog }}">
-                            <span class="IconContainer">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 60 20" class="box-top box">
-                                    <path stroke-linecap="round" stroke-width="4" stroke="#6A8EF6" d="M2 18L58 18"></path>
-                                    <circle stroke-width="5" stroke="#6A8EF6" fill="#101218" r="7" cy="9.5" cx="20.5">
-                                    </circle>
-                                    <circle stroke-width="5" stroke="#6A8EF6" fill="#101218" r="7" cy="9.5" cx="38.5">
-                                    </circle>
-                                </svg>
+                    <div class="blog_tag" data-id="{{ $blog->id_blog }}">
+                        <div class="blog-header">
+                            <div class="blog_date">
+                                <p>{{ $blog->getTimeDiff() }}<i class="fa-solid fa-calendar-days"></i></p>
+                            </div>
+                        </div>
+                        <h2 class="blog_heading">
+                            <div class="title">{{ $blog->title }}</div>
+                        </h2>
+                        <p class="blog_text">
+                            {{ $blog->content }}
+                        </p>
+                    </div>
+                    <div class="blog-status">
+                        <form action="{{ route('admin.blogs.approve', $blog->id_blog) }}" method="POST">
+                            @csrf
+                            <button class="reward-btn" type="submit" data-id="{{ $blog->id_blog }}">
+                                <span class="approve">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 60 20" class="box-top box">
+                                        <path stroke-linecap="round" stroke-width="4" stroke="#6A8EF6" d="M2 18L58 18"></path>
+                                        <circle stroke-width="5" stroke="#6A8EF6" fill="#101218" r="7" cy="9.5" cx="20.5">
+                                        </circle>
+                                        <circle stroke-width="5" stroke="#6A8EF6" fill="#101218" r="7" cy="9.5" cx="38.5">
+                                        </circle>
+                                    </svg>
 
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 58 44"
-                                    class="box-body box">
-                                    <mask fill="white" id="path-1-inside-1_81_19">
-                                        <rect rx="3" height="44" width="58"></rect>
-                                    </mask>
-                                    <rect mask="url(#path-1-inside-1_81_19)" stroke-width="8" stroke="#6A8EF6"
-                                        fill="#101218" rx="3" height="44" width="58"></rect>
-                                    <line stroke-width="6" stroke="#6A8EF6" y2="29" x2="58" y1="29" x1="-3.61529e-09">
-                                    </line>
-                                    <path stroke-linecap="round" stroke-width="5" stroke="#6A8EF6" d="M45.0005 20L36 3">
-                                    </path>
-                                    <path stroke-linecap="round" stroke-width="5" stroke="#6A8EF6"
-                                        d="M21 3L13.0002 19.9992"></path>
-                                </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 58 44"
+                                        class="box-body box">
+                                        <mask fill="white" id="path-1-inside-1_81_19">
+                                            <rect rx="3" height="44" width="58"></rect>
+                                        </mask>
+                                        <rect mask="url(#path-1-inside-1_81_19)" stroke-width="8" stroke="#6A8EF6"
+                                            fill="#101218" rx="3" height="44" width="58"></rect>
+                                        <line stroke-width="6" stroke="#6A8EF6" y2="29" x2="58" y1="29" x1="-3.61529e-09">
+                                        </line>
+                                        <path stroke-linecap="round" stroke-width="5" stroke="#6A8EF6" d="M45.0005 20L36 3">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-width="5" stroke="#6A8EF6"
+                                            d="M21 3L13.0002 19.9992"></path>
+                                    </svg>
 
-                                <span class="coin"></span>
-                            </span>
-                            <span class="text">Approve</span>
-                        </button>
-                    </form>
+                                    <span class="coin"></span>
+                                </span>
+                                <span class="textapprove">Approve</span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        @endforeach
-    </div>
+            @endforeach
+        </div>
 </main>
 
 
@@ -188,7 +197,7 @@
         transition: all 0.3s;
     }
 
-    .IconContainer {
+    .approve {
         width: 40px;
         height: 40px;
         display: flex;
@@ -196,18 +205,18 @@
         align-items: center;
         justify-content: center;
         position: relative;
-    }
+    } 
 
-    .IconContainer svg {
+    .approve svg {
         width: 40%;
         z-index: 3;
     }
 
-    .box-top {
+     .box-top {
         transition: all 0.3s;
     }
 
-    .text {
+    .textapprove {
         width: 70px;
         height: 100%;
         font-size: 13px;
@@ -216,9 +225,9 @@
         align-items: center;
         justify-content: flex-start;
         font-weight: 600;
-    }
+    } 
 
-    .reward-btn:hover .IconContainer .box-top {
+     .reward-btn:hover .approve .box-top {
         transform: translateY(-5px);
     }
 
@@ -250,4 +259,3 @@
     }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script></script>

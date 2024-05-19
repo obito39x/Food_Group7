@@ -9,11 +9,11 @@ use Carbon\Carbon;
 class Notification extends Model
 {
     use HasFactory;
-    
+    // public $timestamps = false;
     protected $fillable = [
         'user_id',
         'type',
-        'content',
+        'data',
         'blog_id',
         'is_read',
     ];
@@ -21,7 +21,7 @@ class Notification extends Model
     // Mối quan hệ với User (người dùng)
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'id');
     }
 
     // Mối quan hệ với Blog

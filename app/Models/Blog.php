@@ -21,7 +21,7 @@ class Blog extends Model
                         'status'];
 
     public function user(){
-        return $this->belongsTo(User::class, 'id_user', 'id_user');
+        return $this->belongsTo(User::class, 'id_user', 'id');
     } 
     public function getTimeDiff()
     {

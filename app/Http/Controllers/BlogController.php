@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Blog;
+use App\Models\BlogLike;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\Notification;
@@ -30,28 +31,15 @@ class BlogController extends Controller
         if ($account) {
             $followers = $account->user->followers ?? collect();
         }
-        if (Auth::check()) {
-            $account = Auth::user();
-            $user = $account->user->id_user;
-            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
-
-        } else {
-            $notifications = [];
-        }
-        return view('home.blog', compact('blogs', 'followedUsers', 'followers', 'notifications'));
+        $blog_like = BlogLike::where("user_id", $account->user->id)->first();
+        return view('home.blog', compact('blogs', 'followedUsers', 'followers', 'blog_like'));
     }
     public function view_profile()
     {
         $account = Auth::user(); // Lấy thông tin người dùng hiện tại
         $user = $account->user;
 
-        if (Auth::check()) {
-            $notifications = Notification::where('user_id', $user->id_user)->orderBy('created_at', 'desc')->get();
-
-        } else {
-            $notifications = [];
-        }
-        return view('blog.create_blog', compact('user', 'notifications'));
+        return view('blog.create_blog', compact('user'));
     }
     public function create_blog(Request $req)
     {
@@ -72,7 +60,7 @@ class BlogController extends Controller
         }
         $account = Auth::user(); // Lấy thông tin người dùng hiện tại
 
-        $id_user = $account->user->id_user;
+        $id_user = $account->user->id;
 
         // Tạo blog mới
         $blog = Blog::create([
@@ -108,17 +96,9 @@ class BlogController extends Controller
         $blog->increment('view_count');
         $blog->is_liked = $blog->likers->contains(Auth::id());
         $blog->like_count = $blog->likers->count();
-
-        if (Auth::check()) {
-            $account = Auth::user();
-            $user = $account->user->id_user;
-            $notifications = Notification::where('user_id', $user)->orderBy('created_at', 'desc')->get();
-
-        } else {
-            $notifications = [];
-        }
-
-        return view('blog.post', compact('blog', 'notifications'));
+        $account = Auth::user();
+        $blog_like = BlogLike::where("user_id", $account->user->id)->first();
+        return view('blog.post', compact('blog', 'blog_like'));
     }
     public function deleteBlog($id)
     {
@@ -127,7 +107,7 @@ class BlogController extends Controller
 
             // Kiểm tra nếu người dùng là chủ của blog
             $account = Auth::user();
-            $id_user = $account->user->id_user;
+            $id_user = $account->user->id;
             if ($id_user !== $blog->id_user) {
                 return response()->json(['error' => 'Unauthorized'], 403);
             }
@@ -146,13 +126,12 @@ class BlogController extends Controller
 
             // Kiểm tra nếu người dùng là chủ của blog
             $account = Auth::user();
-            $id_user = $account->user->id_user;
+            $id_user = $account->user->id;
             if ($id_user !== $blog->id_user) {
                 return response()->json(['error' => 'Unauthorized'], 403);
             }
-
+            $blog_like = BlogLike::where('blog_id', $blog->id)->delete();
             $blog->delete();
-
             // Trả về URL trước đó của trang blog
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
@@ -165,7 +144,7 @@ class BlogController extends Controller
 
         // Kiểm tra quyền sở hữu blog
         $account = Auth::user();
-        $id_user = $account->user->id_user;
+        $id_user = $account->user->id;
         if ($id_user !== $blog->id_user) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
@@ -179,10 +158,12 @@ class BlogController extends Controller
 
     public function toggleLike($id)
     {
-        try {
-            $blog = Blog::findOrFail($id);
-            $account = Auth::user();
-            $user = $account->user;
+        $blog = Blog::findOrFail($id);
+        $account = Auth::user();
+        $user = $account->user;
+
+        // Kiểm tra xem người dùng có tồn tại không trước khi tạo thông báo
+        if ($user) {
             if ($user->likedBlogs()->where('id_blog', $id)->exists()) {
                 $user->likedBlogs()->detach($id);
                 $blog->decrement('like_count');
@@ -191,14 +172,13 @@ class BlogController extends Controller
                 $blog->increment('like_count');
                 $blog->increment('view_count');
             }
+
             // Tạo thông báo
-            $notification = new Notification([
-                'user_id' => $blog->id_user,
-                'type' => 'like',
-                'content' => $user->username . ' has liked your blog: ' . $blog->title,
-                'blog_id' => $blog->id_blog,
-                'is_read' => 0
-            ]);
+            $notification = new Notification();
+            $notification->user_id = $blog->id_user;
+            $notification->type = 'like';
+            $notification->data = $user->username . ' has liked your blog: ' . $blog->title;
+            $notification->blog_id = $id;
             $notification->save();
 
             return response()->json([
@@ -207,8 +187,12 @@ class BlogController extends Controller
                 'liked' => $user->likedBlogs()->where('id_blog', $id)->exists(),
                 'views' => $blog->view_count
             ]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        } else {
+            // Nếu người dùng không tồn tại, trả về một phản hồi lỗi hoặc xử lý theo cách thích hợp
+            return response()->json([
+                'success' => false,
+                'error' => 'User not found'
+            ], 404);
         }
     }
     public function addComment(Request $req, $id_blog)
@@ -216,10 +200,10 @@ class BlogController extends Controller
         $req->validate(['comment' => 'required|string']);
 
         $account = Auth::user();
-        $id_user = $account->user;
+        $id_user = $account->user->id;
 
         $comment = new Comment([
-            'user_id' => $id_user->id_user,
+            'user_id' => $id_user,
             'blog_id' => $id_blog,
             'comment' => $req->comment
         ]);
@@ -228,13 +212,11 @@ class BlogController extends Controller
         $blog = Blog::findOrFail($id_blog);
         $blog->increment('comment_count');
         // Tạo thông báo
-        $notification = new Notification([
-            'user_id' => $blog->id_user,
-            'type' => 'comment',
-            'content' => $id_user->username . ' has commented on your blog: ' . $req->comment,
-            'blog_id' => $blog->id_blog,
-            'is_read' => 0
-        ]);
+        $notification = new Notification();
+        $notification->user_id = $blog->id_user;
+        $notification->type = 'comment';
+        $notification->data = $account->user->username . ' has comment your blog: ' . $req->comment;
+        $notification->blog_id = $id_blog;
         $notification->save();
 
         return response()->json([
@@ -267,7 +249,7 @@ class BlogController extends Controller
 
             // Kiểm tra nếu người dùng là chủ của bình luận
             $account = Auth::user();
-            $id_user = $account->user->id_user;
+            $id_user = $account->user->id;
             if ($id_user !== $comment->user_id) {
                 return response()->json(['error' => 'Unauthorized'], 403);
             }
@@ -292,7 +274,7 @@ class BlogController extends Controller
 
             // Kiểm tra nếu người dùng là chủ của bình luận
             $account = Auth::user();
-            $id_user = $account->user->id_user;
+            $id_user = $account->user->id;
             if ($id_user !== $comment->user_id) {
                 return response()->json(['error' => 'Unauthorized'], 403);
             }
@@ -306,5 +288,4 @@ class BlogController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
 }

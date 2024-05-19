@@ -97,7 +97,7 @@ Route::post('/blog/add', [BlogController::class, 'create_blog'])->name('blog.add
 //show blog
 Route::get('/blog/{id}', [BlogController::class, 'showBlog'])->name('blog.show');
 // delete blog
-Route::delete('/blog/{id}', [BlogController::class, 'deleteBlog'])->name('blogs.delete');
+// Route::delete('/blog/{id}', [BlogController::class, 'deleteBlog'])->name('blogs.delete');
 Route::delete('/post/{id}', [BlogController::class, 'deletePost'])->name('blogs.delete');
 // edit blog
 Route::put('/blog/{id}', [BlogController::class, 'updateContent'])->name('blog.updateContent');
@@ -137,6 +137,8 @@ Route::prefix('/admin')->group(function () {
     Route::middleware(['auth', 'role:admin,editor'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name("dashboard");
         Route::get('/mystore', [DashboardController::class, 'mystore'])->name("mystore");
+        Route::get('/blogs', [DashboardController::class, 'blogs'])->name("admin.blog");
+        Route::post('/blogs/{id}/approve', [BlogController::class, 'approveBlog'])->name("admin.blogs.approve");
 
         // Category management routes
         Route::prefix('/management/categories')->name('categories.')->group(function () {

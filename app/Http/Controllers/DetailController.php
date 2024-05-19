@@ -37,7 +37,7 @@ class DetailController extends Controller
         $product = Product::findOrfail($id);
         $cart = session()->get('cart', []);
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+            $cart[$id]['quantity'] += $quantity;
         } else {
             $cart[$id] = [
                 "name" => $product->id,

@@ -284,3 +284,21 @@
 .review-form button[type="button"]:hover {
     background-color: #c82333;
 }
+.buton_cancel {
+    font-size: 17px;
+    padding: 0.5em 2em;
+    border: transparent;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    background: rgb(233, 236, 38);
+    color: white;
+    border-radius: 4px;
+   }
+   
+   .buton_cancel:hover {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgb(200, 197, 122) 0%, rgb(181, 206, 53) 100%);
+   }
+   
+   .buton_cancel:active {
+    transform: translate(0em, 0.2em);
+   }

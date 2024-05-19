@@ -14,7 +14,7 @@ class NotificationController extends Controller
         return Notification::create([
             'user_id' => $userId,
             'type' => $type,
-            'content' => $content,
+            'data' => $content,
             'blog_id' => $blogId,
             'is_read' => false,
         ]);

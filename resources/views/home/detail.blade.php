@@ -101,7 +101,7 @@
                 <div class="related-product-info">
                     <p class="related-product-name">{{$product_related->name}}</p>
                     <p class="related-product-price">Price: ${{$product_related->new_price}}</p>
-                    <button class="related-product-btn">View Details</button>
+                    <button onclick="window.location='{{ route('detail', ['id' => $product_related->id]) }}'" class="related-product-btn">View Details</button>
                 </div>
             </div>
             @endforeach

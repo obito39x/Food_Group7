@@ -21,6 +21,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Wishlist;
+use GuzzleHttp\Psr7\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -178,5 +179,6 @@ Route::patch('/todos/{todo}', [TodoController::class, 'update'])->name('todos.up
 Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
 
 
-//wishlist
+//
+Route::post('/apply-voucher', [CartController::class, 'applyVoucher'])->name('apply.voucher');
 

@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Notification;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\Session;
 use Termwind\Components\Dd;
 use Illuminate\Support\Facades\Auth;
+
 
 class CartController extends Controller
 {
@@ -59,7 +61,6 @@ class CartController extends Controller
     public function checkout()
     {
         $user = Auth::user();
-        
         if (!$user) {
             return redirect()->route('login')->with('error', 'Please login to view your order history.');
         } else {
@@ -82,10 +83,34 @@ class CartController extends Controller
                     $products[] = $product;
                 }
             }
+            $userVouchers = Voucher::where('user_id', $profile->id)->get();
         }
+
         // Trả về view 'cart' và truyền danh sách sản phẩm vào view
-        return view('cart.checkout', compact('products','profile'));
+        return view('cart.checkout', compact('products', 'profile', 'userVouchers'));
     }
+
+    public function applyVoucher(Request $request)
+    {
+        // Lấy thông tin voucher từ request
+        $voucherId = $request->input('voucher_id');
+        $totalAmount = $request->input('total_amount');
+
+        // Tìm voucher dựa trên ID
+        $voucher = Voucher::find($voucherId);
+
+        if ($voucher) {
+            // Áp dụng giảm giá từ voucher vào tổng tiền
+            $newTotalAmount = $totalAmount - $voucher->discount_value;
+
+            // Trả về số tiền mới dưới dạng phản hồi JSON
+            return response()->json(['new_total_amount' => $newTotalAmount]);
+        }
+
+        // Nếu không tìm thấy voucher, trả về tổng tiền ban đầu
+        return response()->json(['new_total_amount' => $totalAmount]);
+    }
+
     public function saveorder(Request $request)
     {
         // Lấy giá trị từ request
@@ -96,17 +121,13 @@ class CartController extends Controller
         $city = $request->input('city');
         $district = $request->input('district');
         $ward = $request->input('ward');
-        $totalAmount = 0;
+        $totalAmount = $request->input('total_amount');
         $status_id = 2;
         // Chuyển đổi chuỗi JSON thành một mảng PHP
         $products = json_decode($request->input('products'));
 
 
         // Tính tổng số tiền
-        foreach ($products as $product) {
-            $subtotal = $product->new_price * session()->get("cart.$product->id.quantity", 1);
-            $totalAmount += $subtotal;
-        }
 
         $paymentMethod = $request->input('payment_method');
 
@@ -130,6 +151,10 @@ class CartController extends Controller
             if ($user) {
                 // Tìm thấy người dùng có id_account tương ứng
                 $order->id_user = $user->id;
+                // Lấy danh sách các voucher đã sử dụng từ yêu cầu
+                $id_vourcher = $request->input('voucher');
+                Voucher::destroy($id_vourcher);
+                
             }
 
             // $order->id_user = $user->id;
@@ -184,4 +209,5 @@ class CartController extends Controller
 
         return response()->json(['success' => true, 'totalAmount' => $totalAmount]);
     }
+   
 }

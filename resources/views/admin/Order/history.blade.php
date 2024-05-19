@@ -95,18 +95,18 @@
                             @endif
                             <td>
                                 <div id="review-form" class="review-form" style="display: none;">
-                                    <h2>Đánh giá sản phẩm</h2>
+                                    <h2>Product reviews</h2>
                                     <form action="{{ route('order.success', ['id' => $order->id]) }}" id="submit-review"
                                         method="POST">
                                         @csrf
                                         @method('POST')
                                         <input type="hidden" id="order_id" name="order_id" value="">
                                         <div class="form-group">
-                                            <label for="comment">Bình luận của bạn:</label>
+                                            <label for="comment">Your comment:</label>
                                             <textarea id="comment" name="comment" required></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>Đánh giá sao:</label>
+                                            <label>Star rating:</label>
                                             <div class="star-rating">
                                                 <input type="radio" id="star5" name="rating" value="5"><label
                                                     for="star5">&#9733;</label>
@@ -120,8 +120,8 @@
                                                     for="star1">&#9733;</label>
                                             </div>
                                         </div>
-                                        <button type="submit">Gửi đánh giá</button>
-                                        <button type="button" onclick="hideReviewForm()">Đóng</button>
+                                        <button type="submit">Submit a review</button>
+                                        <button type="button" onclick="hideReviewForm()">Close</button>
                                     </form>
                                 </div>
                             </td>

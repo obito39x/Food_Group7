@@ -51,8 +51,17 @@
 
     
 </style>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Tìm li có class mystore
+        const mystoreLi = document.querySelector("#sidebar .users");
+
+        // Thêm lớp active cho li mystore
+        mystoreLi.classList.add("active");
+    });
+</script>
 <main>
-    <h1>Gán Vai Trò cho Người Dùng</h1>
+    <h1>Assign Roles to Users</h1>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -65,14 +74,14 @@
     <form action="{{ route('admin.users.assign-role.store', $user->id) }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="role">Vai Trò</label>
+            <label for="role">Role</label>
             <select name="role" id="role" class="form-control">
                 @foreach ($roles as $role)
                     <option value="{{ $role }}" {{ $user->role === $role ? 'selected' : '' }}>{{ ucfirst($role) }}</option>
                 @endforeach
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Gán Vai Trò</button>
+        <button type="submit" class="btn btn-primary">Assign Roles</button>
     </form>
 </main>
     

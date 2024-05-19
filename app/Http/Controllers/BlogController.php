@@ -111,7 +111,7 @@ class BlogController extends Controller
             if ($id_user !== $blog->id_user) {
                 return response()->json(['error' => 'Unauthorized'], 403);
             }
-
+            $blog_like = BlogLike::where('blog_id', $blog->id)->delete();
             $blog->delete();
 
             return response()->json(['success' => true, 'content' => $blog->content]);
@@ -130,7 +130,11 @@ class BlogController extends Controller
             if ($id_user !== $blog->id_user) {
                 return response()->json(['error' => 'Unauthorized'], 403);
             }
-            $blog_like = BlogLike::where('blog_id', $blog->id)->delete();
+            // Xóa tất cả các lượt thích liên quan đến bài đăng
+            BlogLike::where('blog_id', $id)->delete();
+
+            Notification::where('blog_id', $id)->delete();
+
             $blog->delete();
             // Trả về URL trước đó của trang blog
             return response()->json(['success' => true]);

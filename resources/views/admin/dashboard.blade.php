@@ -53,20 +53,9 @@
                     <span class="text">Blogs</span>
                 </a>
             </li>
-            <li>
-                <a href="">
-                    <i class='bx bxs-group'></i>
-                    <span class="text">Team</span>
-                </a>
-            </li>
+            
         </ul>
         <ul class="side-menu">
-            <li>
-                <a href="#">
-                    <i class='bx bxs-cog'></i>
-                    <span class="text">Settings</span>
-                </a>
-            </li>
             <li>
                 <a href="{{ route('logout') }}" class="logout">
                     <i class='bx bxs-log-out-circle'></i>
@@ -84,25 +73,25 @@
         <!-- NAVBAR -->
         <nav>
             <i class='bx bx-menu'></i>
-            <a href="#" class="nav-link">Categories</a>
-            <form action="#">
+            {{-- <a href="#" class="nav-link">Categories</a> --}}
+            {{-- <form action="#">
                 <div class="form-input">
                     <input type="search" placeholder="Search...">
                     <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
                 </div>
-            </form>
-            <input type="checkbox" id="switch-mode" hidden>
-            <label for="switch-mode" class="switch-mode"></label>
-            <a href="#" class="notification">
+            </form> --}}
+            {{-- <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode"></label> --}}
+            {{-- <a href="#" class="notification">
                 <i class='bx bxs-bell'></i>
                 <span class="num">8</span>
-            </a>
+            </a> --}}
             @php
                 $account = Illuminate\Support\Facades\Auth::user();
 
                 $user = \App\Models\User::where('id_account', $account->id)->first();
             @endphp
-            <a href="#" class="profile">
+            <a href="" class="profile">
                 <img src="{{$user->img}}">
             </a>
         </nav>

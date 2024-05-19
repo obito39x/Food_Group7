@@ -64,10 +64,10 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Tên </i></th>
+                            <th>Name </i></th>
                             <th>Email</th>
-                            <th>Vai Trò</th>
-                            <th>Hành Động</th>
+                            <th>Role</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,12 +80,12 @@
                                     $account = Illuminate\Support\Facades\Auth::user();
                                 @endphp
                                 @if ($account->role == 'admin')
-                                <td>
-                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary">Chỉnh
-                                        Sửa</a>
-                                    <a href="{{ route('admin.users.assign-role', $user->id) }}"
-                                        class="btn btn-secondary">Gán Vai Trò</a>
-                                </td>
+                                    <td>
+                                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary">Edit
+                                        </a>
+                                        <a href="{{ route('admin.users.assign-role', $user->id) }}"
+                                            class="btn btn-secondary">Assign Roles</a>
+                                    </td>
                                 @endif
                             </tr>
                         @endforeach

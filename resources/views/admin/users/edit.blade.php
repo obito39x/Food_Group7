@@ -49,17 +49,18 @@
         border-radius: 4px;
         margin-bottom: 20px;
     }
-
-    ul {
-        padding-left: 20px;
-    }
-
-    li {
-        list-style-type: disc;
-    }
 </style>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Tìm li có class mystore
+        const mystoreLi = document.querySelector("#sidebar .users");
+
+        // Thêm lớp active cho li mystore
+        mystoreLi.classList.add("active");
+    });
+</script>
 <main>
-    <h1>Chỉnh Sửa Người Dùng</h1>
+    <h1>User Editing</h1>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -73,14 +74,14 @@
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="name">Tên</label>
+            <label for="name">Name</label>
             <input type="text" name="username" id="name" class="form-control" value="{{ $user->username }}">
         </div>
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}">
         </div>
-        <button type="submit" class="btn btn-primary">Cập Nhật</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </main>
     

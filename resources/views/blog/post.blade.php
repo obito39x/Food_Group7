@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Post</title>
     <link href="{{ asset('/css/blog/post.css') }}" rel="stylesheet">
     <link rel="short icon" href="image/short_icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -20,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="shortcut icon" href="{{ asset('/image/short_icon.png') }}">
 </head>
 
 <body>
@@ -66,7 +66,8 @@
                                                 <div class="blog_user">
                                                     @if (!empty($blog->user))
                                                         @if (!empty($blog->user->img))
-                                                            <img src="{{ $blog->user->img }}" alt="logo" class="img">
+                                                            <img src="{{ $blog->user->img }}" alt="logo"
+                                                                class="img">
                                                         @else
                                                             <img src="{{ asset('img_profile/profile.png') }}"
                                                                 alt="logo" class="img">
@@ -115,7 +116,7 @@
                                                 </div>
                                                 <div class="like" onclick="toggleLike({{ $blog->id_blog }})">
                                                     <p id="like-count-{{ $blog->id_blog }}">{{ $blog->like_count }}</p>
-                                                    @if ($blog_like)
+                                                    @if ($blog_like && $blog->like_count != 0)
                                                         <i id="like-icon-{{ $blog->id_blog }}"
                                                             class="fa-solid fa-heart"></i>
                                                     @else

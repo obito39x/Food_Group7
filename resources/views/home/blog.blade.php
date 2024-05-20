@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="like" onclick="toggleLike({{ $blog->id_blog }})">
                                     <p id="like-count-{{ $blog->id_blog }}">{{ $blog->like_count }}</p>
-                                    @if ($blog_like)
+                                    @if ($blog_like &&  $blog->like_count != 0)
                                         <i id="like-icon-{{ $blog->id_blog }}" class="fa-solid fa-heart"></i>
                                     @else
                                         <i id="like-icon-{{ $blog->id_blog }}" class="fa-regular fa-heart"></i>

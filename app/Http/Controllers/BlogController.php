@@ -15,24 +15,27 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::where('status', 'approved')->orderBy('created_at', 'desc')->get();
+        if (Auth::check()) {
+            $blogs = Blog::where('status', 'approved')->orderBy('created_at', 'desc')->get();
 
-        // Kiểm tra và thêm thuộc tính 'is_liked' cho mỗi blog
-        foreach ($blogs as $blog) {
-            $blog->is_liked = $blog->likers->contains(Auth::id());
-        }
+            // Kiểm tra và thêm thuộc tính 'is_liked' cho mỗi blog
+            foreach ($blogs as $blog) {
+                $blog->is_liked = $blog->likers->contains(Auth::id());
+            }
 
-        $account = Auth::user();
-        $followedUsers = collect();
-        if ($account) {
-            $followedUsers = $account->user->following ?? collect();
+            $account = Auth::user();
+            $followedUsers = collect();
+            if ($account) {
+                $followedUsers = $account->user->following ?? collect();
+            }
+            $followers = collect();
+            if ($account) {
+                $followers = $account->user->followers ?? collect();
+            }
+            $blog_like = BlogLike::where("user_id", $account->user->id)->first();
+            return view('home.blog', compact('blogs', 'followedUsers', 'followers', 'blog_like'));
         }
-        $followers = collect();
-        if ($account) {
-            $followers = $account->user->followers ?? collect();
-        }
-        $blog_like = BlogLike::where("user_id", $account->user->id)->first();
-        return view('home.blog', compact('blogs', 'followedUsers', 'followers', 'blog_like'));
+        return redirect()->route('login')->with('error', 'Please login to view your Blog.');
     }
     public function view_profile()
     {
@@ -175,15 +178,18 @@ class BlogController extends Controller
                 $user->likedBlogs()->attach($id);
                 $blog->increment('like_count');
                 $blog->increment('view_count');
+                // Tạo thông báo
+                if ($user->id != $blog->id_user) {
+                    $notification = new Notification();
+                    $notification->user_id = $blog->id_user;
+                    $notification->type = 'like';
+                    $notification->data = $user->username . ' has liked your blog: ' . $blog->title;
+                    $notification->blog_id = $id;
+                    $notification->save();
+                }
             }
 
-            // Tạo thông báo
-            $notification = new Notification();
-            $notification->user_id = $blog->id_user;
-            $notification->type = 'like';
-            $notification->data = $user->username . ' has liked your blog: ' . $blog->title;
-            $notification->blog_id = $id;
-            $notification->save();
+
 
             return response()->json([
                 'success' => true,

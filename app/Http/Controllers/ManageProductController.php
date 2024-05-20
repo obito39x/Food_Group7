@@ -103,6 +103,6 @@ class ManageProductController extends Controller
     public function destroy(Product $product)
     {
         Product::destroy($product->id);
-        return redirect()->route('product.index');
+        return redirect()->route('products.index');
     }
 }

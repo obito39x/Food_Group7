@@ -62,7 +62,7 @@ class CartController extends Controller
     {
         $user = Auth::user();
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Please login to view your order history.');
+            return redirect()->route('login')->with('error', 'Please login to view your order.');
         } else {
 
             $profile = User::where('id_account', $user->id)->first();

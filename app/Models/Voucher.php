@@ -14,6 +14,7 @@ class Voucher extends Model
         'discount_value',
         'expiry_date',
         'user_id',
+        'description',
     ];
 
     // Định dạng ngày hết hạn khi lấy từ cơ sở dữ liệu

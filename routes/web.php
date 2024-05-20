@@ -164,21 +164,22 @@ Route::prefix('/admin')->group(function () {
 
         // User management routes
         Route::prefix('/users')->name('admin.users.')->group(function () {
-            Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
-            Route::put('/{user}', [UserController::class, 'update'])->name('update');
-            Route::get('/{user}/assign-role', [UserController::class, 'showAssignRoleForm'])->name('assign-role');
-            Route::post('/{user}/assign-role', [UserController::class, 'assignRole'])->name('assign-role.store');
+            Route::middleware(['auth', 'role:admin'])->group(function () {
+                Route::get('/', [UserController::class, 'index'])->name('index');
+                Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+                Route::put('/{user}', [UserController::class, 'update'])->name('update');
+                Route::get('/{user}/assign-role', [UserController::class, 'showAssignRoleForm'])->name('assign-role');
+                Route::post('/{user}/assign-role', [UserController::class, 'assignRole'])->name('assign-role.store');
+            });
         });
+        Route::post('admin/todos', [TodoController::class, 'store'])->name('todos.store');
+        Route::patch('/todos/{todo}', [TodoController::class, 'update'])->name('todos.update');
+        Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
     });
 });
 
-Route::get('/todos', [TodoController::class, 'index'])->name('todos.index');
-Route::post('/todos', [TodoController::class, 'store'])->name('todos.store');
-Route::patch('/todos/{todo}', [TodoController::class, 'update'])->name('todos.update');
-Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
+
 
 
 //
 Route::post('/apply-voucher', [CartController::class, 'applyVoucher'])->name('apply.voucher');
-

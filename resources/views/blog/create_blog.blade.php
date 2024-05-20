@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Create Blog</title>
+    <title>Food Webside</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link href="{{ asset('/css/blog/create_blog.css') }}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="shortcut icon" href="{{asset('/image/short_icon.png')}}">
 </head>
 
 <body>
@@ -46,7 +47,7 @@
                                 </div>
                             @endif
                         </div>
-                        <input type="text" name="title" id="tilte" placeholder="Title" class="no-border">
+                        <input required type="text" name="title" id="tilte" placeholder="Title" class="no-border">
                         <textarea placeholder="What are you thinking?" spellcheck="false" required
                             name="content"></textarea>
                         <div class="image-preview-container">

@@ -33,7 +33,7 @@ class CategoriesController extends Controller
 
         if ($relatedRecords) {
             // Nếu có bản ghi liên quan, hiển thị thông báo cảnh báo
-            return redirect()->route('categories')->with('warning', 'Cannot delete this category because it is being used in other records.');
+            return redirect()->route('categories.index')->with('warning', 'Cannot delete this category because it is being used in other records.');
         } else {
             // Nếu không có bản ghi liên quan, xóa danh mục và chuyển hướng
             Categorie::destroy($id);
